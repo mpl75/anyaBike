@@ -1,0 +1,12 @@
+<strings>
+    <string id="AppName">Anya Bike</string>
+    <string id="ShowHeartRate">Zobrazovat tepovou frekvenci</string>
+    <string id="ShowCadence">Zobrazovat kadenci šlapání</string>
+    <string id="SpeedGreen">Rychlost: zelená</string>
+    <string id="SpeedOrange">Rychlost: oranžová</string>
+    <string id="SpeedRed">Rychlost: červená</string>
+    <string id="CadenceBlue">Kadence: modrá</string>
+    <string id="CadenceGreen">Kadence: zelená</string>
+    <string id="CadenceOrange">Kadence: oranžová</string>
+    <string id="CadenceRed">Kadence: červená</string>
+</strings>

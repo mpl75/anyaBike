@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<debugInfo>
+<pcToLineNum>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="9" pc="268435456" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="10" pc="268435460" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="14" pc="268435481" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="17" pc="268435502" symbol="setColor"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="18" pc="268435506" symbol="setColor"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="21" pc="268435517" symbol="draw"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="22" pc="268435521" symbol="draw"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeBackground.mc" lineNum="23" pc="268435553" symbol="draw"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="5" pc="268435566" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="6" pc="268435570" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="10" pc="268435589" symbol="onStart"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="14" pc="268435594" symbol="onStop"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="18" pc="268435599" symbol="getInitialView"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeApp.mc" lineNum="19" pc="268435603" symbol="getInitialView"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="56" pc="268435641" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="57" pc="268435645" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="58" pc="268435654" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="61" pc="268435664" symbol="fromJulian"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="62" pc="268435668" symbol="fromJulian"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="65" pc="268435722" symbol="round"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="66" pc="268435726" symbol="round"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="67" pc="268435737" symbol="round"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="69" pc="268435767" symbol="round"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="74" pc="268435795" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="75" pc="268435799" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="76" pc="268435809" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="78" pc="268435819" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="79" pc="268435874" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="80" pc="268435905" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="82" pc="268435947" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="83" pc="268435990" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="84" pc="268436018" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="85" pc="268436049" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="86" pc="268436152" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="87" pc="268436192" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="88" pc="268436229" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="89" pc="268436281" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="90" pc="268436336" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="91" pc="268436346" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="94" pc="268436359" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="95" pc="268436373" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="98" pc="268436396" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="100" pc="268436508" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="101" pc="268436533" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="104" pc="268436538" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="106" pc="268436593" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="107" pc="268436636" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="108" pc="268436650" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="111" pc="268436667" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="113" pc="268436689" symbol="calculate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="116" pc="268436704" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="118" pc="268436708" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="119" pc="268436715" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="122" pc="268436724" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="123" pc="268436802" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="124" pc="268436802" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="125" pc="268436807" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="127" pc="268436863" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="128" pc="268436879" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="129" pc="268436890" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="131" pc="268436900" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="133" pc="268436947" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="134" pc="268436984" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="136" pc="268436997" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="139" pc="268437007" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="140" pc="268437024" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="142" pc="268437077" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="143" pc="268437103" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="144" pc="268437114" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="147" pc="268437133" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="148" pc="268437143" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="150" pc="268437156" symbol="momentToString"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="153" pc="268437160" symbol="printMoment"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="154" pc="268437164" symbol="printMoment"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/SunCalc.mc" lineNum="155" pc="268437201" symbol="printMoment"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="22" pc="268437365" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="23" pc="268437369" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="24" pc="268437387" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="25" pc="268437400" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="26" pc="268437413" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="27" pc="268437426" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="28" pc="268437439" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="29" pc="268437452" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="30" pc="268437465" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="31" pc="268437478" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="32" pc="268437491" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="33" pc="268437504" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="34" pc="268437517" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="35" pc="268437530" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="36" pc="268437543" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="37" pc="268437556" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="38" pc="268437569" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="39" pc="268437582" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="41" pc="268437591" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="42" pc="268437604" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="43" pc="268437617" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="44" pc="268437630" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="45" pc="268437643" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="46" pc="268437656" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="47" pc="268437665" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="48" pc="268437679" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="49" pc="268437697" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="52" pc="268437722" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="53" pc="268437765" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="55" pc="268437808" symbol="initialize"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="60" pc="268437844" symbol="onLayout"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="61" pc="268437848" symbol="onLayout"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="68" pc="268437852" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="69" pc="268437856" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="70" pc="268437867" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="71" pc="268437880" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="73" pc="268437899" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="76" pc="268437915" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="77" pc="268437926" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="78" pc="268437939" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="80" pc="268437958" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="83" pc="268437974" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="84" pc="268437985" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="85" pc="268437998" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="87" pc="268438023" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="90" pc="268438039" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="91" pc="268438050" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="92" pc="268438063" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="93" pc="268438085" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="94" pc="268438102" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="97" pc="268438127" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="100" pc="268438143" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="101" pc="268438154" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="102" pc="268438167" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="104" pc="268438186" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="107" pc="268438202" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="108" pc="268438213" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="109" pc="268438226" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="111" pc="268438245" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="114" pc="268438261" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="115" pc="268438272" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="116" pc="268438285" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="118" pc="268438304" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="128" pc="268438320" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="129" pc="268438331" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="130" pc="268438344" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="132" pc="268438369" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="135" pc="268438385" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="136" pc="268438396" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="137" pc="268438409" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="139" pc="268438434" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="142" pc="268438450" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="143" pc="268438461" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="144" pc="268438474" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="146" pc="268438493" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="149" pc="268438509" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="150" pc="268438520" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="151" pc="268438533" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="153" pc="268438558" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="156" pc="268438574" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="157" pc="268438585" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="158" pc="268438598" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="160" pc="268438617" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="163" pc="268438633" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="164" pc="268438644" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="165" pc="268438657" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="167" pc="268438676" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="171" pc="268438692" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="172" pc="268438711" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="173" pc="268438722" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="175" pc="268438735" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="176" pc="268438757" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="177" pc="268438774" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="180" pc="268438796" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="183" pc="268438840" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="184" pc="268438847" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="186" pc="268438875" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="189" pc="268438888" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="190" pc="268438910" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="191" pc="268438929" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="192" pc="268438945" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="193" pc="268438964" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="194" pc="268438974" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="195" pc="268438987" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="196" pc="268439000" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="198" pc="268439013" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="199" pc="268439044" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="200" pc="268439063" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="201" pc="268439076" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="202" pc="268439083" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="204" pc="268439099" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="205" pc="268439130" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="206" pc="268439149" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="207" pc="268439166" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="208" pc="268439179" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="210" pc="268439201" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="213" pc="268439223" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="214" pc="268439233" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="215" pc="268439243" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="216" pc="268439256" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="219" pc="268439272" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="220" pc="268439289" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="221" pc="268439299" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="222" pc="268439306" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="223" pc="268439346" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="225" pc="268439386" symbol="compute"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="229" pc="268439396" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="230" pc="268439400" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="231" pc="268439432" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="232" pc="268439445" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="233" pc="268439495" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="234" pc="268439527" symbol="textWithIconOnCenter"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="239" pc="268439578" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="240" pc="268439582" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="241" pc="268439601" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="242" pc="268439618" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="249" pc="268439634" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="250" pc="268439653" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="251" pc="268439673" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="252" pc="268439693" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="253" pc="268439717" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="254" pc="268439737" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="256" pc="268439760" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="257" pc="268439785" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="259" pc="268439797" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="261" pc="268439878" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="262" pc="268439885" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="263" pc="268439892" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="264" pc="268439899" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="265" pc="268439916" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="267" pc="268439952" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="268" pc="268439969" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="269" pc="268439976" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="270" pc="268439983" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="271" pc="268440019" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="272" pc="268440036" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="273" pc="268440043" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="274" pc="268440060" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="276" pc="268440073" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="277" pc="268440090" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="278" pc="268440097" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="279" pc="268440104" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="280" pc="268440131" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="281" pc="268440148" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="282" pc="268440155" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="283" pc="268440172" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="286" pc="268440185" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="287" pc="268440258" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="288" pc="268440331" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="289" pc="268440350" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="290" pc="268440382" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="291" pc="268440407" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="294" pc="268440457" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="295" pc="268440464" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="296" pc="268440481" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="298" pc="268440508" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="301" pc="268440532" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="303" pc="268440585" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="304" pc="268440615" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="305" pc="268440620" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="306" pc="268440648" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="307" pc="268440674" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="308" pc="268440699" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="309" pc="268440725" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="310" pc="268440750" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="311" pc="268440776" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="312" pc="268440801" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="313" pc="268440827" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="315" pc="268440852" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="317" pc="268440880" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="318" pc="268440927" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="319" pc="268440952" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="323" pc="268441023" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="324" pc="268441053" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="325" pc="268441058" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="326" pc="268441097" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="327" pc="268441136" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="328" pc="268441175" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="329" pc="268441214" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="330" pc="268441228" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="331" pc="268441253" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="332" pc="268441267" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="333" pc="268441292" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="334" pc="268441306" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="335" pc="268441331" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="336" pc="268441345" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="338" pc="268441370" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="340" pc="268441398" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="341" pc="268441445" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="342" pc="268441470" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="345" pc="268441541" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="346" pc="268441585" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="348" pc="268441681" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="349" pc="268441712" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="350" pc="268441780" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="351" pc="268441827" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="352" pc="268441895" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="354" pc="268441945" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="355" pc="268442013" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="356" pc="268442060" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="357" pc="268442128" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="360" pc="268442175" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="361" pc="268442197" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="362" pc="268442244" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="363" pc="268442269" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="364" pc="268442339" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="365" pc="268442346" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="366" pc="268442359" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="369" pc="268442413" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="370" pc="268442435" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="371" pc="268442482" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="372" pc="268442507" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="374" pc="268442551" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="376" pc="268442607" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="377" pc="268442617" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="379" pc="268442733" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="379" pc="268442740" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="380" pc="268442743" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="380" pc="268442750" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="381" pc="268442753" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="381" pc="268442760" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="382" pc="268442763" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="382" pc="268442770" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="384" pc="268442773" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="385" pc="268442791" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="386" pc="268442838" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="389" pc="268442910" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="390" pc="268442935" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="391" pc="268442972" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="392" pc="268443004" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="393" pc="268443021" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="394" pc="268443043" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="395" pc="268443056" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="396" pc="268443067" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="398" pc="268443077" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="399" pc="268443092" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="400" pc="268443142" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="405" pc="268443196" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="406" pc="268443235" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="407" pc="268443274" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="408" pc="268443313" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="409" pc="268443320" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="410" pc="268443342" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="411" pc="268443355" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="412" pc="268443366" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="414" pc="268443376" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="415" pc="268443386" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="416" pc="268443393" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="417" pc="268443407" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="418" pc="268443417" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="419" pc="268443431" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="420" pc="268443441" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="421" pc="268443455" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="424" pc="268443465" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="425" pc="268443482" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="426" pc="268443507" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="427" pc="268443556" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="428" pc="268443575" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="429" pc="268443627" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="430" pc="268443644" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="431" pc="268443662" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="432" pc="268443706" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="474" pc="268443786" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="475" pc="268443814" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="476" pc="268443831" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="478" pc="268443863" symbol="onUpdate"/>
+<entry filename="/Users/michal/Dropbox/2prog/eclipse/AnyaBike/./source/AnyaBikeView.mc" lineNum="480" pc="268443895" symbol="onUpdate"/>
+</pcToLineNum>
+<symbolTable>
+<entry field="true" id="52" symbol="txtColor"/>
+<entry id="10" object="true" symbol="AnyaBikeApp"/>
+<entry id="8389719" method="true" symbol="round"/>
+<entry field="true" id="26" symbol="NUM_RESULTS"/>
+<entry id="8389781" module="true" symbol="SensorHistory"/>
+<entry field="true" id="47" symbol="lastTM"/>
+<entry id="8389124" method="true" symbol="onUpdate"/>
+<entry field="true" id="33" symbol="SpeedGreen"/>
+<entry field="true" id="59" symbol="DAYS"/>
+<entry field="true" id="14" symbol="BLUE_HOUR_AM"/>
+<entry field="true" id="13" symbol="DAWN"/>
+<entry field="true" id="12" symbol="NAUTIC_DAWN"/>
+<entry field="true" id="15" symbol="SUNRISE"/>
+<entry field="true" id="8388611" module="true" symbol="Toybox"/>
+<entry id="8388645" module="true" symbol="Time"/>
+<entry id="56" method="true" symbol="textWithIconOnCenter"/>
+<entry field="true" id="39" symbol="CadenceRed"/>
+<entry field="true" id="8388893" symbol="PI"/>
+<entry id="8388770" module="true" object="true" symbol="Strings"/>
+<entry field="true" id="19" symbol="GOLDEN_HOUR_PM"/>
+<entry field="true" id="35" symbol="CadenceGreen"/>
+<entry field="true" id="58" symbol="PI2"/>
+<entry id="8389280" method="true" symbol="getInitialView"/>
+<entry id="8389068" method="true" symbol="draw"/>
+<entry field="true" id="32" symbol="CadenceOrange"/>
+<entry field="true" id="62" symbol="J0"/>
+<entry field="true" id="8390282" symbol="slope"/>
+<entry field="true" id="8388751" symbol="averageCadence"/>
+<entry field="true" id="50" symbol="fontsport"/>
+<entry field="true" id="63" symbol="TIMES"/>
+<entry id="75" method="true" symbol="fromJulian"/>
+<entry id="8388769" module="true" object="true" symbol="Rez"/>
+<entry field="true" id="43" symbol="sunset"/>
+<entry id="8388924" module="true" symbol="Gregorian"/>
+<entry field="true" id="72" symbol="sin2L"/>
+<entry id="27" object="true" symbol="SunCalc"/>
+<entry field="true" id="8388745" symbol="totalAscent"/>
+<entry field="true" id="17" symbol="GOLDEN_HOUR_AM"/>
+<entry id="8389808" symbol="period"/>
+<entry field="true" id="8389130" symbol="mColor"/>
+<entry id="77" method="true" symbol="momentToString"/>
+<entry id="8389131" method="true" symbol="setColor"/>
+<entry id="8388702" method="true" symbol="initialize"/>
+<entry field="true" id="41" symbol="AppName"/>
+<entry field="true" id="25" symbol="ASTRO_DUSK"/>
+<entry id="8388647" module="true" symbol="UserProfile"/>
+<entry field="true" id="69" symbol="sinM"/>
+<entry field="true" id="8388890" symbol="sport"/>
+<entry field="true" id="8388962" symbol="temperature"/>
+<entry id="8390146" module="true" object="true" symbol="Background"/>
+<entry id="8388641" module="true" symbol="Math"/>
+<entry id="76" method="true" symbol="calculate"/>
+<entry field="true" id="31" symbol="LauncherIcon"/>
+<entry field="true" id="74" symbol="Jnoon"/>
+<entry field="true" id="38" symbol="SpeedRed"/>
+<entry field="true" id="34" symbol="SpeedOrange"/>
+<entry id="8389281" method="true" symbol="onStop"/>
+<entry field="true" id="37" symbol="ShowCadence"/>
+<entry field="true" id="42" symbol="GPSaccuracy"/>
+<entry field="true" id="8388750" symbol="currentCadence"/>
+<entry field="true" id="45" symbol="sumAlt"/>
+<entry id="8388771" module="true" object="true" symbol="Drawables"/>
+<entry id="8389137" method="true" symbol="compute"/>
+<entry field="true" id="36" symbol="CadenceBlue"/>
+<entry field="true" id="51" symbol="bgColor"/>
+<entry id="8389122" method="true" symbol="onLayout"/>
+<entry field="true" id="49" symbol="memoryAlt"/>
+<entry field="true" id="8388963" symbol="altitude"/>
+<entry field="true" id="55" symbol="zoneInfo"/>
+<entry field="true" id="8388732" symbol="elapsedTime"/>
+<entry id="8389279" method="true" symbol="onStart"/>
+<entry field="true" id="11" symbol="ASTRO_DAWN"/>
+<entry field="true" id="8388738" symbol="currentSpeed"/>
+<entry field="true" id="21" symbol="SUNSET"/>
+<entry field="true" id="8388734" symbol="elapsedDistance"/>
+<entry field="true" id="8388747" symbol="currentHeartRate"/>
+<entry field="true" id="8389348" symbol="font"/>
+<entry field="true" id="73" symbol="dec"/>
+<entry field="true" id="57" symbol="RAD"/>
+<entry field="true" id="8388739" symbol="averageSpeed"/>
+<entry field="true" id="8388757" symbol="currentHeading"/>
+<entry field="true" id="60" symbol="J1970"/>
+<entry field="true" id="8388746" symbol="totalDescent"/>
+<entry field="true" id="64" symbol="lastD"/>
+<entry field="true" id="40" symbol="ShowHeartRate"/>
+<entry field="true" id="16" symbol="SUNRISE_END"/>
+<entry field="true" id="8388752" symbol="maxCadence"/>
+<entry id="30" module="true" symbol="Layouts"/>
+<entry field="true" id="48" symbol="lastDoneTM"/>
+<entry field="true" id="18" symbol="NOON"/>
+<entry field="true" id="54" symbol="sc"/>
+<entry id="78" method="true" symbol="printMoment"/>
+<entry field="true" id="8388740" symbol="maxSpeed"/>
+<entry field="true" id="44" symbol="compass"/>
+<entry id="8390088" module="true" object="true" symbol="JsonData"/>
+<entry field="true" id="53" symbol="lineColor"/>
+<entry field="true" id="8389346" symbol="text"/>
+<entry field="true" id="8389063" symbol="identifier"/>
+<entry field="true" id="8388735" symbol="currentLocationAccuracy"/>
+<entry field="true" id="23" symbol="DUSK"/>
+<entry id="29" module="true" symbol="Menus"/>
+<entry field="true" id="24" symbol="NAUTIC_DUSK"/>
+<entry field="true" id="61" symbol="J2000"/>
+<entry field="true" id="67" symbol="ds"/>
+<entry field="true" id="22" symbol="BLUE_HOUR_PM"/>
+<entry id="8388772" module="true" object="true" symbol="Fonts"/>
+<entry field="true" id="66" symbol="n"/>
+<entry id="28" object="true" symbol="AnyaBikeView"/>
+<entry field="true" id="46" symbol="countAlt"/>
+<entry field="true" id="65" symbol="lastLng"/>
+<entry field="true" id="20" symbol="SUNSET_START"/>
+<entry field="true" id="68" symbol="M"/>
+<entry field="true" id="71" symbol="L"/>
+<entry field="true" id="70" symbol="C"/>
+</symbolTable>
+<localVars>
+<entry endPc="268435501" name="dictionary" stackId="1" startPc="268435460"/>
+<entry endPc="268435517" name="color" stackId="1" startPc="268435502"/>
+<entry endPc="268435566" name="dc" stackId="1" startPc="268435517"/>
+<entry endPc="268435594" name="state" stackId="1" startPc="268435589"/>
+<entry endPc="268435599" name="state" stackId="1" startPc="268435594"/>
+<entry endPc="268435722" name="j" stackId="1" startPc="268435664"/>
+<entry endPc="268435795" name="a" stackId="1" startPc="268435722"/>
+<entry endPc="268436703" name="x" stackId="7" startPc="268435799"/>
+<entry endPc="268436703" name="lng" stackId="5" startPc="268435799"/>
+<entry endPc="268436703" name="ds" stackId="8" startPc="268435799"/>
+<entry endPc="268436703" name="Jrise" stackId="10" startPc="268435799"/>
+<entry endPc="268436703" name="Jset" stackId="9" startPc="268435799"/>
+<entry endPc="268436703" name="lat" stackId="4" startPc="268435799"/>
+<entry endPc="268436703" name="d" stackId="6" startPc="268435799"/>
+<entry endPc="268436704" name="what" stackId="3" startPc="268435795"/>
+<entry endPc="268436704" name="moment" stackId="1" startPc="268435795"/>
+<entry endPc="268436704" name="pos" stackId="2" startPc="268435795"/>
+<entry endPc="268437007" name="hour" stackId="5" startPc="268436863"/>
+<entry endPc="268437159" name="tinfo" stackId="3" startPc="268436708"/>
+<entry endPc="268437159" name="today" stackId="6" startPc="268436708"/>
+<entry endPc="268437159" name="text" stackId="4" startPc="268436708"/>
+<entry endPc="268437159" name="days" stackId="7" startPc="268436708"/>
+<entry endPc="268437160" name="is24Hour" stackId="2" startPc="268436704"/>
+<entry endPc="268437160" name="moment" stackId="1" startPc="268436704"/>
+<entry endPc="268437364" name="info" stackId="2" startPc="268437164"/>
+<entry endPc="268437365" name="moment" stackId="1" startPc="268437160"/>
+<entry endPc="268437722" name="i" stackId="1" startPc="268437697"/>
+<entry endPc="268437852" name="dc" stackId="1" startPc="268437844"/>
+<entry endPc="268439269" name="curAlt" stackId="7" startPc="268439044"/>
+<entry endPc="268439269" name="prevAlt" stackId="8" startPc="268439044"/>
+<entry endPc="268439383" name="sunset_moment" stackId="11" startPc="268439306"/>
+<entry endPc="268439395" name="curDoneTM" stackId="6" startPc="268437856"/>
+<entry endPc="268439395" name="fullTM" stackId="4" startPc="268437856"/>
+<entry endPc="268439395" name="tempIter" stackId="3" startPc="268437856"/>
+<entry endPc="268439395" name="now" stackId="9" startPc="268437856"/>
+<entry endPc="268439395" name="headDiff" stackId="2" startPc="268437856"/>
+<entry endPc="268439395" name="loc" stackId="10" startPc="268437856"/>
+<entry endPc="268439395" name="curTM" stackId="5" startPc="268437856"/>
+<entry endPc="268439396" name="info" stackId="1" startPc="268437852"/>
+<entry endPc="268439577" name="w" stackId="9" startPc="268439400"/>
+<entry endPc="268439578" name="x" stackId="5" startPc="268439396"/>
+<entry endPc="268439578" name="dc" stackId="1" startPc="268439396"/>
+<entry endPc="268439578" name="fnt" stackId="7" startPc="268439396"/>
+<entry endPc="268439578" name="hShift" stackId="8" startPc="268439396"/>
+<entry endPc="268439578" name="icon" stackId="3" startPc="268439396"/>
+<entry endPc="268439578" name="unit" stackId="4" startPc="268439396"/>
+<entry endPc="268439578" name="text" stackId="2" startPc="268439396"/>
+<entry endPc="268439578" name="y" stackId="6" startPc="268439396"/>
+<entry endPc="268441538" name="cadenceOrange" stackId="10" startPc="268441058"/>
+<entry endPc="268441538" name="cadenceGreen" stackId="9" startPc="268441058"/>
+<entry endPc="268441538" name="cadenceBlue" stackId="8" startPc="268441058"/>
+<entry endPc="268441538" name="cadenceRed" stackId="11" startPc="268441058"/>
+<entry endPc="268442910" name="i" stackId="15" startPc="268442791"/>
+<entry endPc="268443196" name="i" stackId="18" startPc="268443092"/>
+<entry endPc="268443786" name="i" stackId="25" startPc="268443662"/>
+<entry endPc="268443927" name="systemStats" stackId="16" startPc="268439582"/>
+<entry endPc="268443927" name="step" stackId="22" startPc="268439582"/>
+<entry endPc="268443927" name="speedGreen" stackId="19" startPc="268439582"/>
+<entry endPc="268443927" name="showHeartRate" stackId="6" startPc="268439582"/>
+<entry endPc="268443927" name="speed" stackId="23" startPc="268439582"/>
+<entry endPc="268443927" name="speedOrange" stackId="20" startPc="268439582"/>
+<entry endPc="268443927" name="clockTime" stackId="12" startPc="268439582"/>
+<entry endPc="268443927" name="slopeIcon" stackId="3" startPc="268439582"/>
+<entry endPc="268443927" name="showCadence" stackId="7" startPc="268439582"/>
+<entry endPc="268443927" name="slopeText" stackId="2" startPc="268439582"/>
+<entry endPc="268443927" name="battery" stackId="17" startPc="268439582"/>
+<entry endPc="268443927" name="speedColor1" stackId="24" startPc="268439582"/>
+<entry endPc="268443927" name="speedRed" stackId="21" startPc="268439582"/>
+<entry endPc="268443927" name="gpsColor" stackId="14" startPc="268439582"/>
+<entry endPc="268443927" name="sunsetText" stackId="13" startPc="268439582"/>
+<entry endPc="268443927" name="slopeColor" stackId="4" startPc="268439582"/>
+<entry endPc="268443927" name="elapsedDistanceText" stackId="5" startPc="268439582"/>
+<entry endPc="268443928" name="dc" stackId="1" startPc="268439578"/>
+</localVars>
+<annotations/>
+<functions>
+<functionEntry accessMode="public" name="initialize" parent="Background">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="setColor" parent="Background">
+<param id="color"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="draw" parent="Background">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="initialize" parent="AnyaBikeApp">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onStart" parent="AnyaBikeApp">
+<param id="state"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onStop" parent="AnyaBikeApp">
+<param id="state"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="getInitialView" parent="AnyaBikeApp">
+<documentation><![CDATA[<div class="description"> Return the initial view of your application here<br/></div>]]></documentation>
+</functionEntry>
+<functionEntry accessMode="public" name="initialize" parent="SunCalc">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="fromJulian" parent="SunCalc">
+<param id="j"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="round" parent="SunCalc">
+<param id="a"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="calculate" parent="SunCalc">
+<param id="moment"/>
+<param id="pos"/>
+<param id="what"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="momentToString" parent="SunCalc">
+<param id="moment"/>
+<param id="is24Hour"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="printMoment" parent="SunCalc">
+<param id="moment"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="initialize" parent="AnyaBikeView">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onLayout" parent="AnyaBikeView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="compute" parent="AnyaBikeView">
+<param id="info"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="textWithIconOnCenter" parent="AnyaBikeView">
+<param id="dc"/>
+<param id="text"/>
+<param id="icon"/>
+<param id="unit"/>
+<param id="x"/>
+<param id="y"/>
+<param id="fnt"/>
+<param id="hShift"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onUpdate" parent="AnyaBikeView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+</functions>
+<dataEntryOffsetMappings>
+<dataEntry offset="95" parentId="" symbolId="globals" type="module"/>
+<dataEntry offset="334" parentId="globals" symbolId="Background" type="class"/>
+<dataEntry offset="405" parentId="globals" symbolId="Rez" type="module"/>
+<dataEntry offset="484" parentId="Rez" symbolId="Drawables" type="module"/>
+<dataEntry offset="523" parentId="Rez" symbolId="Menus" type="module"/>
+<dataEntry offset="554" parentId="Rez" symbolId="Fonts" type="module"/>
+<dataEntry offset="601" parentId="Rez" symbolId="JsonData" type="module"/>
+<dataEntry offset="632" parentId="Rez" symbolId="Layouts" type="module"/>
+<dataEntry offset="663" parentId="Rez" symbolId="Strings" type="module"/>
+<dataEntry offset="774" parentId="globals" symbolId="AnyaBikeView" type="class"/>
+<dataEntry offset="1093" parentId="globals" symbolId="SunCalc" type="class"/>
+<dataEntry offset="1363" parentId="globals" symbolId="AnyaBikeApp" type="class"/>
+</dataEntryOffsetMappings>
+</debugInfo>

@@ -1,0 +1,29 @@
+<settings>
+    <setting propertyKey="@Properties.speedGreen" title="@Strings.SpeedGreen">
+        <settingConfig type="numeric" min="0" max="60" />
+    </setting>
+    <setting propertyKey="@Properties.speedOrange" title="@Strings.SpeedOrange">
+        <settingConfig type="numeric" min="0" max="60" />
+    </setting>
+    <setting propertyKey="@Properties.speedRed" title="@Strings.SpeedRed">
+        <settingConfig type="numeric" min="0" max="60" />
+    </setting>
+    <setting propertyKey="@Properties.showHeartRate" title="@Strings.ShowHeartRate">
+        <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.showCadence" title="@Strings.ShowCadence">
+        <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
+        <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cadenceGreen" title="@Strings.CadenceGreen">
+        <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cadenceOrange" title="@Strings.CadenceOrange">
+        <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cadenceRed" title="@Strings.CadenceRed">
+        <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+</settings>

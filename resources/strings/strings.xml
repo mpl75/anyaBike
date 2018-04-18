@@ -1,0 +1,12 @@
+<strings>
+    <string id="AppName">Anya Bike</string>
+    <string id="ShowHeartRate">Show heart rate</string>
+    <string id="ShowCadence">Show cadence</string>
+    <string id="SpeedGreen">Speed: green</string>
+    <string id="SpeedOrange">Speed: orange</string>
+    <string id="SpeedRed">Speed: red</string>
+    <string id="CadenceBlue">Cadence: blue</string>
+    <string id="CadenceGreen">Cadence: green</string>
+    <string id="CadenceOrange">Cadence: orange</string>
+    <string id="CadenceRed">Cadence: red</string>
+</strings>
