@@ -291,8 +291,8 @@ class AnyaBikeView extends Ui.DataField {
 		
 		textWithIconOnCenter(dc, elapsedDistanceText, "", "km", 120, 158, Gfx.FONT_NUMBER_MEDIUM, 18);
 
-        var showHeartRate = Application.Properties.getValue("showHeartRate");
-        if (showHeartRate) {
+        var leftSegment = Application.Properties.getValue("leftSegment");
+        if (leftSegment == 1) {
 		  dc.setColor(txtColor, lineColor);
           if (currentHeartRate >= zoneInfo[4]) {
 		    dc.setColor(0xFFFFFF, 0xFF0000);
@@ -310,9 +310,8 @@ class AnyaBikeView extends Ui.DataField {
 		  dc.drawText(26, 152, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
 		}
 		
-		
-        var showCadence = Application.Properties.getValue("showCadence");
-        if (showCadence) {
+        var rightSegment = Application.Properties.getValue("rightSegment");
+        if (rightSegment == 1) {
           var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
           var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
           var cadenceOrange = Application.Properties.getValue("cadenceOrange").toNumber();
@@ -332,11 +331,29 @@ class AnyaBikeView extends Ui.DataField {
 		  dc.setColor(txtColor, -1);
 		  dc.drawText(214, 152, Gfx.FONT_MEDIUM, currentCadence.format("%d"), Gfx.TEXT_JUSTIFY_RIGHT);
 		}
+		
+		if (leftSegment == 2 || rightSegment == 2) {
+		  var elH = (elapsedTime / 3600) % 24;
+		  var elM = (elapsedTime / 60) % 60;
+		  var elS = elapsedTime % 60;
+		  var elText = "-:--";
+		  if (elH > 0) {
+		    elText = elH.format("%d") + ":" + elM.format("%02d");
+		  } else {
+		    elText = elM.format("%d") + ":" + elS.format("%02d");
+		  }
+		  if (leftSegment == 2) {
+		    dc.drawText(16, 152, Gfx.FONT_SMALL, elText, Gfx.TEXT_JUSTIFY_LEFT);
+		  }
+		  if (rightSegment == 2) {
+		    dc.drawText(224, 152, Gfx.FONT_SMALL, elText, Gfx.TEXT_JUSTIFY_RIGHT);
+		  }
+		}
 
         var clockTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 		dc.drawText(120, 30, Gfx.FONT_SMALL, clockTime.hour + ":" + clockTime.min.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
 
-		if (clockTime.sec % 6 < 3 && showCadence) {
+		if (clockTime.sec % 6 < 3 && rightSegment == 1) {
 		  dc.drawText(50, 84, Gfx.FONT_MEDIUM, averageCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
 		  dc.drawText(50, 68, fontsport, "X", Gfx.TEXT_JUSTIFY_CENTER);
 		  dc.drawText(190, 84, Gfx.FONT_MEDIUM, maxCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);

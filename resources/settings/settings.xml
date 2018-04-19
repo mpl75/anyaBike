@@ -8,12 +8,20 @@
     <setting propertyKey="@Properties.speedRed" title="@Strings.SpeedRed">
         <settingConfig type="numeric" min="0" max="60" />
     </setting>
-    <setting propertyKey="@Properties.showHeartRate" title="@Strings.ShowHeartRate">
-        <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.leftSegment" title="@Strings.LeftSegment" prompt="@Strings.LeftSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.Off</listEntry>
+            <listEntry value="1">@Strings.HeartRate</listEntry>
+            <listEntry value="2">@Strings.ElapsedTime</listEntry>
+        </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.showCadence" title="@Strings.ShowCadence">
-        <settingConfig type="boolean" />
-    </setting>
+    <setting propertyKey="@Properties.rightSegment" title="@Strings.RightSegment" prompt="@Strings.RightSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.Off</listEntry>
+            <listEntry value="1">@Strings.Cadence</listEntry>
+            <listEntry value="2">@Strings.ElapsedTime</listEntry>
+        </settingConfig>
+    </setting>  
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
         <settingConfig type="numeric" min="0" max="300" />
     </setting>
