@@ -118,13 +118,13 @@ class AnyaBikeView extends Ui.DataField {
           currentCadence = 0.0f;
         }
       }
-/*      if(info has :currentSpeed){
+      if(info has :currentSpeed){
         if(info.currentSpeed != null){
           currentSpeed = info.currentSpeed * 3.6;
         } else {
           currentSpeed = 0.0f;
         }
-      } */
+      }
       if(info has :elapsedDistance){
         if(info.elapsedDistance != null){
           elapsedDistance = info.elapsedDistance / 1000;
@@ -167,16 +167,7 @@ class AnyaBikeView extends Ui.DataField {
           totalDescent = 0.0f;
         }
       }
-      
-      var headDiff = currentHeading - compass;
-      if (headDiff > 180) {
-        headDiff = headDiff - 360;
-      }
-      compass += headDiff / 3;
-      if (compass < 0) {
-        compass += 360;
-      }
-      
+            
       var tempIter = Toybox.SensorHistory.getTemperatureHistory({
         :period => 1
       });
@@ -237,14 +228,14 @@ class AnyaBikeView extends Ui.DataField {
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
     function onUpdate(dc) {
-		currentSpeed += 2.13;
+		/* currentSpeed += 2.13;
 		if (currentSpeed > 65) {
 		  currentSpeed = 0;
 	    }
 
-		/*slope = -4.8;
-		altitude = 1384;
-		totalAscent = 1234;*/
+		slope = 4.8;
+		altitude = 384;
+		totalAscent = 234;*/
 		    
         bgColor = getBackgroundColor();
         txtColor = Gfx.COLOR_BLACK;
@@ -284,11 +275,11 @@ class AnyaBikeView extends Ui.DataField {
 		  }
 		}		
 		textWithIconOnCenter(dc, altitude.format("%d"), "G", "m", 40, 120, Gfx.FONT_MEDIUM, 10);
-		textWithIconOnCenter(dc, totalAscent.format("%d"), "H", "m", 124, 120, Gfx.FONT_MEDIUM, 10);
+		textWithIconOnCenter(dc, totalAscent.format("%d"), "H", "m", 196, 120, Gfx.FONT_MEDIUM, 10);
 		dc.setColor(slopeColor, -1);
-		dc.fillRectangle(168, 120, 72, 34);
+		dc.fillRectangle(90, 120, 60, 34);
 		dc.setColor(txtColor, -1);
-		textWithIconOnCenter(dc, slopeText, slopeIcon, "%", 200, 120, Gfx.FONT_MEDIUM, 10);
+		textWithIconOnCenter(dc, slopeText, slopeIcon, "%", 120, 120, Gfx.FONT_MEDIUM, 10);
 
 		
 		var elapsedDistanceText = "";
@@ -298,7 +289,7 @@ class AnyaBikeView extends Ui.DataField {
 		  elapsedDistanceText = elapsedDistance.format("%.2f");
 		}
 		
-		textWithIconOnCenter(dc, elapsedDistanceText, "", "km", 120, 160, Gfx.FONT_NUMBER_MEDIUM, 18);
+		textWithIconOnCenter(dc, elapsedDistanceText, "", "km", 120, 158, Gfx.FONT_NUMBER_MEDIUM, 18);
 
         var showHeartRate = Application.Properties.getValue("showHeartRate");
         if (showHeartRate) {
@@ -371,6 +362,14 @@ class AnyaBikeView extends Ui.DataField {
 		dc.setColor(txtColor, -1);
 		dc.drawText(146, 200, font, sunsetText, Gfx.TEXT_JUSTIFY_LEFT);
 
+	    var headDiff = currentHeading - compass;
+	    if (headDiff > 180) {
+	      headDiff = headDiff - 360;
+	    }
+	    compass += headDiff / 3;
+	    if (compass < 0) {
+	      compass += 360;
+	    }
 		dc.drawText(45 - compass, 222, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
 
 		var gpsColor = txtColor;
