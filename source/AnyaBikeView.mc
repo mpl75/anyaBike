@@ -9,7 +9,7 @@ using Toybox.SensorHistory;
 
 class AnyaBikeView extends Ui.DataField {
 
-    hidden var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, totalAscent, totalDescent;
+    hidden var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent;
 	hidden var compass;
 	hidden var slope, sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
@@ -24,17 +24,17 @@ class AnyaBikeView extends Ui.DataField {
         altitude = 0.0f;
         averageCadence = 0.0f;
         averageSpeed = 0.0f;
-        currentCadence = 0.0f;
-        currentHeading = 0.0f;
-        currentHeartRate = 50.0f;
+        currentCadence = 0;
+        currentHeading = null;
+        currentHeartRate = null;
         currentSpeed = 0.0f;
-        elapsedDistance = 0.0f;
+        elapsedDistance = 0.0f;        
         elapsedTime = 0.0f;
         maxCadence = 0.0f;
         maxSpeed = 0.0f;
+        timerTime = 0.0f;
         totalAscent = 0.0f;
-        totalDescent = 0.0f;
-        temperature = 0.0f;
+        temperature = 0;
         GPSaccuracy = 0;
         sunset = null;
         
@@ -66,9 +66,11 @@ class AnyaBikeView extends Ui.DataField {
     // Note that compute() and onUpdate() are asynchronous, and there is no
     // guarantee that compute() will be called before onUpdate().
     function compute(info) {
+      var systemSettings = Sys.getDeviceSettings();
+     
       if(info has :altitude){
         if(info.altitude != null){
-          altitude = info.altitude;
+          altitude = info.altitude.toFloat();
         } else {
           altitude = 0.0f;
         }
@@ -82,7 +84,11 @@ class AnyaBikeView extends Ui.DataField {
       }
       if(info has :averageSpeed){
         if(info.averageSpeed != null){
-          averageSpeed = info.averageSpeed * 3.6;
+          if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+            averageSpeed = info.averageSpeed * 3.6 / 1.609344;
+          } else {
+            averageSpeed = info.averageSpeed * 3.6;
+          }
         } else {
           averageSpeed = 0.0f;
         }
@@ -94,14 +100,14 @@ class AnyaBikeView extends Ui.DataField {
             currentHeading += 360;
           }
         } else {
-          currentHeading = 0.0f;
+          currentHeading = null;
         }
       }
       if(info has :currentHeartRate){
         if(info.currentHeartRate != null){
           currentHeartRate = info.currentHeartRate;
         } else {
-          currentHeartRate = 0.0f;
+          currentHeartRate = null;
         }
       }
       if(info has :currentLocationAccuracy){
@@ -115,19 +121,23 @@ class AnyaBikeView extends Ui.DataField {
         if(info.currentCadence != null){
           currentCadence = info.currentCadence;
         } else {
-          currentCadence = 0.0f;
+          currentCadence = null;
         }
       }
       if(info has :currentSpeed){
         if(info.currentSpeed != null){
-          currentSpeed = info.currentSpeed * 3.6;
+          if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+            currentSpeed = info.currentSpeed * 3.6 / 1.609344;
+          } else {
+            currentSpeed = info.currentSpeed * 3.6;
+          }
         } else {
           currentSpeed = 0.0f;
         }
       }
       if(info has :elapsedDistance){
         if(info.elapsedDistance != null){
-          elapsedDistance = info.elapsedDistance / 1000;
+          elapsedDistance = info.elapsedDistance / 1000;          
         } else {
           elapsedDistance = 0.0f;
         }
@@ -148,23 +158,31 @@ class AnyaBikeView extends Ui.DataField {
       }
       if(info has :maxSpeed){
         if(info.maxSpeed != null){
-          maxSpeed = info.maxSpeed * 3.6;
+          if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+            maxSpeed = info.maxSpeed * 3.6 / 1.609344;
+          } else {
+            maxSpeed = info.maxSpeed * 3.6;
+          }
         } else {
           maxSpeed = 0.0f;
         }
       }
-      if(info has :totalAscent){
-        if(info.totalAscent != null){
-          totalAscent = info.totalAscent;
+      if(info has :timerTime){
+        if(info.timerTime != null){
+          timerTime = info.timerTime / 1000;
         } else {
-          totalAscent = 0.0f;
+          timerTime = 0.0f;
         }
       }
-      if(info has :totalDescent){
+      if(info has :totalAscent){
         if(info.totalAscent != null){
-          totalDescent = info.totalDescent;
+          if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+            totalAscent = info.totalAscent * 3.2808399;
+          } else {
+            totalAscent = info.totalAscent.toFloat();
+          }
         } else {
-          totalDescent = 0.0f;
+          totalAscent = 0.0f;
         }
       }
             
@@ -172,9 +190,12 @@ class AnyaBikeView extends Ui.DataField {
         :period => 1
       });
       if (tempIter != null) {
-        temperature = tempIter.next().data;
+        temperature = tempIter.next().data.toFloat();
+        if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+          temperature = temperature * 9 / 5 + 32;
+        }
       } else {
-        temperature = 0.0f;
+        temperature = null;
       }
             
       sumAlt += altitude;
@@ -206,6 +227,12 @@ class AnyaBikeView extends Ui.DataField {
         sumAlt = 0;
         countAlt = 0;
       }
+      if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+        altitude = altitude * 3.2808399;
+      }
+      if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
+        elapsedDistance = elapsedDistance / 1.609344;
+      }      
       
       var now = Time.now();
       var loc = info.currentLocation;
@@ -224,6 +251,20 @@ class AnyaBikeView extends Ui.DataField {
 	  dc.drawText(x, y, fnt, text, Gfx.TEXT_JUSTIFY_CENTER);
 	  dc.drawText(x + w + 1, y + hShift, font, unit, Gfx.TEXT_JUSTIFY_LEFT);
     }
+    
+    function formatTime(sec) {
+      sec = sec.toLong();
+	  var h = (sec / 3600) % 24;
+	  var m = (sec / 60) % 60;
+	  var s = sec % 60;
+	  var text = "-:--";
+	  if (h > 0) {
+		text = h.format("%d") + ":" + m.format("%02d");
+      } else {
+		text = m.format("%d") + ":" + s.format("%02d");
+	  }
+	  return text;
+    }
 
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
@@ -236,6 +277,8 @@ class AnyaBikeView extends Ui.DataField {
 		slope = 4.8;
 		altitude = 384;
 		totalAscent = 234;*/
+
+      var systemSettings = Sys.getDeviceSettings();
 		    
         bgColor = getBackgroundColor();
         txtColor = Gfx.COLOR_BLACK;
@@ -246,16 +289,21 @@ class AnyaBikeView extends Ui.DataField {
         }
         dc.setColor(txtColor, -1);
         dc.clear();
-               
+        
 		dc.drawText(120, 80, Gfx.FONT_NUMBER_THAI_HOT, currentSpeed.format("%d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
-
+		var spdUnitText = "km/h";
+        if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+          spdUnitText = "mph";
+        }
+		dc.drawText(156, 46, font, spdUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+		
 		var slopeText = "0";
 		var slopeIcon = " ";
 		var slopeColor = -1;
 		if (slope != 0) {
           slopeText = slope.abs().format("%.1f");
 		}
-		if (slope <= -10) {
+		if (slope <= -5) {
 		  slopeIcon = "V";
 		  slopeColor = 0x55AAFF;
 		  slopeText = slope.abs().format("%d");
@@ -264,7 +312,7 @@ class AnyaBikeView extends Ui.DataField {
 		  if (slope <= -2) {
 		    slopeColor = 0x55FF55;
 		  }
-		} else if (slope >= 10) {
+		} else if (slope >= 5) {
 		  slopeIcon = "U";
 		  slopeColor = 0xFF5555;
 		  slopeText = slope.format("%d");
@@ -273,9 +321,13 @@ class AnyaBikeView extends Ui.DataField {
 		  if (slope >= 2) {
 		    slopeColor = 0xFFAA55;
 		  }
-		}		
-		textWithIconOnCenter(dc, altitude.format("%d"), "G", "m", 40, 120, Gfx.FONT_MEDIUM, 10);
-		textWithIconOnCenter(dc, totalAscent.format("%d"), "H", "m", 196, 120, Gfx.FONT_MEDIUM, 10);
+		}
+		var altUnitText = "m";
+        if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+          altUnitText = "ft";
+        }		
+		textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, 40, 120, Gfx.FONT_MEDIUM, 10);
+		textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, 196, 120, Gfx.FONT_MEDIUM, 10);
 		dc.setColor(slopeColor, -1);
 		dc.fillRectangle(90, 120, 60, 34);
 		dc.setColor(txtColor, -1);
@@ -289,10 +341,15 @@ class AnyaBikeView extends Ui.DataField {
 		  elapsedDistanceText = elapsedDistance.format("%.2f");
 		}
 		
-		textWithIconOnCenter(dc, elapsedDistanceText, "", "km", 120, 158, Gfx.FONT_NUMBER_MEDIUM, 18);
+		var distUnitText = "km";
+		if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
+		  distUnitText = "mi";
+		}
+		
+		textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, 120, 158, Gfx.FONT_NUMBER_MEDIUM, 18);
 
         var leftSegment = Application.Properties.getValue("leftSegment");
-        if (leftSegment == 1) {
+        if (currentHeartRate != null && leftSegment == 1) {
 		  dc.setColor(txtColor, lineColor);
           if (currentHeartRate >= zoneInfo[4]) {
 		    dc.setColor(0xFFFFFF, 0xFF0000);
@@ -331,22 +388,24 @@ class AnyaBikeView extends Ui.DataField {
 		  dc.setColor(txtColor, -1);
 		  dc.drawText(214, 152, Gfx.FONT_MEDIUM, currentCadence.format("%d"), Gfx.TEXT_JUSTIFY_RIGHT);
 		}
-		
+
 		if (leftSegment == 2 || rightSegment == 2) {
-		  var elH = (elapsedTime / 3600) % 24;
-		  var elM = (elapsedTime / 60) % 60;
-		  var elS = elapsedTime % 60;
-		  var elText = "-:--";
-		  if (elH > 0) {
-		    elText = elH.format("%d") + ":" + elM.format("%02d");
-		  } else {
-		    elText = elM.format("%d") + ":" + elS.format("%02d");
-		  }
+		  var timerTimeText = formatTime(timerTime);
 		  if (leftSegment == 2) {
-		    dc.drawText(16, 152, Gfx.FONT_SMALL, elText, Gfx.TEXT_JUSTIFY_LEFT);
+		    dc.drawText(16, 152, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_LEFT);
 		  }
 		  if (rightSegment == 2) {
-		    dc.drawText(224, 152, Gfx.FONT_SMALL, elText, Gfx.TEXT_JUSTIFY_RIGHT);
+		    dc.drawText(224, 152, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+		  }
+		}
+		
+		if (leftSegment == 3 || rightSegment == 3) {
+		  var elapsedTimeText = formatTime(elapsedTime);
+		  if (leftSegment == 3) {
+		    dc.drawText(16, 152, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_LEFT);
+		  }
+		  if (rightSegment == 3) {
+		    dc.drawText(224, 152, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
 		  }
 		}
 
@@ -365,10 +424,17 @@ class AnyaBikeView extends Ui.DataField {
 		  dc.drawText(190, 68, fontsport, "E", Gfx.TEXT_JUSTIFY_CENTER);
         }
 
-		dc.setColor(0x00AAFF, -1);
-		dc.drawText(74, 200, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
-		dc.setColor(txtColor, -1);
-		dc.drawText(76, 200, font, temperature.format("%d") + " °C", Gfx.TEXT_JUSTIFY_LEFT);
+		var tempUnitText = " °C";
+		if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+		  tempUnitText = " °F";
+		}
+		
+		if (temperature != null) {
+		  dc.setColor(0x00AAFF, -1);
+		  dc.drawText(74, 200, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
+		  dc.setColor(txtColor, -1);
+		  dc.drawText(76, 200, font, temperature.format("%d") + tempUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+		}
 		var sunsetText = "-:--";
 		if (sunset != null) {
 		  sunsetText = sunset.hour + ":" + sunset.min.format("%02d");
@@ -379,15 +445,22 @@ class AnyaBikeView extends Ui.DataField {
 		dc.setColor(txtColor, -1);
 		dc.drawText(146, 200, font, sunsetText, Gfx.TEXT_JUSTIFY_LEFT);
 
-	    var headDiff = currentHeading - compass;
-	    if (headDiff > 180) {
-	      headDiff = headDiff - 360;
-	    }
-	    compass += headDiff / 3;
-	    if (compass < 0) {
-	      compass += 360;
-	    }
-		dc.drawText(45 - compass, 222, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
+		if (currentHeading != null) {
+          var headDiff = currentHeading - compass;
+	      if (headDiff > 180) {
+	        headDiff = headDiff - 360;
+	      }
+	      if (headDiff > 40) {
+	        headDiff = 40;
+	      } else if (headDiff < -40) {
+	        headDiff = -40;
+	      }
+	      compass += headDiff / 2;
+	      if (compass < 0) {
+	        compass += 360;
+	      }
+		  dc.drawText(45 - compass, 222, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
+		}
 
 		var gpsColor = txtColor;
 		switch (GPSaccuracy) {

@@ -1,6 +1,6 @@
 <properties>
-  <property id="leftSegment" type="number">0</property>
-  <property id="rightSegment" type="number">0</property>
+  <property id="leftSegment" type="number">1</property>
+  <property id="rightSegment" type="number">2</property>
   <property id="speedGreen" type="number">15</property>
   <property id="speedOrange" type="number">25</property>
   <property id="speedRed" type="number">35</property>

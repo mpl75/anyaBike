@@ -12,14 +12,16 @@
         <settingConfig type="list">
             <listEntry value="0">@Strings.Off</listEntry>
             <listEntry value="1">@Strings.HeartRate</listEntry>
-            <listEntry value="2">@Strings.ElapsedTime</listEntry>
+            <listEntry value="2">@Strings.TimerTime</listEntry>
+            <listEntry value="3">@Strings.ElapsedTime</listEntry>
         </settingConfig>
     </setting>
     <setting propertyKey="@Properties.rightSegment" title="@Strings.RightSegment" prompt="@Strings.RightSegmentPrompt">
         <settingConfig type="list">
             <listEntry value="0">@Strings.Off</listEntry>
             <listEntry value="1">@Strings.Cadence</listEntry>
-            <listEntry value="2">@Strings.ElapsedTime</listEntry>
+            <listEntry value="2">@Strings.TimerTime</listEntry>
+            <listEntry value="3">@Strings.ElapsedTime</listEntry>
         </settingConfig>
     </setting>  
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
