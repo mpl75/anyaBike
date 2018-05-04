@@ -1,1 +1,3 @@
 project.manifest = manifest.xml
+round-218x218.sourcePath = source\*.mc;source-218x218\*.mc
+round-240x240.sourcePath = source\*.mc;source-240x240\*.mc
