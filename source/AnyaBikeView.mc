@@ -10,7 +10,7 @@ using Toybox.SensorHistory;
 class AnyaBikeView extends Ui.DataField {
 
 	hidden var display;
-    var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent;
+  var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent;
 	var compass, elapsedDistanceText, clockTime;
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
@@ -198,14 +198,14 @@ class AnyaBikeView extends Ui.DataField {
         if (prevAlt != null) {
           slope = curAlt - prevAlt;
         }
-		while (lastTM < curTM || lastDoneTM < curDoneTM) {
-		  lastTM++;
-		  if (lastTM >= 10) {
-		    lastTM = 0;
-		    lastDoneTM++;
-		  }
-		  memoryAlt[lastTM] = curAlt;
-		}
+        while (lastTM < curTM || lastDoneTM < curDoneTM) {
+          lastTM++;
+          if (lastTM >= 10) {
+            lastTM = 0;
+            lastDoneTM++;
+          }
+          memoryAlt[lastTM] = curAlt;
+        }
 
         lastTM = curTM;
         lastDoneTM = curDoneTM;
@@ -227,293 +227,306 @@ class AnyaBikeView extends Ui.DataField {
       var w = dc.getTextWidthInPixels(text, fnt).toDouble() / 2;
       w = w.toNumber();
       dc.drawText(x - w - 2, y + hShift, fontsport, icon, Gfx.TEXT_JUSTIFY_RIGHT);
-	  dc.drawText(x, y, fnt, text, Gfx.TEXT_JUSTIFY_CENTER);
-	  dc.drawText(x + w + 1, y + hShift, font, unit, Gfx.TEXT_JUSTIFY_LEFT);
+      dc.drawText(x, y, fnt, text, Gfx.TEXT_JUSTIFY_CENTER);
+      dc.drawText(x + w + 1, y + hShift, font, unit, Gfx.TEXT_JUSTIFY_LEFT);
     }
     
     function formatTime(sec) {
       sec = sec.toLong();
-	  var h = (sec / 3600) % 24;
-	  var m = (sec / 60) % 60;
-	  var s = sec % 60;
-	  var text = "-:--";
-	  if (h > 0) {
-		text = h.format("%d") + "." + m.format("%02d");
+      var h = (sec / 3600) % 24;
+      var m = (sec / 60) % 60;
+      var s = sec % 60;
+      var text = "-:--";
+      if (h > 0) {
+        text = h.format("%d") + "." + m.format("%02d");
       } else {
-		text = m.format("%d") + ":" + s.format("%02d");
-	  }
-	  return text;
+        text = m.format("%d") + ":" + s.format("%02d");
+      }
+      return text;
     }
 
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
-    function onUpdate(dc) {
-		/* currentSpeed += 2.13;
-		if (currentSpeed > 65) {
-		  currentSpeed = 0;
-	    } 
+    function onUpdate(dc as Graphics.Dc) {
+      /* currentSpeed += 2.13;
+      if (currentSpeed > 65) {
+        currentSpeed = 0;
+        } 
 
-		slope += 1.23;
-		if (slope > 13) {
-		  slope = -13;
-		}
-		altitude = 384;
-		totalAscent = 234; */
+      slope += 1.23;
+      if (slope > 13) {
+        slope = -13;
+      }
+      altitude = 384;
+      totalAscent = 234; */
 
-        var systemSettings = Sys.getDeviceSettings();
-        if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
-          spdUnitText = "mph";
-          averageSpeed /= 1.609344;
-          currentSpeed /= 1.609344;
-          maxSpeed /= 1.609344;
-        } else {
-          spdUnitText = "km/h";
+      var systemSettings = Sys.getDeviceSettings();
+      if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+        spdUnitText = "mph";
+        averageSpeed /= 1.609344;
+        currentSpeed /= 1.609344;
+        maxSpeed /= 1.609344;
+      } else {
+        spdUnitText = "km/h";
+      }
+      if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+        altUnitText = "ft";
+        altitude *= 3.2808399;
+        totalAscent *= 3.2808399;
+      } else {
+        altUnitText = "m";
+      }
+      if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
+        distUnitText = "mi";
+        elapsedDistance /= 1.609344;
+      } else {
+        distUnitText = "km";
+      }
+      if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+        tempUnitText = " °F";
+        temperature = temperature * 9 / 5 + 32;
+      } else {
+        tempUnitText = " °C";
+      }
+
+      slopeText = "0";
+      slopeIcon = " ";
+      slopeColor = -1;
+      slopeColorText = 0x000000;
+      if (slope.abs() >= 10) {
+            slopeText = slope.abs().format("%d");
+      } else if (slope != 0) {
+            slopeText = slope.abs().format("%.1f");
+        } 
+      if (slope <= -5) {
+        slopeIcon = "V";
+        slopeColor = 0x00AAFF;
+      } else if (slope < 0) {
+        slopeIcon = "T";
+        if (slope <= -2) {
+          slopeColor = 0x00FF00;
         }
-        if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
-          altUnitText = "ft";
-          altitude *= 3.2808399;
-          totalAscent *= 3.2808399;
-        } else {
-          altUnitText = "m";
+      } else if (slope >= 5) {
+        slopeIcon = "U";
+        slopeColor = 0xFF0000;
+            slopeColorText = 0xFFFFFF;
+      } else if (slope > 0) {
+        slopeIcon = "S";
+        if (slope >= 2) {
+          slopeColor = 0xFFAA00;
         }
-        if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
-		  distUnitText = "mi";
-          elapsedDistance /= 1.609344;
-        } else {
-          distUnitText = "km";
-        }
-        if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
-		  tempUnitText = " °F";
-          temperature = temperature * 9 / 5 + 32;
-        } else {
-          tempUnitText = " °C";
-        }
+      }
+      
+      if (elapsedDistance >= 100) {
+        elapsedDistanceText = elapsedDistance.format("%.1f");
+      } else {
+        elapsedDistanceText = elapsedDistance.format("%.2f");
+      }
+      
+      clockTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 		
-		slopeText = "0";
-		slopeIcon = " ";
-		slopeColor = -1;
-		slopeColorText = 0x000000;
-		if (slope.abs() >= 10) {
-          slopeText = slope.abs().format("%d");
-		} else if (slope != 0) {
-          slopeText = slope.abs().format("%.1f");
-	    } 
-		if (slope <= -5) {
-		  slopeIcon = "V";
-		  slopeColor = 0x00AAFF;
-		} else if (slope < 0) {
-		  slopeIcon = "T";
-		  if (slope <= -2) {
-		    slopeColor = 0x00FF00;
-		  }
-		} else if (slope >= 5) {
-		  slopeIcon = "U";
-		  slopeColor = 0xFF0000;
-          slopeColorText = 0xFFFFFF;
-		} else if (slope > 0) {
-		  slopeIcon = "S";
-		  if (slope >= 2) {
-		    slopeColor = 0xFFAA00;
-		  }
-		}
-		
-		if (elapsedDistance >= 100) {
-		  elapsedDistanceText = elapsedDistance.format("%.1f");
-		} else {
-		  elapsedDistanceText = elapsedDistance.format("%.2f");
-		}
-		
-		clockTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-		
-        bgColor = getBackgroundColor();
-        txtColor = Gfx.COLOR_BLACK;
-        lineColor = Gfx.COLOR_LT_GRAY;
-        if (bgColor == Gfx.COLOR_BLACK) {
-          txtColor = Gfx.COLOR_WHITE;
-          lineColor = Gfx.COLOR_DK_GRAY;
-        }
-        dc.setColor(txtColor, -1);
-        dc.clear();
+      bgColor = getBackgroundColor();
+      txtColor = Gfx.COLOR_BLACK;
+      lineColor = Gfx.COLOR_LT_GRAY;
+      if (bgColor == Gfx.COLOR_BLACK) {
+        txtColor = Gfx.COLOR_WHITE;
+        lineColor = Gfx.COLOR_DK_GRAY;
+      }
+      dc.setColor(txtColor, -1);
+      dc.clear();
 
 /* ----- */        
 		
-		display.render(dc, me);
+		  dc.drawText(dc.getWidth()/2, dc.getHeight()/2-40, Gfx.FONT_NUMBER_THAI_HOT, currentSpeed.format("%d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+      dc.drawText(dc.getWidth()/2+36, dc.getHeight()/2-74, font, spdUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+
+      textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, 40, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
+      textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, dc.getWidth()-44, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
+        
+      dc.setColor(slopeColor, -1);
+      dc.fillRectangle(dc.getWidth()/2-30, dc.getHeight(), 60, 34);
+      dc.setColor(slopeColorText, -1);
+      textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
+
+      dc.setColor(txtColor, -1);					
+      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y-8, Gfx.FONT_NUMBER_MEDIUM, 18);  
 
 
-        var leftSegment = Application.Properties.getValue("leftSegment");
-        if (currentHeartRate != null && leftSegment == 1) {
-		  dc.setColor(txtColor, lineColor);
-          if (currentHeartRate >= zoneInfo[4]) {
-		    dc.setColor(0xFFFFFF, 0xFF0000);
-		  } else if (currentHeartRate >= zoneInfo[3]) {
-		    dc.setColor(0x000000, 0xFFAA00);
-		  } else if (currentHeartRate >= zoneInfo[2]) {
-		    dc.setColor(0x000000, 0x00FF00);
-		  } else if (currentHeartRate >= zoneInfo[1]) {
-		    dc.setColor(0x000000, 0x00AAFF);
-		  } else {
+      var leftSegment = Application.Properties.getValue("leftSegment");
+      if (currentHeartRate != null && leftSegment == 1) {
 		    dc.setColor(txtColor, lineColor);
-		  }
-		  dc.drawText(24, 154, fontsport, "  I ", Gfx.TEXT_JUSTIFY_RIGHT);
-		  dc.setColor(txtColor, -1);
-		  dc.drawText(26, 152, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
-		}
-		
-        var rightSegment = Application.Properties.getValue("rightSegment");
-        if (currentCadence != null && rightSegment == 1) {
-          var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
-          var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
-          var cadenceOrange = Application.Properties.getValue("cadenceOrange").toNumber();
-          var cadenceRed = Application.Properties.getValue("cadenceRed").toNumber();
-          if (currentCadence > cadenceRed) {
-		    dc.setColor(0xFFFFFF, 0xFF0000);
-          } else if (currentCadence > cadenceOrange) {
-		    dc.setColor(0x000000, 0xFFAA00);
-          } else if (currentCadence > cadenceGreen) {
-		    dc.setColor(0x000000, 0x00FF00);
-          } else if (currentCadence > cadenceBlue) {
-		    dc.setColor(0x000000, 0x00AAFF);
-		  } else {
-		    dc.setColor(txtColor, lineColor);
-		  }
-		  dc.drawText(216, 154, fontsport, " W  ", Gfx.TEXT_JUSTIFY_LEFT);
-		  dc.setColor(txtColor, -1);
-		  dc.drawText(214, 152, Gfx.FONT_MEDIUM, currentCadence.format("%d"), Gfx.TEXT_JUSTIFY_RIGHT);
-		}
-
-		if (leftSegment == 2 || rightSegment == 2) {
-		  var timerTimeText = formatTime(timerTime);
-		  if (leftSegment == 2) {
-		    dc.drawText(16, 152, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_LEFT);
-		  }
-		  if (rightSegment == 2) {
-		    dc.drawText(224, 152, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
-		  }
-		}
-		
-		if (leftSegment == 3 || rightSegment == 3) {
-		  var elapsedTimeText = formatTime(elapsedTime);
-		  if (leftSegment == 3) {
-		    dc.drawText(16, 152, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_LEFT);
-		  }
-		  if (rightSegment == 3) {
-		    dc.drawText(224, 152, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
-		  }
-		}
-
-		dc.drawText(120, 30, Gfx.FONT_SMALL, clockTime.hour + ":" + clockTime.min.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
-
-		if (clockTime.sec % 6 < 3 && rightSegment == 1) {
-		  dc.drawText(50, 84, Gfx.FONT_MEDIUM, averageCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(50, 68, fontsport, "X", Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(190, 84, Gfx.FONT_MEDIUM, maxCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(190, 68, fontsport, "Y", Gfx.TEXT_JUSTIFY_CENTER);
+        if (currentHeartRate >= zoneInfo[4]) {
+          dc.setColor(0xFFFFFF, 0xFF0000);
+        } else if (currentHeartRate >= zoneInfo[3]) {
+          dc.setColor(0x000000, 0xFFAA00);
+        } else if (currentHeartRate >= zoneInfo[2]) {
+          dc.setColor(0x000000, 0x00FF00);
+        } else if (currentHeartRate >= zoneInfo[1]) {
+          dc.setColor(0x000000, 0x00AAFF);
         } else {
-		  dc.drawText(50, 84, Gfx.FONT_MEDIUM, averageSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(50, 68, fontsport, "D", Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(190, 84, Gfx.FONT_MEDIUM, maxSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
-		  dc.drawText(190, 68, fontsport, "E", Gfx.TEXT_JUSTIFY_CENTER);
+          dc.setColor(txtColor, lineColor);
         }
+        dc.drawText(24, display.line2Y, fontsport, "  I ", Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.setColor(txtColor, -1);
+        dc.drawText(26, display.line2Y -2, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
+		  }
 		
-		if (temperature != null) {
-		  dc.setColor(0x00AAFF, -1);
-		  dc.drawText(74, 200, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
-		  dc.setColor(txtColor, -1);
-		  dc.drawText(76, 200, font, temperature.format("%d") + tempUnitText, Gfx.TEXT_JUSTIFY_LEFT);
-		}
-		var sunsetText = "-:--";
-		if (sunset != null) {
-		  sunsetText = sunset.hour + ":" + sunset.min.format("%02d");
-		}	
-		// sunsetText = "19:38";
-		dc.setColor(0xFFAA00, -1);
-		dc.drawText(144, 200, fontsport, "A", Gfx.TEXT_JUSTIFY_RIGHT);
-		dc.setColor(txtColor, -1);
-		dc.drawText(146, 200, font, sunsetText, Gfx.TEXT_JUSTIFY_LEFT);
-
-		if (currentHeading != null) {
-          var headDiff = currentHeading - compass;
-	      if (headDiff > 180) {
-	        headDiff = headDiff - 360;
-	      }
-	      if (headDiff > 40) {
-	        headDiff = 40;
-	      } else if (headDiff < -40) {
-	        headDiff = -40;
-	      }
-	      compass += headDiff / 2;
-	      if (compass < 0) {
-	        compass += 360;
-	      }
-		  dc.drawText(45 - compass, 222, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
-		}
-
-		var gpsColor = txtColor;
-		switch (GPSaccuracy) {
-		  case 0:
-		  case 1: gpsColor = 0xFF0000; break;
-		  case 2: gpsColor = 0xFF5500; break;
-		  case 3: gpsColor = 0xFFAA00; break;
-		  case 4: gpsColor = 0x00FF00; break;
-		}
-		for (var i = 0; i < 4; i++) {
-		  dc.setColor(GPSaccuracy > i ? gpsColor : lineColor, bgColor);
- 		  dc.fillRectangle(74 + i * 3, 38 - i * 2, 2, i * 2 + 2);
-		}
-		
-		dc.setColor(txtColor, -1);
-		dc.drawRoundedRectangle(152, 32, 19, 9, 1);		
-		dc.drawRectangle(171, 35, 1, 3);		
-		var systemStats = Sys.getSystemStats();
-		var battery = systemStats.battery / 25 + 1;
-		battery = battery.toNumber();
-		if (battery > 4) {
-		  battery = 4;
-		}
-		for (var i = 0; i < battery; i++) {
-		  dc.setColor(systemStats.battery > 10 ? 0x00FF00 : 0xFF0000, bgColor);
- 		  dc.fillRectangle(154 + i * 4, 34, 3, 5);
-		}
-		
-
-
-        var speedGreen = Application.Properties.getValue("speedGreen").toNumber();
-        var speedOrange = Application.Properties.getValue("speedOrange").toNumber();
-        var speedRed = Application.Properties.getValue("speedRed").toNumber();
-		var step = 15;
-        var speed = currentSpeed / 60 * 180;
-        speed = speed.toNumber();
-        if (speed > 179) {
-          speed = 179;
+      var rightSegment = Application.Properties.getValue("rightSegment");
+      if (currentCadence != null && rightSegment == 1) {
+        var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
+        var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
+        var cadenceOrange = Application.Properties.getValue("cadenceOrange").toNumber();
+        var cadenceRed = Application.Properties.getValue("cadenceRed").toNumber();
+        if (currentCadence > cadenceRed) {
+		      dc.setColor(0xFFFFFF, 0xFF0000);
+        } else if (currentCadence > cadenceOrange) {
+		      dc.setColor(0x000000, 0xFFAA00);
+        } else if (currentCadence > cadenceGreen) {
+          dc.setColor(0x000000, 0x00FF00);
+        } else if (currentCadence > cadenceBlue) {
+          dc.setColor(0x000000, 0x00AAFF);
+        } else {
+          dc.setColor(txtColor, lineColor);
         }
-        speed++;
-		var speedColor = 0x00AAFF;
-		if (currentSpeed > speedRed) {
-		  speedColor = 0xFF0000;
-		} else if (currentSpeed > speedOrange) {
-		  speedColor = 0xFFAA00;
-		} else if (currentSpeed > speedGreen) {
-		  speedColor = 0x00FF00;
-		}
+        dc.drawText(dc.getWidth()-24, display.line2Y, fontsport, " W  ", Gfx.TEXT_JUSTIFY_LEFT);
+        dc.setColor(txtColor, -1);
+        dc.drawText(dc.getWidth()-26, display.line2Y -2, Gfx.FONT_MEDIUM, currentCadence.format("%d"), Gfx.TEXT_JUSTIFY_RIGHT);
+		  }
+
+      if (leftSegment == 2 || rightSegment == 2) {
+        var timerTimeText = formatTime(timerTime);
+        if (leftSegment == 2) {
+          dc.drawText(16, display.line2Y -2, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_LEFT);
+        }
+        if (rightSegment == 2) {
+          dc.drawText(dc.getWidth()-16, display.line2Y -2, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+        }
+      }
 		
-        dc.setPenWidth(10);
-        dc.setColor(lineColor, -1);
-	    dc.drawArc(120, 120, 116, Gfx.ARC_CLOCKWISE, 180, 0);
-        dc.setColor(speedColor, -1);
-	    dc.drawArc(120, 120, 116, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
-        dc.setPenWidth(20);
+      if (leftSegment == 3 || rightSegment == 3) {
+        var elapsedTimeText = formatTime(elapsedTime);
+        if (leftSegment == 3) {
+          dc.drawText(16, display.line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_LEFT);
+        }
+        if (rightSegment == 3) {
+          dc.drawText(dc.getWidth()-16, display.line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+        }
+      }
+
+		  dc.drawText(dc.getWidth()/2, 30, Gfx.FONT_SMALL, clockTime.hour + ":" + clockTime.min.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+
+      if (clockTime.sec % 6 < 3 && rightSegment == 1) {
+        dc.drawText(50, dc.getHeight()/2-36, Gfx.FONT_MEDIUM, averageCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(50, dc.getHeight()/2-52, fontsport, "X", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()-50, dc.getHeight()/2-36, Gfx.FONT_MEDIUM, maxCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()-50, dc.getHeight()/2-52, fontsport, "Y", Gfx.TEXT_JUSTIFY_CENTER);
+      } else {
+        dc.drawText(50, dc.getHeight()/2-36, Gfx.FONT_MEDIUM, averageSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(50, dc.getHeight()/2-52, fontsport, "D", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()-50, dc.getHeight()/2-36, Gfx.FONT_MEDIUM, maxSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()-50, dc.getHeight()/2-52, fontsport, "E", Gfx.TEXT_JUSTIFY_CENTER);
+      }
+		
+      if (temperature != null) {
+        dc.setColor(0x00AAFF, -1);
+        dc.drawText(74, display.line3Y+2, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.setColor(txtColor, -1);
+        dc.drawText(76, display.line3Y+2, font, temperature.format("%d") + tempUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+      }
+      var sunsetText = "-:--";
+      if (sunset != null) {
+        sunsetText = sunset.hour + ":" + sunset.min.format("%02d");
+      }	
+      // sunsetText = "19:38";
+      dc.setColor(0xFFAA00, -1);
+      dc.drawText(display.sunsetX, display.line3Y+2, fontsport, "A", Gfx.TEXT_JUSTIFY_RIGHT);
+      dc.setColor(txtColor, -1);
+      dc.drawText(display.sunsetX+2, display.line3Y+2, font, sunsetText, Gfx.TEXT_JUSTIFY_LEFT);
+
+      if (currentHeading != null) {
+        var headDiff = currentHeading - compass;
+        if (headDiff > 180) {
+          headDiff = headDiff - 360;
+        }
+        if (headDiff > 40) {
+          headDiff = 40;
+        } else if (headDiff < -40) {
+          headDiff = -40;
+        }
+        compass += headDiff / 2;
+        if (compass < 0) {
+          compass += 360;
+        }
+        dc.drawText(display.compasOffset - compass, dc.getHeight()-18, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
+      }
+
+      var gpsColor = txtColor;
+      switch (GPSaccuracy) {
+        case 0:
+        case 1: gpsColor = 0xFF0000; break;
+        case 2: gpsColor = 0xFF5500; break;
+        case 3: gpsColor = 0xFFAA00; break;
+        case 4: gpsColor = 0x00FF00; break;
+      }
+      for (var i = 0; i < 4; i++) {
+        dc.setColor(GPSaccuracy > i ? gpsColor : lineColor, bgColor);
+        dc.fillRectangle(74 + i * 3, 38 - i * 2, 2, i * 2 + 2);
+      }
+      
+      dc.setColor(txtColor, -1);
+      var batteryX = dc.getWidth()-89;
+      dc.drawRoundedRectangle(batteryX, 32, 19, 9, 1);		
+      dc.drawRectangle(batteryX+19, 35, 1, 3);		
+      var systemStats = Sys.getSystemStats();
+      var battery = systemStats.battery / 25 + 1;
+      battery = battery.toNumber();
+      if (battery > 4) {
+        battery = 4;
+      }
+      for (var i = 0; i < battery; i++) {
+        dc.setColor(systemStats.battery > 10 ? 0x00FF00 : 0xFF0000, bgColor);
+        dc.fillRectangle(batteryX + 2 + i * 4, 34, 3, 5);
+      }
+      
+
+
+      var speedGreen = Application.Properties.getValue("speedGreen").toNumber();
+      var speedOrange = Application.Properties.getValue("speedOrange").toNumber();
+      var speedRed = Application.Properties.getValue("speedRed").toNumber();
+      var step = 15;
+      var speed = currentSpeed / 60 * 180;
+      speed = speed.toNumber();
+      if (speed > 179) {
+        speed = 179;
+      }
+      speed++;
+      var speedColor = 0x00AAFF;
+      if (currentSpeed > speedRed) {
+        speedColor = 0xFF0000;
+      } else if (currentSpeed > speedOrange) {
+        speedColor = 0xFFAA00;
+      } else if (currentSpeed > speedGreen) {
+        speedColor = 0x00FF00;
+      }
+		
+      dc.setPenWidth(10);
+      dc.setColor(lineColor, -1);
+	    dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+      dc.setColor(speedColor, -1);
+	    dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
+      dc.setPenWidth(20);
 	    for (var i = 1; i < 12; i++) {
 	      dc.setColor(speed > i * step ? speedColor : lineColor, bgColor);
-	      dc.drawArc(120, 120, 116, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
-        }
+	      dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+      }
 
-        dc.setColor(lineColor, bgColor);
-        dc.setPenWidth(1);
-        dc.drawLine(0, 120, 240, 120);
+      dc.setColor(lineColor, bgColor);
+      dc.setPenWidth(1);
+      dc.drawLine(0, display.line1Y, display.width, display.line1Y);
 
-        dc.drawLine(0, 154, 240, 154);
-        
-        dc.drawLine(0, 198, 240, 198);
+      dc.drawLine(0, display.line2Y, display.width, display.line2Y);
+      
+      dc.drawLine(0, display.line3Y, display.width, display.line3Y);
     }
 
 }
