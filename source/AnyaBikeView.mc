@@ -349,7 +349,7 @@ class AnyaBikeView extends Ui.DataField {
       textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
 
       dc.setColor(txtColor, -1);					
-      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y-8, Gfx.FONT_NUMBER_MEDIUM, 18);  
+      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y-8, Gfx.FONT_NUMBER_MEDIUM, 27);  
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
