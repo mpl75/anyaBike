@@ -1,10 +1,13 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using Toybox.System as Sys;
+using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
 using Toybox.SensorHistory;
+using Toybox.Sensor;
+using Toybox.Background;
+using Toybox.Application.Storage;
 
 
 class AnyaBikeView extends Ui.DataField {
@@ -21,7 +24,7 @@ class AnyaBikeView extends Ui.DataField {
 	
 	var sc = new SunCalc();
 	var zoneInfo;
-	
+
     function initialize() {
         DataField.initialize();
         
@@ -173,15 +176,21 @@ class AnyaBikeView extends Ui.DataField {
           totalAscent = 0.0f;
         }
       }
-            
-      var tempIter = Toybox.SensorHistory.getTemperatureHistory({
-        :period => 1
-      });
-      if (tempIter != null) {
-        temperature = tempIter.next().data.toFloat();
-      } else {
-        temperature = null;
-      }
+      // var sinfo=Sensor.getInfo();
+ 
+       if (Storage.getValue("mytemp") != null) {
+               temperature = Storage.getValue("mytemp").toFloat();
+       }  else{
+          var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+            :period => 1
+          });
+          if (tempIter != null) {
+            temperature = tempIter.next().data.toFloat();
+          } else {
+            temperature = null;
+          }
+      }  
+     
             
       sumAlt += altitude;
       countAlt++;
@@ -260,8 +269,8 @@ class AnyaBikeView extends Ui.DataField {
       altitude = 384;
       totalAscent = 234; */
 
-      var systemSettings = Sys.getDeviceSettings();
-      if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+      var systemSettings = System.getDeviceSettings();
+      if (systemSettings.paceUnits == System.UNIT_STATUTE) {
         spdUnitText = "mph";
         averageSpeed /= 1.609344;
         currentSpeed /= 1.609344;
@@ -269,20 +278,20 @@ class AnyaBikeView extends Ui.DataField {
       } else {
         spdUnitText = "km/h";
       }
-      if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+      if (systemSettings.elevationUnits == System.UNIT_STATUTE) {
         altUnitText = "ft";
         altitude *= 3.2808399;
         totalAscent *= 3.2808399;
       } else {
         altUnitText = "m";
       }
-      if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
+      if (systemSettings.distanceUnits == System.UNIT_STATUTE) {
         distUnitText = "mi";
         elapsedDistance /= 1.609344;
       } else {
         distUnitText = "km";
       }
-      if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+      if (systemSettings.temperatureUnits == System.UNIT_STATUTE) {
         tempUnitText = " °F";
         temperature = temperature * 9 / 5 + 32;
       } else {
@@ -477,7 +486,7 @@ class AnyaBikeView extends Ui.DataField {
       var batteryX = dc.getWidth()-89;
       dc.drawRoundedRectangle(batteryX, 32, 19, 9, 1);		
       dc.drawRectangle(batteryX+19, 35, 1, 3);		
-      var systemStats = Sys.getSystemStats();
+      var systemStats = System.getSystemStats();
       var battery = systemStats.battery / 25 + 1;
       battery = battery.toNumber();
       if (battery > 4) {
@@ -529,4 +538,27 @@ class AnyaBikeView extends Ui.DataField {
       dc.drawLine(0, display.line3Y, display.width, display.line3Y);
     }
 
+}
+
+(:background)
+class TemperatureServiceDelegate extends System.ServiceDelegate {
+  function initialize() {
+    ServiceDelegate.initialize();
+  }
+
+  function onTemporalEvent() {
+    Sensor.setEnabledSensors([Sensor.SENSOR_TEMPERATURE]);
+    Sensor.enableSensorEvents(method(:onSensor));
+  }
+
+  function onSensor(sensorInfo) {
+    //var sensorInfo = Sensor.getInfo();
+    var temperature;
+    if (sensorInfo has :temperature && sensorInfo.temperature != null) {
+      temperature = sensorInfo.temperature;
+    } else {
+      temperature = null;
+    }
+    Background.exit(temperature);
+  }
 }
