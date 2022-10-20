@@ -1,14 +1,17 @@
 using Toybox.Graphics as Gfx;
 
 class Display {
-	var centerX= 120;
-	var centerY = 120;
-	var halfr = 116;
-	var line1Y = 120;
-	var line2Y = 154;
-	var line3Y = 198;
-	var width = 240;
-	var height = 240;
-	var compasOffset = 45;
+	var centerX= 109;
+	var centerY = 109;
+	var halfr = 105;
+	var line1Y = 109;
+	var line2Y = 140;
+	var line3Y = 178;
+	var width = 218;
+	var height = 218;
+	var compasOffset = 34;
 	var sunsetX = 144;
+	var distOffset = -6;
+	var distShift = 20;
+	var offsetBattery = 80;
 }

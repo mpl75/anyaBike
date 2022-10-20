@@ -349,7 +349,7 @@ class AnyaBikeView extends Ui.DataField {
       textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
 
       dc.setColor(txtColor, -1);					
-      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y-8, Gfx.FONT_NUMBER_MEDIUM, 27);  
+      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y+display.distOffset, Gfx.FONT_NUMBER_MEDIUM, display.distShift);  
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
@@ -474,7 +474,7 @@ class AnyaBikeView extends Ui.DataField {
       }
       
       dc.setColor(txtColor, -1);
-      var batteryX = dc.getWidth()-89;
+      var batteryX = dc.getWidth()-display.offsetBattery;
       dc.drawRoundedRectangle(batteryX, 32, 19, 9, 1);		
       dc.drawRectangle(batteryX+19, 35, 1, 3);		
       var systemStats = Sys.getSystemStats();

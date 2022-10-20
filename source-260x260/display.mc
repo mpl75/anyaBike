@@ -11,4 +11,7 @@ class Display {
 	var height = 260;
 	var compasOffset = 55;
 	var sunsetX = 162;
+	var distOffset = -8;
+	var distShift = 27;
+	var offsetBattery = 89;
 }
