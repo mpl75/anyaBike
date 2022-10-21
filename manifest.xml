@@ -18,7 +18,6 @@
         </iq:permissions>
         <iq:products>
             <iq:product id="d2delta"/>
-            <iq:product id="d2deltapx"/>
             <iq:product id="d2deltas"/>
             <iq:product id="descentmk2"/>
             <iq:product id="descentmk2s"/>
@@ -31,7 +30,6 @@
             <iq:product id="fenix5xplus"/>
             <iq:product id="fenix6"/>
             <iq:product id="fenix6pro"/>
-            <iq:product id="fenix6prosystem5preview"/>
             <iq:product id="fenix6s"/>
             <iq:product id="fenix6spro"/>
             <iq:product id="fenix6xpro"/>
@@ -64,9 +62,6 @@
             <iq:product id="marqdriver"/>
             <iq:product id="marqexpedition"/>
             <iq:product id="marqgolfer"/>
-            <iq:product id="vivoactive3"/>
-            <iq:product id="vivoactive3d"/>
-            <iq:product id="vivoactive3mlte"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
         </iq:products>
