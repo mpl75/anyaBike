@@ -173,14 +173,16 @@ class AnyaBikeView extends Ui.DataField {
           totalAscent = 0.0f;
         }
       }
-            
-      var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+      
+      temperature = null;
+      if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
+        // Set up the method with parameters
+        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
         :period => 1
-      });
-      if (tempIter != null) {
-        temperature = tempIter.next().data.toFloat();
-      } else {
-        temperature = null;
+        });
+        if (tempIter != null) {
+          temperature = tempIter.next().data.toFloat();
+        }
       }
             
       sumAlt += altitude;
