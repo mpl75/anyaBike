@@ -16,4 +16,5 @@
     <string id="Cadence">Cadence</string>
     <string id="ElapsedTime">Elapsed time</string>
     <string id="TimerTime">Timer time</string>
+    <string id="Power">Power</string>
 </strings>

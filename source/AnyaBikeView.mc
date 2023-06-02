@@ -6,11 +6,11 @@ using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
 using Toybox.SensorHistory;
 
-
+(:typecheck(false))
 class AnyaBikeView extends Ui.DataField {
 
 	hidden var display;
-  var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent;
+  var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent, curSpeed, currentPower;
 	var compass, elapsedDistanceText, clockTime;
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
@@ -31,6 +31,7 @@ class AnyaBikeView extends Ui.DataField {
         averageCadence = 0.0f;
         averageSpeed = 0.0f;
         currentCadence = 0;
+        currentPower = 0;
         currentHeading = null;
         currentHeartRate = null;
         currentSpeed = 0.0f;
@@ -64,7 +65,7 @@ class AnyaBikeView extends Ui.DataField {
     // Set your layout here. Anytime the size of obscurity of
     // the draw context is changed this will be called.
     function onLayout(dc) {
-        return true;
+        return;
     }
 
     // The given info object contains all the current workout information.
@@ -77,6 +78,13 @@ class AnyaBikeView extends Ui.DataField {
           altitude = info.altitude.toFloat();
         } else {
           altitude = 0.0f;
+        }
+      }
+      if(info has :currentPower){
+        if(info.currentPower != null){
+          currentPower = info.currentPower;
+        } else {
+          currentPower = 0.0f;
         }
       }
       if(info has :averageCadence){
@@ -249,7 +257,7 @@ class AnyaBikeView extends Ui.DataField {
 
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
-    function onUpdate(dc as Graphics.Dc) {
+    function onUpdate(dc as Gfx.Dc) {
       /* currentSpeed += 2.13;
       if (currentSpeed > 65) {
         currentSpeed = 0;
@@ -294,28 +302,33 @@ class AnyaBikeView extends Ui.DataField {
       slopeText = "0";
       slopeIcon = " ";
       slopeColor = -1;
-      slopeColorText = 0x000000;
+      if(getBackgroundColor() == Gfx.COLOR_WHITE){
+        slopeColorText = Gfx.COLOR_BLACK;
+      } else { 
+        slopeColorText = Gfx.COLOR_WHITE;
+      }
+
       if (slope.abs() >= 10) {
             slopeText = slope.abs().format("%d");
       } else if (slope != 0) {
             slopeText = slope.abs().format("%.1f");
-        } 
+      } 
       if (slope <= -5) {
         slopeIcon = "V";
-        slopeColor = 0x00AAFF;
+        slopeColor = Gfx.COLOR_BLUE;
       } else if (slope < 0) {
         slopeIcon = "T";
         if (slope <= -2) {
-          slopeColor = 0x00FF00;
+          slopeColor = Gfx.COLOR_GREEN;
         }
       } else if (slope >= 5) {
         slopeIcon = "U";
-        slopeColor = 0xFF0000;
-            slopeColorText = 0xFFFFFF;
+        slopeColor = Gfx.COLOR_DK_RED;
+        slopeColorText = Gfx.COLOR_WHITE;
       } else if (slope > 0) {
         slopeIcon = "S";
         if (slope >= 2) {
-          slopeColor = 0xFFAA00;
+          slopeColor = Gfx.COLOR_ORANGE;
         }
       }
       
@@ -338,15 +351,20 @@ class AnyaBikeView extends Ui.DataField {
       dc.clear();
 
 /* ----- */        
-		
-		  dc.drawText(dc.getWidth()/2, dc.getHeight()/2-40, Gfx.FONT_NUMBER_THAI_HOT, currentSpeed.format("%d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+
+      curSpeed = currentSpeed.format("%d");
+      if(currentSpeed < 10){
+        curSpeed = currentSpeed.format("%.1f");
+      }
+
+		  dc.drawText(dc.getWidth()/2, dc.getHeight()/2-40, Gfx.FONT_NUMBER_THAI_HOT, curSpeed, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
       dc.drawText(dc.getWidth()/2+36, dc.getHeight()/2-74, font, spdUnitText, Gfx.TEXT_JUSTIFY_LEFT);
 
       textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, 40, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
       textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, dc.getWidth()-44, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
         
-      dc.setColor(slopeColor, -1);
-      dc.fillRectangle(dc.getWidth()/2-30, dc.getHeight(), 60, 34);
+      dc.setColor(slopeColor,-1);
+      dc.fillRectangle(dc.getWidth()/2-30, dc.getHeight()/2+3, 60, 34);
       dc.setColor(slopeColorText, -1);
       textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
 
@@ -412,6 +430,22 @@ class AnyaBikeView extends Ui.DataField {
         }
         if (rightSegment == 3) {
           dc.drawText(dc.getWidth()-16, display.line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+        }
+      }
+
+      if (leftSegment == 4 || rightSegment == 4) {
+        var powerText = currentPower.format("%d");
+        if (leftSegment == 4) {
+          dc.setColor(txtColor, -1);
+          dc.drawText(24, display.line2Y+1, fontsport, "C", Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.setColor(txtColor, -1);
+          dc.drawText(26, display.line2Y -2, Gfx.FONT_SMALL, powerText, Gfx.TEXT_JUSTIFY_LEFT);
+        }
+        if (rightSegment == 4) {
+          dc.setColor(txtColor, -1);
+          dc.drawText(dc.getWidth()-23, display.line2Y+1, fontsport, "C", Gfx.TEXT_JUSTIFY_LEFT);
+          dc.setColor(txtColor, -1);
+          dc.drawText(dc.getWidth()-25, display.line2Y-2, Gfx.FONT_SMALL, powerText, Gfx.TEXT_JUSTIFY_RIGHT);
         }
       }
 

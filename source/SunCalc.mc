@@ -71,6 +71,7 @@ class SunCalc {
     }
 
     // lat and lng in radians
+    (:typecheck(false))
     function calculate(moment, pos, what) {
         var lat = pos[0];
         var lng = pos[1];
@@ -150,6 +151,7 @@ class SunCalc {
         return text;
     }
 
+    (:typecheck(false))
     static function printMoment(moment) {
         var info = Time.Gregorian.info(moment, Time.FORMAT_SHORT);
         return info.day.format("%02d") + "." + info.month.format("%02d") + "." + info.year.toString()

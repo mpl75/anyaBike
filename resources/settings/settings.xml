@@ -14,6 +14,7 @@
             <listEntry value="1">@Strings.HeartRate</listEntry>
             <listEntry value="2">@Strings.TimerTime</listEntry>
             <listEntry value="3">@Strings.ElapsedTime</listEntry>
+            <listEntry value="4">@Strings.Power</listEntry>
         </settingConfig>
     </setting>
     <setting propertyKey="@Properties.rightSegment" title="@Strings.RightSegment" prompt="@Strings.RightSegmentPrompt">
@@ -22,6 +23,7 @@
             <listEntry value="1">@Strings.Cadence</listEntry>
             <listEntry value="2">@Strings.TimerTime</listEntry>
             <listEntry value="3">@Strings.ElapsedTime</listEntry>
+            <listEntry value="4">@Strings.Power</listEntry>
         </settingConfig>
     </setting>  
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
