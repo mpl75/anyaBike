@@ -25,6 +25,14 @@
             <listEntry value="3">@Strings.ElapsedTime</listEntry>
             <listEntry value="4">@Strings.Power</listEntry>
         </settingConfig>
+    </setting> 
+    <setting propertyKey="@Properties.middleSegment" title="@Strings.MiddleSegment" prompt="@Strings.MiddleSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.HeartRate</listEntry>
+            <listEntry value="3">@Strings.ElapsedTime</listEntry>
+            <listEntry value="4">@Strings.Power</listEntry>
+            <listEntry value="5">@Strings.Grade</listEntry>
+        </settingConfig>
     </setting>  
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
         <settingConfig type="numeric" min="0" max="300" />

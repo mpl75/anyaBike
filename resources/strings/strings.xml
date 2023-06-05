@@ -1,9 +1,9 @@
 <strings>
     <string id="AppName">Anya Bike</string>
     <string id="LeftSegment">Left field</string>
-    <string id="LeftSegmentPrompt">Choose data shown on the left to the elapsed distance</string>
+    <string id="LeftSegmentPrompt">Choose data shown on the left</string>
     <string id="RightSegment">Right field</string>
-    <string id="RightSegmentPrompt">Choose data shown on the right to the elapsed distance</string>
+    <string id="RightSegmentPrompt">Choose data shown on the right</string>
     <string id="SpeedGreen">Speed: green</string>
     <string id="SpeedOrange">Speed: orange</string>
     <string id="SpeedRed">Speed: red</string>
@@ -17,4 +17,7 @@
     <string id="ElapsedTime">Elapsed time</string>
     <string id="TimerTime">Timer time</string>
     <string id="Power">Power</string>
+    <string id="Grade">Gradient</string>
+    <string id="MiddleSegment">Middle field</string>
+    <string id="MiddleSegmentPrompt">Choose data shown in the middle</string>
 </strings>

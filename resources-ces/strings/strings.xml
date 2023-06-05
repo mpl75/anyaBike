@@ -1,9 +1,9 @@
 <strings>
     <string id="AppName">Anya Bike</string>
     <string id="LeftSegment">Levé pole</string>
-    <string id="LeftSegmentPrompt">Vyberte údaj, který se zobrazí vlevo vedle ujeté vzdálenosti</string>
+    <string id="LeftSegmentPrompt">Vyberte údaj, který se zobrazí vlevo</string>
     <string id="RightSegment">Pravé pole</string>
-    <string id="RightSegmentPrompt">Vyberte údaj, který se zobrazí vpravo vedle ujeté vzdálenosti</string>
+    <string id="RightSegmentPrompt">Vyberte údaj, který se zobrazí vpravo</string>
     <string id="SpeedGreen">Rychlost: zelená</string>
     <string id="SpeedOrange">Rychlost: oranžová</string>
     <string id="SpeedRed">Rychlost: červená</string>
@@ -17,4 +17,7 @@
     <string id="ElapsedTime">Uplynulý čas</string>
     <string id="TimerTime">Stopky</string>
     <string id="Power">Výkon</string>
+    <string id="Grade">Sklon</string>
+    <string id="MiddleSegment">Prostření pole</string>
+    <string id="MiddleSegmentPrompt">Vyberte údaj, který se zobrazí uprostřed</string>
 </strings>

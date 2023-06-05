@@ -362,33 +362,58 @@ class AnyaBikeView extends Ui.DataField {
 
       textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, 40, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
       textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, dc.getWidth()-44, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
-        
-      dc.setColor(slopeColor,-1);
-      dc.fillRectangle(dc.getWidth()/2-30, dc.getHeight()/2+3, 60, 34);
-      dc.setColor(slopeColorText, -1);
-      textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
-
+      var middleSegment = Application.Properties.getValue("middleSegment");
+      
+      if(middleSegment == 5){
+        dc.setColor(slopeColor,-1);
+        dc.fillRectangle(dc.getWidth()/2-30, dc.getHeight()/2+3, 60, 34);
+        dc.setColor(slopeColorText, -1);
+        textWithIconOnCenter(dc, slopeText, slopeIcon, "%", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
+      }
+      
       dc.setColor(txtColor, -1);					
       textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, dc.getWidth()/2, display.line2Y+display.distOffset, Gfx.FONT_NUMBER_MEDIUM, display.distShift);  
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
-      if (currentHeartRate != null && leftSegment == 1) {
-		    dc.setColor(txtColor, lineColor);
+      var colorA = txtColor;
+      var colorB = lineColor;
+      if (currentHeartRate != null && (leftSegment == 1 || middleSegment == 1)) {
         if (currentHeartRate >= zoneInfo[4]) {
-          dc.setColor(0xFFFFFF, 0xFF0000);
+          colorA = 0xFFFFFF;
+          colorB = 0xFF0000;
         } else if (currentHeartRate >= zoneInfo[3]) {
-          dc.setColor(0x000000, 0xFFAA00);
+          colorA = 0x000000;
+          colorB = 0xFFAA00;
         } else if (currentHeartRate >= zoneInfo[2]) {
-          dc.setColor(0x000000, 0x00FF00);
+          colorA = 0x000000;
+          colorB = 0x00FF00;
         } else if (currentHeartRate >= zoneInfo[1]) {
-          dc.setColor(0x000000, 0x00AAFF);
-        } else {
-          dc.setColor(txtColor, lineColor);
+          colorA = 0x000000;
+          colorB = 0x00AAFF;
+        } 
+        if (leftSegment == 1) {
+          dc.setColor(colorA, colorB);
+          dc.drawText(24, display.line2Y, fontsport, "  I ", Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.setColor(txtColor, -1);
+          dc.drawText(26, display.line2Y -2, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
+		    }
+        if (middleSegment == 1) {
+          colorB = -1;
+          if (currentHeartRate >= zoneInfo[4]) {
+            colorB = 0xFF0000;
+          } else if (currentHeartRate >= zoneInfo[3]) {
+            colorB = 0xFFAA00;
+          } else if (currentHeartRate >= zoneInfo[2]) {
+            colorB = 0x00FF00;
+          } else if (currentHeartRate >= zoneInfo[1]) {
+            colorB = 0x00AAFF;
+          }
+          dc.setColor(colorB, -1);
+          dc.fillRectangle(dc.getWidth()/2-37, dc.getHeight()/2+2, 64, 36);
+          dc.setColor(txtColor, -1);
+          textWithIconOnCenter(dc, currentHeartRate.format("%d"), "I", "", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
         }
-        dc.drawText(24, display.line2Y, fontsport, "  I ", Gfx.TEXT_JUSTIFY_RIGHT);
-        dc.setColor(txtColor, -1);
-        dc.drawText(26, display.line2Y -2, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
 		  }
 		
       var rightSegment = Application.Properties.getValue("rightSegment");
@@ -423,7 +448,7 @@ class AnyaBikeView extends Ui.DataField {
         }
       }
 		
-      if (leftSegment == 3 || rightSegment == 3) {
+      if (leftSegment == 3 || rightSegment == 3 || middleSegment == 3) {
         var elapsedTimeText = formatTime(elapsedTime);
         if (leftSegment == 3) {
           dc.drawText(16, display.line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_LEFT);
@@ -431,9 +456,12 @@ class AnyaBikeView extends Ui.DataField {
         if (rightSegment == 3) {
           dc.drawText(dc.getWidth()-16, display.line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
         }
+        if (middleSegment == 3) {
+          textWithIconOnCenter(dc, elapsedTimeText, "", "", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
+        }
       }
 
-      if (leftSegment == 4 || rightSegment == 4) {
+      if (leftSegment == 4 || rightSegment == 4 || middleSegment == 4) {
         var powerText = currentPower.format("%d");
         if (leftSegment == 4) {
           dc.setColor(txtColor, -1);
@@ -446,6 +474,10 @@ class AnyaBikeView extends Ui.DataField {
           dc.drawText(dc.getWidth()-23, display.line2Y+1, fontsport, "C", Gfx.TEXT_JUSTIFY_LEFT);
           dc.setColor(txtColor, -1);
           dc.drawText(dc.getWidth()-25, display.line2Y-2, Gfx.FONT_SMALL, powerText, Gfx.TEXT_JUSTIFY_RIGHT);
+        }
+        if (middleSegment == 4) {
+          dc.setColor(txtColor, -1);
+          textWithIconOnCenter(dc, powerText, "C", "", dc.getWidth()/2, dc.getHeight()/2, Gfx.FONT_MEDIUM, 10);
         }
       }
 
