@@ -20,4 +20,7 @@
     <string id="Grade">Gradient</string>
     <string id="MiddleSegment">Middle field</string>
     <string id="MiddleSegmentPrompt">Choose data shown in the middle</string>
+    <string id="ArcSegment">Top arch</string>
+    <string id="ArcSegmentPrompt">Choose data shown in the top arch</string>
+    <string id="Speed">Speed</string>
 </strings>

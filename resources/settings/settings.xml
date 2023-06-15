@@ -33,6 +33,12 @@
             <listEntry value="4">@Strings.Power</listEntry>
             <listEntry value="5">@Strings.Grade</listEntry>
         </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.arcSegment" title="@Strings.ArcSegment" prompt="@Strings.ArcSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.Speed</listEntry>
+            <listEntry value="2">@Strings.HeartRate</listEntry>
+        </settingConfig>
     </setting>  
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
         <settingConfig type="numeric" min="0" max="300" />

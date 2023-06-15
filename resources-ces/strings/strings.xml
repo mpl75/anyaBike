@@ -20,4 +20,7 @@
     <string id="Grade">Sklon</string>
     <string id="MiddleSegment">Prostření pole</string>
     <string id="MiddleSegmentPrompt">Vyberte údaj, který se zobrazí uprostřed</string>
+    <string id="ArcSegment">Horní oblouk</string>
+    <string id="ArcSegmentPrompt">Vyberte údaj, který se zobrazí v horním oblouku</string>
+    <string id="Speed">Rychlost</string>
 </strings>

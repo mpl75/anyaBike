@@ -21,6 +21,7 @@ class AnyaBikeView extends Ui.DataField {
 	
 	var sc = new SunCalc();
 	var zoneInfo;
+  var restingHR,sporttype;
 	
     function initialize() {
         DataField.initialize();
@@ -59,7 +60,10 @@ class AnyaBikeView extends Ui.DataField {
         font = Ui.loadResource(Rez.Fonts.text);
         fontsport = Ui.loadResource(Rez.Fonts.sport);
         
-        zoneInfo = UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_BIKING);
+        sporttype = UserProfile.getCurrentSport();
+        zoneInfo = UserProfile.getHeartRateZones(sporttype);
+        var profile = UserProfile.getProfile();
+        restingHR = profile.restingHeartRate;
     }
     
     // Set your layout here. Anytime the size of obscurity of
@@ -353,7 +357,7 @@ class AnyaBikeView extends Ui.DataField {
 /* ----- */        
 
       curSpeed = currentSpeed.format("%d");
-      if(currentSpeed < 10){
+      if(currentSpeed < 10 && currentSpeed > 0){
         curSpeed = currentSpeed.format("%.1f");
       }
 
@@ -376,6 +380,7 @@ class AnyaBikeView extends Ui.DataField {
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
+      var arcSegment = Application.Properties.getValue("arcSegment");
       var colorA = txtColor;
       var colorB = lineColor;
       if (currentHeartRate != null && (leftSegment == 1 || middleSegment == 1)) {
@@ -399,16 +404,6 @@ class AnyaBikeView extends Ui.DataField {
           dc.drawText(26, display.line2Y -2, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
 		    }
         if (middleSegment == 1) {
-          colorB = -1;
-          if (currentHeartRate >= zoneInfo[4]) {
-            colorB = 0xFF0000;
-          } else if (currentHeartRate >= zoneInfo[3]) {
-            colorB = 0xFFAA00;
-          } else if (currentHeartRate >= zoneInfo[2]) {
-            colorB = 0x00FF00;
-          } else if (currentHeartRate >= zoneInfo[1]) {
-            colorB = 0x00AAFF;
-          }
           dc.setColor(colorB, -1);
           dc.fillRectangle(dc.getWidth()/2-37, dc.getHeight()/2+2, 64, 36);
           dc.setColor(txtColor, -1);
@@ -557,36 +552,79 @@ class AnyaBikeView extends Ui.DataField {
       }
       
 
-
-      var speedGreen = Application.Properties.getValue("speedGreen").toNumber();
-      var speedOrange = Application.Properties.getValue("speedOrange").toNumber();
-      var speedRed = Application.Properties.getValue("speedRed").toNumber();
-      var step = 15;
-      var speed = currentSpeed / 60 * 180;
-      speed = speed.toNumber();
-      if (speed > 179) {
-        speed = 179;
+      if(arcSegment == 1){
+        var speedGreen = Application.Properties.getValue("speedGreen").toNumber();
+        var speedOrange = Application.Properties.getValue("speedOrange").toNumber();
+        var speedRed = Application.Properties.getValue("speedRed").toNumber();
+        var step = 15;
+        var speed = currentSpeed / 60 * 180;
+        speed = speed.toNumber();
+        if (speed > 179) {
+          speed = 179;
+        }
+        speed++;
+        var speedColor = 0x00AAFF;
+        if (currentSpeed > speedRed) {
+          speedColor = 0xFF0000;
+        } else if (currentSpeed > speedOrange) {
+          speedColor = 0xFFAA00;
+        } else if (currentSpeed > speedGreen) {
+          speedColor = 0x00FF00;
+        }
+      
+        dc.setPenWidth(10);
+        dc.setColor(lineColor, -1);
+        dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+        dc.setColor(speedColor, -1);
+        dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
+        dc.setPenWidth(20);
+        for (var i = 1; i < 12; i++) {
+          dc.setColor(speed > i * step ? speedColor : lineColor, bgColor);
+          dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+        }
       }
-      speed++;
-      var speedColor = 0x00AAFF;
-      if (currentSpeed > speedRed) {
-        speedColor = 0xFF0000;
-      } else if (currentSpeed > speedOrange) {
-        speedColor = 0xFFAA00;
-      } else if (currentSpeed > speedGreen) {
-        speedColor = 0x00FF00;
-      }
-		
-      dc.setPenWidth(10);
-      dc.setColor(lineColor, -1);
-	    dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 0);
-      dc.setColor(speedColor, -1);
-	    dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
-      dc.setPenWidth(20);
-	    for (var i = 1; i < 12; i++) {
-	      dc.setColor(speed > i * step ? speedColor : lineColor, bgColor);
-	      dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
-      }
+      if (arcSegment == 2) {
+        if( currentHeartRate == null){
+          currentHeartRate=0;
+        }
+        
+        colorB = lineColor;
+        if (currentHeartRate >= zoneInfo[4]) {
+          colorB = 0xFF0000;
+        } else if (currentHeartRate >= zoneInfo[3]) {
+          colorB = 0xFFAA00;
+        } else if (currentHeartRate >= zoneInfo[2]) {
+          colorB = 0x00FF00;
+        } else if (currentHeartRate >= zoneInfo[1]) {
+          colorB = 0x00AAFF;
+        } 
+          var step = 15;
+          var hrate = (currentHeartRate - restingHR).toFloat() / (zoneInfo[5]- restingHR) * 180;
+          hrate = hrate.toNumber();
+          if (hrate > 180) {
+            hrate = 180;
+          }
+          if (hrate < 0) {
+            hrate = 0;
+          }
+          
+          dc.setPenWidth(20);
+          for (var i = 1; i < 12; i++) {
+            dc.setColor(hrate >= i * step ? colorB : lineColor, bgColor);
+            dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+          }
+          dc.setPenWidth(11);
+          dc.setColor(lineColor, -1);
+          dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+          
+          if (hrate > 0) {
+            dc.setPenWidth(10);
+            dc.setColor(bgColor, -1);
+            dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+            dc.setColor(colorB, -1);
+            dc.drawArc(display.centerX, display.centerY, display.halfr, Gfx.ARC_CLOCKWISE, 180, 180 - hrate);
+          }
+        }
 
       dc.setColor(lineColor, bgColor);
       dc.setPenWidth(1);
