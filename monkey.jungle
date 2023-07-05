@@ -3,3 +3,6 @@ round-218x218.sourcePath = source\*.mc;source-218x218\*.mc
 round-240x240.sourcePath = source\*.mc;source-240x240\*.mc
 round-260x260.sourcePath = source\*.mc;source-260x260\*.mc
 round-280x280.sourcePath = source\*.mc;source-280x280\*.mc
+round-390x390.sourcePath = source\*.mc;source-390x390\*.mc
+round-416x416.sourcePath = source\*.mc;source-416x416\*.mc
+round-454x454.sourcePath = source\*.mc;source-454x454\*.mc
