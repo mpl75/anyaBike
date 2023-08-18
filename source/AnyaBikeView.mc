@@ -42,7 +42,7 @@ class AnyaBikeView extends Ui.DataField {
         maxSpeed = 0.0f;
         timerTime = 0.0f;
         totalAscent = 0.0f;
-        temperature = 0;
+        
         GPSaccuracy = 0;
         sunset = null;
         
@@ -305,11 +305,13 @@ class AnyaBikeView extends Ui.DataField {
       } else {
         distUnitText = "km";
       }
-      if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
-        tempUnitText = " °F";
-        temperature = temperature * 9 / 5 + 32;
-      } else {
-        tempUnitText = " °C";
+      if(temperature != null){
+        if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+          tempUnitText = " °F";
+          temperature = temperature * 9 / 5 + 32;
+        } else {
+          tempUnitText = " °C";
+        }
       }
 
       slopeText = "0";
