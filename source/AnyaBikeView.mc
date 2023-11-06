@@ -387,7 +387,7 @@ class AnyaBikeView extends Ui.DataField {
       }
       
       dc.setColor(txtColor, -1);					
-      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, centerX, line2Y+(line3Y-line2Y-dc.getFontHeight(Gfx.FONT_NUMBER_MEDIUM))/2, Gfx.FONT_NUMBER_MEDIUM, display.distShift);  
+      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, centerX, line2Y+(line3Y-line2Y-dc.getFontHeight(Gfx.FONT_SYSTEM_NUMBER_MILD))/2, Gfx.FONT_SYSTEM_NUMBER_MILD, display.distShift);  
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
@@ -598,10 +598,13 @@ class AnyaBikeView extends Ui.DataField {
         }
       }
       if (arcSegment == 2) {
-        if( currentHeartRate == null){
-          currentHeartRate=0;
+        if( restingHR == null){
+          restingHR = 40;
         }
         
+        if( currentHeartRate == null){
+          currentHeartRate = 0;
+        }
         colorB = lineColor;
         if (currentHeartRate >= zoneInfo[4]) {
           colorB = 0xFF0000;

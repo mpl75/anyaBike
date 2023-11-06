@@ -39,6 +39,7 @@
             <iq:product id="fenix7spro"/>
             <iq:product id="fenix7x"/>
             <iq:product id="fenix7xpro"/>
+            <iq:product id="fenix7xpronowifi"/>
             <iq:product id="fenixchronos"/>
             <iq:product id="fr245"/>
             <iq:product id="fr245m"/>
@@ -46,6 +47,7 @@
             <iq:product id="fr255m"/>
             <iq:product id="fr255s"/>
             <iq:product id="fr255sm"/>
+            <iq:product id="fr265"/>
             <iq:product id="fr645"/>
             <iq:product id="fr645m"/>
             <iq:product id="fr745"/>
@@ -53,10 +55,13 @@
             <iq:product id="fr945"/>
             <iq:product id="fr945lte"/>
             <iq:product id="fr955"/>
+            <iq:product id="fr965"/>
             <iq:product id="legacyherocaptainmarvel"/>
             <iq:product id="legacyherofirstavenger"/>
             <iq:product id="legacysagadarthvader"/>
             <iq:product id="legacysagarey"/>
+            <iq:product id="marq2"/>
+            <iq:product id="marq2aviator"/>
             <iq:product id="marqadventurer"/>
             <iq:product id="marqathlete"/>
             <iq:product id="marqaviator"/>
@@ -67,6 +72,7 @@
             <iq:product id="marqgolfer"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
+            <iq:product id="vivoactive5"/>
         </iq:products>
     </iq:application>
 </iq:manifest>
