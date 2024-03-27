@@ -11,9 +11,10 @@ class AnyaBikeView extends Ui.DataField {
 
 	hidden var display;
   var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent, curSpeed, currentPower;
-	var compass, elapsedDistanceText, clockTime;
+	var compass, elapsedDistanceText, clockTime, hasAmbientPressure;
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
+	hidden var buffer, bufferSize, bufferPos, previousAltitude;
 	var font, fontsport;
 	var bgColor, txtColor, lineColor;
 	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
@@ -56,6 +57,14 @@ class AnyaBikeView extends Ui.DataField {
         for (var i = 0; i < 10; i++) {
           memoryAlt[i] = null;
         }
+
+        previousAltitude = -10000;
+        bufferPos = 0;
+        bufferSize = 5;
+        buffer = new [bufferSize];
+        for (var i = 0; i < bufferSize; i++) {
+          buffer[i] = null;
+        }
         
         font = Ui.loadResource(Rez.Fonts.text);
         fontsport = Ui.loadResource(Rez.Fonts.sport);
@@ -77,6 +86,10 @@ class AnyaBikeView extends Ui.DataField {
     // Note that compute() and onUpdate() are asynchronous, and there is no
     // guarantee that compute() will be called before onUpdate().
     function compute(info) {
+
+      if (info has :ambientPressure) {
+        hasAmbientPressure = true;
+      }
       if(info has :altitude){
         if(info.altitude != null){
           altitude = info.altitude.toFloat();
@@ -226,6 +239,27 @@ class AnyaBikeView extends Ui.DataField {
         sumAlt = 0;
         countAlt = 0;
       }
+
+      if(hasAmbientPressure && currentSpeed > 0 && previousAltitude > -10000){
+        buffer[bufferPos] = 100 * (altitude - previousAltitude) / currentSpeed;
+        bufferPos++;
+
+          if (bufferPos == bufferSize) {
+            bufferPos = 0;
+          }
+
+          var slopeSum = 0.0;
+          var slopeNum = 0;
+
+          for (var i = 0; i < bufferSize; i++) {
+            if (buffer[i] != null) {
+              slopeNum++;
+              slopeSum += buffer[i];
+            }
+          }
+          slope = slopeSum / slopeNum;
+      }
+      previousAltitude = altitude;
       
       var now = Time.now();
       var loc = info.currentLocation;
