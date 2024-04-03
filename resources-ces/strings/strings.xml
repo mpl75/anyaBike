@@ -23,4 +23,7 @@
     <string id="ArcSegment">Horní oblouk</string>
     <string id="ArcSegmentPrompt">Vyberte údaj, který se zobrazí v horním oblouku</string>
     <string id="Speed">Rychlost</string>
+    <string id="ToggleMinMax">Co 3s přepínat Max/Min rychlost a kadenci</string>
+    <string id="MinMaxSegment">Min/Max pole</string>
+    <string id="MinMaxSegmentPrompt">Vyberte údaje, které se zobrazí v min/max polích</string>
 </strings>

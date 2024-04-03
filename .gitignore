@@ -1,2 +1,9 @@
 .vscode
 bin
+gen
+*mir/
+*.iq
+*.prg
+export
+anyaBike-settings.json
+anyaBike.prg.debug.xml

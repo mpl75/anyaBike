@@ -36,10 +36,17 @@
     </setting>
     <setting propertyKey="@Properties.arcSegment" title="@Strings.ArcSegment" prompt="@Strings.ArcSegmentPrompt">
         <settingConfig type="list">
+            <listEntry value="0">@Strings.Off</listEntry>
             <listEntry value="1">@Strings.Speed</listEntry>
             <listEntry value="2">@Strings.HeartRate</listEntry>
         </settingConfig>
     </setting>  
+    <setting propertyKey="@Properties.minMaxSegment" title="@Strings.MinMaxSegment" prompt="@Strings.MinMaxSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.Cadence</listEntry>
+            <listEntry value="2">@Strings.Speed</listEntry>
+        </settingConfig>
+    </setting>
     <setting propertyKey="@Properties.cadenceBlue" title="@Strings.CadenceBlue">
         <settingConfig type="numeric" min="0" max="300" />
     </setting>
@@ -51,5 +58,8 @@
     </setting>
     <setting propertyKey="@Properties.cadenceRed" title="@Strings.CadenceRed">
         <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.toggleMinMax" title="@Strings.ToggleMinMax">
+        <settingConfig type="boolean" />
     </setting>
 </settings>

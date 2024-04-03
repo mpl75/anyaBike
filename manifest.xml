@@ -8,6 +8,7 @@
             <iq:language>eng</iq:language>
         </iq:languages>
         <iq:permissions>
+            <iq:uses-permission id="Ant"/>
             <iq:uses-permission id="Positioning"/>
             <iq:uses-permission id="SensorHistory"/>
             <iq:uses-permission id="UserProfile"/>
@@ -71,6 +72,7 @@
             <iq:product id="marqexpedition"/>
             <iq:product id="marqgolfer"/>
             <iq:product id="venu3"/>
+            <iq:product id="venu3s"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
             <iq:product id="vivoactive5"/>

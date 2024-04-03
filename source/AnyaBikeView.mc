@@ -14,11 +14,12 @@ class AnyaBikeView extends Ui.DataField {
 	var compass, elapsedDistanceText, clockTime, hasAmbientPressure;
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
-	hidden var buffer, bufferSize, bufferPos, previousAltitude;
+	hidden var buffer, bufferSize, bufferPos, pressure, previousPressure;
 	var font, fontsport;
 	var bgColor, txtColor, lineColor;
 	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
 	var spdUnitText, altUnitText, distUnitText, tempUnitText;
+  var tempe;
 	
 	var sc = new SunCalc();
 	var zoneInfo;
@@ -58,7 +59,7 @@ class AnyaBikeView extends Ui.DataField {
           memoryAlt[i] = null;
         }
 
-        previousAltitude = -10000;
+        previousPressure = -10000;
         bufferPos = 0;
         bufferSize = 5;
         buffer = new [bufferSize];
@@ -89,6 +90,11 @@ class AnyaBikeView extends Ui.DataField {
 
       if (info has :ambientPressure) {
         hasAmbientPressure = true;
+        if(info.ambientPressure != null){
+          pressure = info.ambientPressure.toFloat();
+        } else {
+          pressure = 0.0f;
+        }
       }
       if(info has :altitude){
         if(info.altitude != null){
@@ -200,7 +206,19 @@ class AnyaBikeView extends Ui.DataField {
       }
       
       temperature = null;
-      if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
+      try
+      {
+        if(tempe == null){
+          tempe = new TempeWidgetSensor(-1);  
+        }else if(tempe.tmTemp != null){
+            temperature = tempe.iTemp;
+        }
+      } catch (ex)
+      {
+        System.println("Exception in TempeWidgetSensor: " + ex.getErrorMessage());
+        tempe = null;
+      }
+      if ((tempe == null || tempe.tmTemp == null) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
         // Set up the method with parameters
         var tempIter = Toybox.SensorHistory.getTemperatureHistory({
         :period => 1
@@ -240,8 +258,8 @@ class AnyaBikeView extends Ui.DataField {
         countAlt = 0;
       }
 
-      if(hasAmbientPressure && currentSpeed > 0 && previousAltitude > -10000){
-        buffer[bufferPos] = 100 * (altitude - previousAltitude) / currentSpeed;
+      if(hasAmbientPressure && currentSpeed > 0 && previousPressure > -10000){
+        buffer[bufferPos] = (8434.15 * (previousPressure - pressure) / pressure) / currentSpeed;
         bufferPos++;
 
           if (bufferPos == bufferSize) {
@@ -257,9 +275,9 @@ class AnyaBikeView extends Ui.DataField {
               slopeSum += buffer[i];
             }
           }
-          slope = slopeSum / slopeNum;
+          slope = 100 * slopeSum / slopeNum;
       }
-      previousAltitude = altitude;
+      previousPressure = pressure;
       
       var now = Time.now();
       var loc = info.currentLocation;
@@ -457,6 +475,8 @@ class AnyaBikeView extends Ui.DataField {
 		  }
 		
       var rightSegment = Application.Properties.getValue("rightSegment");
+      var toggleMinMax = Application.Properties.getValue("toggleMinMax");
+      var minMaxSegment = Application.Properties.getValue("minMaxSegment");
       if (currentCadence != null && rightSegment == 1) {
         var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
         var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
@@ -523,7 +543,11 @@ class AnyaBikeView extends Ui.DataField {
 
 		  dc.drawText(centerX, display.topShift, Gfx.FONT_SMALL, clockTime.hour + ":" + clockTime.min.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
 
-      if (clockTime.sec % 6 < 3 && rightSegment == 1) {
+      var showCadence = minMaxSegment == 1;
+      if(toggleMinMax){
+        showCadence = clockTime.sec % 6 < 3;
+      }
+      if (showCadence) {
         dc.drawText((line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, averageCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
         dc.drawText((line2Y - centerY), centerY+display.halfShift-12, fontsport, "X", Gfx.TEXT_JUSTIFY_CENTER);
         dc.drawText(width-(line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, maxCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
@@ -538,8 +562,14 @@ class AnyaBikeView extends Ui.DataField {
       var lineSunset = line3Y+display.tempSunsetShift;
 
       if (temperature != null) {
+        if((tempe == null || tempe.tmTemp == null)){
+          //without tempe blue
+          dc.setColor(0x00AAFF, -1);
+        }else{
+          //with tempe red
+          dc.setColor(0xFF0000, -1);
+        }
         
-        dc.setColor(0x00AAFF, -1);
         dc.drawText(centerX - display.sunsetX, lineSunset, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
         dc.setColor(txtColor, -1);
         dc.drawText(centerX - display.sunsetX + 2, lineSunset, font, temperature.format("%d") + tempUnitText, Gfx.TEXT_JUSTIFY_LEFT);

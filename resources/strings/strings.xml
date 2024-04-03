@@ -23,4 +23,7 @@
     <string id="ArcSegment">Top arch</string>
     <string id="ArcSegmentPrompt">Choose data shown in the top arch</string>
     <string id="Speed">Speed</string>
+    <string id="ToggleMinMax">Toggle Max/Min speed and cadence in 3s intevals</string>
+    <string id="MinMaxSegment">Min/Max fields</string>
+    <string id="MinMaxSegmentPrompt">Choose data shown in the min/max fields</string>
 </strings>
