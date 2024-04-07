@@ -1,16 +1,12 @@
-import Toybox.Lang;
-import Toybox.System;
-import Toybox.Application;
 import Toybox.Ant;
 import Toybox.AntPlus;
-import Toybox.Sensor;
-import Toybox.SensorHistory;
 
 /*
     Copy from
     https://github.com/shane1974/TempeWidget/blob/master/source/TempeWidgetSensor.mc
     Thanks Shane!
 */
+(:bigMemory)
 class TempeWidgetSensor
 {
     var antChannel; //Ant.GenericChannel

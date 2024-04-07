@@ -11,10 +11,10 @@ class AnyaBikeView extends Ui.DataField {
 
 	hidden var display;
   var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent, curSpeed, currentPower;
-	var compass, elapsedDistanceText, clockTime, hasAmbientPressure;
+	var compass, elapsedDistanceText, clockTime;
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
 	hidden var memoryAlt;
-	hidden var buffer, bufferSize, bufferPos, pressure, previousPressure;
+	hidden var buffer, bufferSize, bufferPos, previousAltitude;
 	var font, fontsport;
 	var bgColor, txtColor, lineColor;
 	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
@@ -59,7 +59,7 @@ class AnyaBikeView extends Ui.DataField {
           memoryAlt[i] = null;
         }
 
-        previousPressure = -10000;
+        previousAltitude = -10000;
         bufferPos = 0;
         bufferSize = 5;
         buffer = new [bufferSize];
@@ -88,14 +88,6 @@ class AnyaBikeView extends Ui.DataField {
     // guarantee that compute() will be called before onUpdate().
     function compute(info) {
 
-      if (info has :ambientPressure) {
-        hasAmbientPressure = true;
-        if(info.ambientPressure != null){
-          pressure = info.ambientPressure.toFloat();
-        } else {
-          pressure = 0.0f;
-        }
-      }
       if(info has :altitude){
         if(info.altitude != null){
           altitude = info.altitude.toFloat();
@@ -205,61 +197,10 @@ class AnyaBikeView extends Ui.DataField {
         }
       }
       
-      temperature = null;
-      try
-      {
-        if(tempe == null){
-          tempe = new TempeWidgetSensor(-1);  
-        }else if(tempe.tmTemp != null){
-            temperature = tempe.iTemp;
-        }
-      } catch (ex)
-      {
-        System.println("Exception in TempeWidgetSensor: " + ex.getErrorMessage());
-        tempe = null;
-      }
-      if ((tempe == null || tempe.tmTemp == null) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
-        // Set up the method with parameters
-        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
-        :period => 1
-        });
-        if (tempIter != null) {
-          temperature = tempIter.next().data.toFloat();
-        }
-      }
-            
-      sumAlt += altitude;
-      countAlt++;
-      var fullTM = elapsedDistance * 100;
-      var curTM = fullTM.toNumber() % 10;
-      var curDoneTM = fullTM / 10;
-      curDoneTM = curDoneTM.toNumber();
-      if (lastDoneTM == null) {
-        lastDoneTM = curDoneTM;
-      }
-      if (curTM > lastTM || curDoneTM > lastDoneTM) {
-        var curAlt = sumAlt / countAlt;
-        var prevAlt = memoryAlt[curTM];
-        if (prevAlt != null) {
-          slope = curAlt - prevAlt;
-        }
-        while (lastTM < curTM || lastDoneTM < curDoneTM) {
-          lastTM++;
-          if (lastTM >= 10) {
-            lastTM = 0;
-            lastDoneTM++;
-          }
-          memoryAlt[lastTM] = curAlt;
-        }
-
-        lastTM = curTM;
-        lastDoneTM = curDoneTM;
-        sumAlt = 0;
-        countAlt = 0;
-      }
-
-      if(hasAmbientPressure && currentSpeed > 0 && previousPressure > -10000){
-        buffer[bufferPos] = (8434.15 * (previousPressure - pressure) / pressure) / currentSpeed;
+      temperature = getTemperature();
+    
+      if(currentSpeed > 0 && previousAltitude > -10000){
+        buffer[bufferPos] = (altitude - previousAltitude) / currentSpeed;
         bufferPos++;
 
           if (bufferPos == bufferSize) {
@@ -277,7 +218,7 @@ class AnyaBikeView extends Ui.DataField {
           }
           slope = 100 * slopeSum / slopeNum;
       }
-      previousPressure = pressure;
+      previousAltitude = altitude;
       
       var now = Time.now();
       var loc = info.currentLocation;
@@ -562,7 +503,7 @@ class AnyaBikeView extends Ui.DataField {
       var lineSunset = line3Y+display.tempSunsetShift;
 
       if (temperature != null) {
-        if((tempe == null || tempe.tmTemp == null)){
+        if(tempe == null){
           //without tempe blue
           dc.setColor(0x00AAFF, -1);
         }else{
@@ -716,4 +657,42 @@ class AnyaBikeView extends Ui.DataField {
       dc.drawLine(0, line3Y, width, line3Y);
     }
 
+    (:bigMemory)
+    function getTemperature(){
+      try
+      {
+        if(tempe == null){
+          tempe = new TempeWidgetSensor(-1);  
+        }else if(tempe.tmTemp != null){
+            return tempe.iTemp;
+        }
+      } catch (ex)
+      {
+        System.println("Exception in TempeWidgetSensor: " + ex.getErrorMessage());
+        tempe = null;
+      }
+      if ((tempe == null || tempe.tmTemp == null) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
+        // Set up the method with parameters
+        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+        :period => 1
+        });
+        if (tempIter != null) {
+          return tempIter.next().data.toFloat();
+        }
+      }
+    }
+
+    (:smallMemory)
+    function getTemperature(){
+      
+      if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
+        // Set up the method with parameters
+        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+        :period => 1
+        });
+        if (tempIter != null) {
+          return tempIter.next().data.toFloat();
+        }
+      }
+    }
 }
