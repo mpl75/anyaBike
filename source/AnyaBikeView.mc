@@ -5,6 +5,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
 using Toybox.SensorHistory;
+using Toybox.Lang;
 
 (:typecheck(false))
 class AnyaBikeView extends Ui.DataField {
@@ -20,11 +21,106 @@ class AnyaBikeView extends Ui.DataField {
 	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
 	var spdUnitText, altUnitText, distUnitText, tempUnitText;
   var tempe;
+  var temperatureSrc = 0;
+  var connectTimeout;
 	
 	var sc = new SunCalc();
 	var zoneInfo;
   var restingHR,sporttype;
 	
+  hidden var gradeUsePressure = false;
+  // How many elements are taken to calculate the average
+  hidden var avgSize = 3;
+  // How many elements are taken to calculate smoothed data
+  hidden var gradeBufferLength = 5;
+  // Smoothing factor. Less value - more smoothed.
+  hidden var smoothingFactor = 0.4f;
+  // Buffer for last gradeBufferLength data
+  hidden var gradeBuffer = [];
+  // Previous altitude or pressure
+  hidden var gradePrevSourceValue = 0.0f;
+  // Previous distance
+  hidden var gradePrevDistance = 0.0f;
+  // Previous grade value
+  hidden var gradePrevGrade = 0.0f;
+  // Current pressure from API
+  hidden var pressure = 0.0f;
+  // Grade calculated to be displayed
+  hidden var grade = 0.0f;
+
+  function computeGrade() {
+      if (elapsedDistance > 0) {
+          // distance in meters
+          var distance = elapsedDistance * 1000;
+          var distanceDiff = Math.ceil(distance - gradePrevDistance);
+
+          if (distanceDiff == 0) {
+              return 0.0f;
+          }
+          
+          // Minimum distance diff based on current speed
+          var gradeMinDistanceDiff = 5;
+          if (currentSpeed > 30) {
+              gradeMinDistanceDiff = 20;
+          } else if (currentSpeed > 15) {
+              gradeMinDistanceDiff = 10;
+          }
+
+          if (distanceDiff >= gradeMinDistanceDiff) {
+              var calculatedGrade = 0.0f;
+              var valueDiff;
+              
+              if (gradeUsePressure  && pressure > 0) {
+                  // Barometric formula taken from https://github.com/evilwombat/HikeFieldv2
+                  valueDiff = gradePrevSourceValue - pressure;
+                  calculatedGrade = 100 * (8434.15 * valueDiff) / pressure / distanceDiff;
+                  gradePrevSourceValue = pressure;
+              } else {
+                  // Altitude formula
+                  valueDiff = altitude - gradePrevSourceValue;
+                  calculatedGrade = 100 * valueDiff / distanceDiff;
+                  gradePrevSourceValue = altitude;
+              }
+
+              gradePrevDistance = distance;
+              gradePrevGrade = calculatedGrade;
+
+              var gradeDiff = (calculatedGrade - gradePrevGrade).abs();
+              if (gradeDiff > 20) {
+                  // Skip grade, which is very different from the previous one.
+                  // And use the previous grade instead.
+                  calculatedGrade = gradePrevGrade;
+              } else {
+                  gradePrevGrade = calculatedGrade;
+              }
+
+              if (gradeBuffer.size() < gradeBufferLength) {
+                  gradeBuffer.add(calculatedGrade);
+              } else {
+                  // Remove first element and add current to end of buffer 
+                  gradeBuffer = gradeBuffer.slice(1, null);
+                  gradeBuffer.add(calculatedGrade);
+                  // Smooth buffer and calculate average from last avgSize elements
+                  return Math.mean(exponentialSmoothing(gradeBuffer).slice(-avgSize, null));
+              }
+          }
+      }
+
+      return grade;
+  }
+
+  // Taken from https://forums.garmin.com/developer/connect-iq/f/discussion/209421/grade-calc---filtered-and-fit
+  function exponentialSmoothing(data as Lang.Array<Lang.Float>) {
+      var smoothedData = [data[0]] as Lang.Array<Lang.Float>;
+
+      for (var i = 1; i < data.size(); i++) {
+          var currentSmoothedValue = smoothingFactor * data[i] + (1 - smoothingFactor) * smoothedData[i - 1];
+          smoothedData.add(currentSmoothedValue);
+      }
+
+      return smoothedData;
+  }
+
     function initialize() {
         DataField.initialize();
         
@@ -74,6 +170,13 @@ class AnyaBikeView extends Ui.DataField {
         zoneInfo = UserProfile.getHeartRateZones(sporttype);
         var profile = UserProfile.getProfile();
         restingHR = profile.restingHeartRate;
+        if(Activity has :getProfileInfo){
+          var profileInfo = Activity.getProfileInfo();
+          if(profileInfo != null){
+            sporttype = profileInfo.sport;
+          }
+        }
+        
     }
     
     // Set your layout here. Anytime the size of obscurity of
@@ -93,6 +196,14 @@ class AnyaBikeView extends Ui.DataField {
           altitude = info.altitude.toFloat();
         } else {
           altitude = 0.0f;
+        }
+      }
+      if(info has :ambientPressure){
+        if(info.ambientPressure != null){
+          pressure = info.ambientPressure.toFloat();
+          gradeUsePressure = Application.Properties.getValue("gradeUsePressure");
+        } else {
+          pressure = 0.0f;
         }
       }
       if(info has :currentPower){
@@ -199,26 +310,7 @@ class AnyaBikeView extends Ui.DataField {
       
       temperature = getTemperature();
     
-      if(currentSpeed > 0 && previousAltitude > -10000){
-        buffer[bufferPos] = (altitude - previousAltitude) / currentSpeed;
-        bufferPos++;
-
-          if (bufferPos == bufferSize) {
-            bufferPos = 0;
-          }
-
-          var slopeSum = 0.0;
-          var slopeNum = 0;
-
-          for (var i = 0; i < bufferSize; i++) {
-            if (buffer[i] != null) {
-              slopeNum++;
-              slopeSum += buffer[i];
-            }
-          }
-          slope = 100 * slopeSum / slopeNum;
-      }
-      previousAltitude = altitude;
+      slope = computeGrade();
       
       var now = Time.now();
       var loc = info.currentLocation;
@@ -357,16 +449,26 @@ class AnyaBikeView extends Ui.DataField {
       }
       dc.setColor(txtColor, -1);
       dc.clear();
-
   
+      var arcSegment = Application.Properties.getValue("arcSegment");
+      var topSegment = Application.Properties.getValue("topSegment");
 
-      curSpeed = currentSpeed.format("%d");
-      if(currentSpeed < 10 && currentSpeed > 0.5){
-        curSpeed = currentSpeed.format("%.1f");
+      var unitsTop = spdUnitText;
+      if(topSegment == 1 || (topSegment == 3 && sporttype != 2)){
+        curSpeed = currentSpeed.format("%d");
+        if(currentSpeed < 10 && currentSpeed >= 1){
+          curSpeed = currentSpeed.format("%.1f");
+        }
+      }else if (topSegment == 2){
+        unitsTop = "bpm";
+        curSpeed = currentHeartRate.format("%d");
+      }else if (topSegment == 3 && sporttype == 2){
+        curSpeed = currentPower.format("%d");
+        unitsTop = "W";
       }
-
+      
 		  dc.drawText(centerX, centerY+display.halfShift, Gfx.FONT_NUMBER_THAI_HOT, curSpeed, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
-      dc.drawText(centerX+display.spdUnitTextOffset, centerY+display.halfShift-34, font, spdUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+      dc.drawText(centerX+display.spdUnitTextOffset, centerY+display.halfShift-34, font, unitsTop, Gfx.TEXT_JUSTIFY_LEFT);
 
       textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, (line2Y - centerY), centerY, Gfx.FONT_MEDIUM, 10);
       textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, width- (line2Y - centerY), centerY, Gfx.FONT_MEDIUM, 10);
@@ -384,7 +486,6 @@ class AnyaBikeView extends Ui.DataField {
 
 
       var leftSegment = Application.Properties.getValue("leftSegment");
-      var arcSegment = Application.Properties.getValue("arcSegment");
       var colorA = txtColor;
       var colorB = lineColor;
       if (currentHeartRate != null && (leftSegment == 1 || middleSegment == 1)) {
@@ -503,7 +604,7 @@ class AnyaBikeView extends Ui.DataField {
       var lineSunset = line3Y+display.tempSunsetShift;
 
       if (temperature != null) {
-        if(tempe == null){
+        if(temperatureSrc == 0){
           //without tempe blue
           dc.setColor(0x00AAFF, -1);
         }else{
@@ -591,18 +692,18 @@ class AnyaBikeView extends Ui.DataField {
           speedColor = 0x00FF00;
         }
       
-        dc.setPenWidth(10);
+        dc.setPenWidth(display.arcPenWidth);
         dc.setColor(lineColor, -1);
         dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
         dc.setColor(speedColor, -1);
         dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
-        dc.setPenWidth(20);
+        dc.setPenWidth(display.arcPenWidth*2);
         for (var i = 1; i < 12; i++) {
           dc.setColor(speed > i * step ? speedColor : lineColor, bgColor);
           dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
         }
       }
-      if (arcSegment == 2) {
+      if (arcSegment == 2 || (arcSegment == 3 && sporttype != 2)) {
         if( restingHR == null){
           restingHR = 40;
         }
@@ -630,23 +731,55 @@ class AnyaBikeView extends Ui.DataField {
             hrate = 0;
           }
           
-          dc.setPenWidth(20);
+          dc.setPenWidth(display.arcPenWidth*2);
           for (var i = 1; i < 12; i++) {
             dc.setColor(hrate >= i * step ? colorB : lineColor, bgColor);
             dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
           }
-          dc.setPenWidth(11);
+          dc.setPenWidth(display.arcPenWidth+1);
           dc.setColor(lineColor, -1);
           dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
           
           if (hrate > 0) {
-            dc.setPenWidth(10);
+            dc.setPenWidth(display.arcPenWidth);
             dc.setColor(bgColor, -1);
             dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
             dc.setColor(colorB, -1);
             dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - hrate);
           }
+      }
+
+      if(arcSegment == 3 && sporttype == 2){
+        var powerGreen = Application.Properties.getValue("powerGreen").toNumber();
+        var powerOrange = Application.Properties.getValue("powerOrange").toNumber();
+        var powerRed = Application.Properties.getValue("powerRed").toNumber();
+        var step = 15;
+        var power = currentPower / (powerRed+100) * 180;
+        power = power.toNumber();
+        if (power > 179) {
+          power = 179;
         }
+        power++;
+        var powerColor = 0x00AAFF;
+        if (currentPower > powerRed) {
+          powerColor = 0xFF0000;
+        } else if (currentPower > powerOrange) {
+          powerColor = 0xFFAA00;
+        } else if (currentPower > powerGreen) {
+          powerColor = 0x00FF00;
+        }
+      
+        dc.setPenWidth(display.arcPenWidth);
+        dc.setColor(lineColor, -1);
+        dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+        dc.setColor(powerColor, -1);
+        dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - power);
+        dc.setPenWidth(display.arcPenWidth*2);
+        for (var i = 1; i < 12; i++) {
+          dc.setColor(power > i * step ? powerColor : lineColor, bgColor);
+          dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+        }
+      }
 
       dc.setColor(lineColor, bgColor);
       dc.setPenWidth(1);
@@ -662,21 +795,32 @@ class AnyaBikeView extends Ui.DataField {
       try
       {
         if(tempe == null){
-          tempe = new TempeWidgetSensor(-1);  
-        }else if(tempe.tmTemp != null){
-            return tempe.iTemp;
+          tempe = new TempeWidgetSensor(-1);
+          connectTimeout = System.getTimer();  
+        }else if(tempe.tmTemp != null && (System.getTimer() - tempe.tmTemp) < 121000){
+          temperatureSrc = 1;
+          connectTimeout = System.getTimer(); 
+          return tempe.iTemp;
         }
       } catch (ex)
       {
         System.println("Exception in TempeWidgetSensor: " + ex.getErrorMessage());
         tempe = null;
       }
-      if ((tempe == null || tempe.tmTemp == null) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
+
+      if(tempe != null && (System.getTimer() - connectTimeout) > 121000){
+          //connection lost, reset
+          tempe.resetSensor(-1);
+          connectTimeout = System.getTimer(); 
+      }
+
+      if ((tempe == null || tempe.tmTemp == null || (System.getTimer() - tempe.tmTemp) > 121000) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {       
         // Set up the method with parameters
         var tempIter = Toybox.SensorHistory.getTemperatureHistory({
         :period => 1
         });
         if (tempIter != null) {
+          temperatureSrc = 0;
           return tempIter.next().data.toFloat();
         }
       }
@@ -691,6 +835,7 @@ class AnyaBikeView extends Ui.DataField {
         :period => 1
         });
         if (tempIter != null) {
+          temperatureSrc = 0;
           return tempIter.next().data.toFloat();
         }
       }

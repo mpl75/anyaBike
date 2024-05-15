@@ -7,6 +7,9 @@
     <string id="SpeedGreen">Speed: green</string>
     <string id="SpeedOrange">Speed: orange</string>
     <string id="SpeedRed">Speed: red</string>
+    <string id="PowerGreen">Power: green</string>
+    <string id="PowerOrange">Power: orange</string>
+    <string id="PowerRed">Power: red</string>
     <string id="CadenceBlue">Cadence: blue</string>
     <string id="CadenceGreen">Cadence: green</string>
     <string id="CadenceOrange">Cadence: orange</string>
@@ -18,10 +21,13 @@
     <string id="TimerTime">Timer time</string>
     <string id="Power">Power</string>
     <string id="Grade">Gradient</string>
+    <string id="GradeUsePressure">Use Pressure if available for Gradient</string>
     <string id="MiddleSegment">Middle field</string>
     <string id="MiddleSegmentPrompt">Choose data shown in the middle</string>
-    <string id="ArcSegment">Top arch</string>
-    <string id="ArcSegmentPrompt">Choose data shown in the top arch</string>
+    <string id="TopSegment">Upper field</string>
+    <string id="TopSegmentPrompt">Choose data shown in the upper field</string>
+    <string id="ArcSegment">Top arc</string>
+    <string id="ArcSegmentPrompt">Choose data visualised in the colored arc</string>
     <string id="Speed">Speed</string>
     <string id="ToggleMinMax">Toggle Max/Min speed and cadence in 3s intevals</string>
     <string id="MinMaxSegment">Min/Max fields</string>

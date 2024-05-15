@@ -85,7 +85,7 @@ class TempeWidgetSensor
                 : temp) * 0.01f;
 
             tmTemp = System.getTimer();
-            //System.println("tmTemp = System.getTimer(): " + tmTemp);
+            System.println("temperature: " + iTemp.format("%.1f"));
         } else if (pg == 82)
         {
             batteryStatus = (payload[7] >> 4) & 0x07; // Battery status
@@ -162,8 +162,6 @@ class TempeWidgetSensor
     {
         payload = msg.getPayload();
 
-        //requestBatteryStatusPage();
-
         //System.println("Ant.MSG_ID_CHANNEL_RESPONSE_EVENT " + Ant.MSG_ID_CHANNEL_RESPONSE_EVENT);
         //System.println("Ant.MSG_ID_BROADCAST_DATA " + Ant.MSG_ID_BROADCAST_DATA);
         //System.println("msg.messageId " + msg.messageId);
@@ -178,7 +176,6 @@ class TempeWidgetSensor
                 deviceCfg = antChannel.getDeviceConfig();
                 antid = msg.deviceNumber;
                 System.println("Tempe found - antid: " + antid);
-                requestBatteryStatusPage();
             }
             parsePayload();
         }
@@ -196,30 +193,5 @@ class TempeWidgetSensor
                 }
             }
         }
-    }
-
-    function requestBatteryStatusPage() 
-    {
-        // Get the battery page only once. For some reason the device will start sending
-        // page 0 for a longer amount of time after the acknowledge is sent.
-        if (batteryStatus != null) {
-            //("BatteryStatus no null " + batteryStatus);
-            return;
-        }
-
-        // Request battery status page
-        var command = new Ant.Message();
-        command.setPayload([
-            0x46, // Data Page Number
-            0xFF, // Reserved
-            0xFF, // Reserved
-            0xFF, // Descriptor Byte 1
-            0xFF, // Descriptor Byte 2
-            0x01, // Requested Transmission
-            0x52, // Requested Page Number
-            0x01  // Command Type
-        ]);
-        antChannel.sendAcknowledge(command);
-        //System.println("Requesting battery status page");
     }
 }

@@ -1,9 +1,11 @@
 <properties>
   <property id="arcSegment" type="number">1</property>
+  <property id="topSegment" type="number">1</property>
   <property id="leftSegment" type="number">1</property>
   <property id="rightSegment" type="number">2</property>
   <property id="minMaxSegment" type="number">2</property>
   <property id="toggleMinMax" type="boolean">false</property>
+  <property id="gradeUsePressure" type="boolean">true</property>
   <property id="middleSegment" type="number">5</property>
   <property id="speedGreen" type="number">15</property>
   <property id="speedOrange" type="number">25</property>
@@ -12,4 +14,7 @@
   <property id="cadenceGreen" type="number">80</property>
   <property id="cadenceOrange" type="number">100</property>
   <property id="cadenceRed" type="number">120</property>
+  <property id="powerGreen" type="number">180</property>
+  <property id="powerOrange" type="number">254</property>
+  <property id="powerRed" type="number">291</property>
 </properties>

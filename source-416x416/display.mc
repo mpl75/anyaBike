@@ -11,4 +11,5 @@ class Display {
 	var hrOffset = 30;
 	var topShift = 45;
 	var spdUnitTextOffset = 80;
+	var arcPenWidth = 20;
 }

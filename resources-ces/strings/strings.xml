@@ -7,6 +7,9 @@
     <string id="SpeedGreen">Rychlost: zelená</string>
     <string id="SpeedOrange">Rychlost: oranžová</string>
     <string id="SpeedRed">Rychlost: červená</string>
+    <string id="PowerGreen">Výkon: zelená</string>
+    <string id="PowerOrange">Výkon: oranžová</string>
+    <string id="PowerRed">Výkon: červená</string>
     <string id="CadenceBlue">Kadence: modrá</string>
     <string id="CadenceGreen">Kadence: zelená</string>
     <string id="CadenceOrange">Kadence: oranžová</string>
@@ -18,10 +21,13 @@
     <string id="TimerTime">Stopky</string>
     <string id="Power">Výkon</string>
     <string id="Grade">Sklon</string>
+    <string id="GradeUsePressure">Použít tlak pro sklon, když je dostupný</string>
     <string id="MiddleSegment">Prostření pole</string>
     <string id="MiddleSegmentPrompt">Vyberte údaj, který se zobrazí uprostřed</string>
+    <string id="TopSegment">Horní pole</string>
+    <string id="TopSegmentPrompt">Veberte údaj, který se zobrazí v horním poli</string>
     <string id="ArcSegment">Horní oblouk</string>
-    <string id="ArcSegmentPrompt">Vyberte údaj, který se zobrazí v horním oblouku</string>
+    <string id="ArcSegmentPrompt">Vyberte údaj, který se zobrazí v horním barevném oblouku</string>
     <string id="Speed">Rychlost</string>
     <string id="ToggleMinMax">Co 3s přepínat Max/Min rychlost a kadenci</string>
     <string id="MinMaxSegment">Min/Max pole</string>

@@ -39,6 +39,14 @@
             <listEntry value="0">@Strings.Off</listEntry>
             <listEntry value="1">@Strings.Speed</listEntry>
             <listEntry value="2">@Strings.HeartRate</listEntry>
+            <listEntry value="3">@Strings.Power</listEntry>
+        </settingConfig>
+    </setting> 
+    <setting propertyKey="@Properties.topSegment" title="@Strings.TopSegment" prompt="@Strings.TopSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.Speed</listEntry>
+            <listEntry value="2">@Strings.HeartRate</listEntry>
+            <listEntry value="3">@Strings.Power</listEntry>
         </settingConfig>
     </setting>  
     <setting propertyKey="@Properties.minMaxSegment" title="@Strings.MinMaxSegment" prompt="@Strings.MinMaxSegmentPrompt">
@@ -61,5 +69,17 @@
     </setting>
     <setting propertyKey="@Properties.toggleMinMax" title="@Strings.ToggleMinMax">
         <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.gradeUsePressure" title="@Strings.GradeUsePressure">
+        <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.powerGreen" title="@Strings.PowerGreen">
+        <settingConfig type="numeric" min="0" max="1000" />
+    </setting>
+    <setting propertyKey="@Properties.powerOrange" title="@Strings.PowerOrange">
+        <settingConfig type="numeric" min="0" max="1000" />
+    </setting>
+    <setting propertyKey="@Properties.powerRed" title="@Strings.PowerRed">
+        <settingConfig type="numeric" min="0" max="1000" />
     </setting>
 </settings>
