@@ -45,68 +45,50 @@ class AnyaBikeView extends Ui.DataField {
   hidden var gradePrevGrade = 0.0f;
   // Current pressure from API
   hidden var pressure = 0.0f;
-  // Grade calculated to be displayed
-  hidden var grade = 0.0f;
 
   function computeGrade() {
-      if (elapsedDistance > 0) {
-          // distance in meters
-          var distance = elapsedDistance * 1000;
-          var distanceDiff = Math.ceil(distance - gradePrevDistance);
 
-          if (distanceDiff == 0) {
-              return 0.0f;
-          }
-          
-          // Minimum distance diff based on current speed
-          var gradeMinDistanceDiff = 5;
-          if (currentSpeed > 30) {
-              gradeMinDistanceDiff = 20;
-          } else if (currentSpeed > 15) {
-              gradeMinDistanceDiff = 10;
-          }
+    // distance in meters
+    var distance = elapsedDistance * 1000;
+    var distanceDiff = Math.ceil(distance - gradePrevDistance);
+    gradePrevDistance = distance;
+    
+    if (elapsedDistance == 0 || currentSpeed < 2 || distanceDiff == 0){
+      return 0.0f;
+    }
 
-          if (distanceDiff >= gradeMinDistanceDiff) {
-              var calculatedGrade = 0.0f;
-              var valueDiff;
-              
-              if (gradeUsePressure  && pressure > 0) {
-                  // Barometric formula taken from https://github.com/evilwombat/HikeFieldv2
-                  valueDiff = gradePrevSourceValue - pressure;
-                  calculatedGrade = 100 * (8434.15 * valueDiff) / pressure / distanceDiff;
-                  gradePrevSourceValue = pressure;
-              } else {
-                  // Altitude formula
-                  valueDiff = altitude - gradePrevSourceValue;
-                  calculatedGrade = 100 * valueDiff / distanceDiff;
-                  gradePrevSourceValue = altitude;
-              }
+    var calculatedGrade = 0.0f;
+    var valueDiff;
+      
+    if (gradeUsePressure  && pressure > 0) {
+        // Barometric formula taken from https://github.com/evilwombat/HikeFieldv2
+        valueDiff = gradePrevSourceValue - pressure;
+        calculatedGrade = 100 * (8434.15 * valueDiff) / pressure / distanceDiff;
+        gradePrevSourceValue = pressure;
+    } else {
+        // Altitude formula
+        valueDiff = altitude - gradePrevSourceValue;
+        calculatedGrade = 100 * valueDiff / distanceDiff;
+        gradePrevSourceValue = altitude;
+    }
 
-              gradePrevDistance = distance;
-              gradePrevGrade = calculatedGrade;
-
-              var gradeDiff = (calculatedGrade - gradePrevGrade).abs();
-              if (gradeDiff > 20) {
-                  // Skip grade, which is very different from the previous one.
-                  // And use the previous grade instead.
-                  calculatedGrade = gradePrevGrade;
-              } else {
-                  gradePrevGrade = calculatedGrade;
-              }
-
-              if (gradeBuffer.size() < gradeBufferLength) {
-                  gradeBuffer.add(calculatedGrade);
-              } else {
-                  // Remove first element and add current to end of buffer 
-                  gradeBuffer = gradeBuffer.slice(1, null);
-                  gradeBuffer.add(calculatedGrade);
-                  // Smooth buffer and calculate average from last avgSize elements
-                  return Math.mean(exponentialSmoothing(gradeBuffer).slice(-avgSize, null));
-              }
-          }
-      }
-
-      return grade;
+    var gradeDiff = (calculatedGrade - gradePrevGrade).abs();
+    if (gradeDiff > 25) {
+        // Skip grade, which is very different from the previous one.
+        // And use the previous grade instead.
+        calculatedGrade = gradePrevGrade;
+    } else {
+        gradePrevGrade = calculatedGrade;
+    }
+    
+    gradeBuffer.add(calculatedGrade);
+    if (gradeBuffer.size() == gradeBufferLength) {
+        // Remove first element and add current to end of buffer 
+        gradeBuffer = gradeBuffer.slice(1, null);
+        // Smooth buffer and calculate average from last avgSize elements
+        return Math.mean(exponentialSmoothing(gradeBuffer).slice(-avgSize, null));
+    }
+    return 0.0f;
   }
 
   // Taken from https://forums.garmin.com/developer/connect-iq/f/discussion/209421/grade-calc---filtered-and-fit
