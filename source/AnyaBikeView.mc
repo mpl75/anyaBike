@@ -1,33 +1,47 @@
+using Toybox.Application.Storage;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
-using Toybox.System as Sys;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.UserProfile;
 using Toybox.SensorHistory;
+using Toybox.Sensor;
+using Toybox.System;
+using Toybox.Background;
 using Toybox.Lang;
 
 (:typecheck(false))
 class AnyaBikeView extends Ui.DataField {
-
-	hidden var display;
-  var GPSaccuracy, sunset, temperature, altitude, averageCadence, averageSpeed, currentHeading, currentHeartRate, currentCadence, currentSpeed, elapsedDistance, elapsedTime, maxCadence, maxSpeed, timerTime, totalAscent, curSpeed, currentPower;
-	var compass, elapsedDistanceText, clockTime;
-	hidden var sumAlt, countAlt, lastTM, lastDoneTM;
-	hidden var memoryAlt;
-	hidden var buffer, bufferSize, bufferPos, previousAltitude;
-	var font, fontsport;
-	var bgColor, txtColor, lineColor;
-	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
-	var spdUnitText, altUnitText, distUnitText, tempUnitText;
-  var tempe;
-  var temperatureSrc = 0;
+  hidden var display;
+  var GPSaccuracy,
+    sunset,
+    temperature,
+    altitude,
+    averageCadence,
+    averageSpeed,
+    currentHeading,
+    currentHeartRate,
+    currentCadence,
+    currentSpeed,
+    elapsedDistance,
+    elapsedTime,
+    maxCadence,
+    maxSpeed,
+    timerTime,
+    totalAscent,
+    curSpeed,
+    currentPower;
+  var compass, elapsedDistanceText, clockTime;
+  var font, fontsport;
+  var bgColor, txtColor, lineColor;
+  var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
+  var spdUnitText, altUnitText, distUnitText, tempUnitText;
   var connectTimeout;
-	
-	var sc = new SunCalc();
-	var zoneInfo;
-  var restingHR,sporttype;
-	
+
+  var sc = new SunCalc();
+  var zoneInfo;
+  var restingHR, sporttype;
+
   hidden var gradeUsePressure = false;
   // How many elements are taken to calculate the average
   hidden var avgSize = 3;
@@ -47,170 +61,152 @@ class AnyaBikeView extends Ui.DataField {
   hidden var pressure = 0.0f;
 
   function computeGrade() {
-
     // distance in meters
     var distance = elapsedDistance * 1000;
     var distanceDiff = Math.ceil(distance - gradePrevDistance);
     gradePrevDistance = distance;
-    
-    if (elapsedDistance == 0 || currentSpeed < 2 || distanceDiff == 0){
+
+    if (elapsedDistance == 0 || currentSpeed < 2 || distanceDiff == 0) {
       return 0.0f;
     }
 
     var calculatedGrade = 0.0f;
     var valueDiff;
-      
-    if (gradeUsePressure  && pressure > 0) {
-        // Barometric formula taken from https://github.com/evilwombat/HikeFieldv2
-        valueDiff = gradePrevSourceValue - pressure;
-        calculatedGrade = 100 * (8434.15 * valueDiff) / pressure / distanceDiff;
-        gradePrevSourceValue = pressure;
+
+    if (gradeUsePressure && pressure > 0) {
+      // Barometric formula taken from https://github.com/evilwombat/HikeFieldv2
+      valueDiff = gradePrevSourceValue - pressure;
+      calculatedGrade = (100 * (8434.15 * valueDiff)) / pressure / distanceDiff;
+      gradePrevSourceValue = pressure;
     } else {
-        // Altitude formula
-        valueDiff = altitude - gradePrevSourceValue;
-        calculatedGrade = 100 * valueDiff / distanceDiff;
-        gradePrevSourceValue = altitude;
+      // Altitude formula
+      valueDiff = altitude - gradePrevSourceValue;
+      calculatedGrade = (100 * valueDiff) / distanceDiff;
+      gradePrevSourceValue = altitude;
     }
 
     var gradeDiff = (calculatedGrade - gradePrevGrade).abs();
     if (gradeDiff > 25) {
-        // Skip grade, which is very different from the previous one.
-        // And use the previous grade instead.
-        calculatedGrade = gradePrevGrade;
+      // Skip grade, which is very different from the previous one.
+      // And use the previous grade instead.
+      calculatedGrade = gradePrevGrade;
     } else {
-        gradePrevGrade = calculatedGrade;
+      gradePrevGrade = calculatedGrade;
     }
-    
+
     gradeBuffer.add(calculatedGrade);
     if (gradeBuffer.size() == gradeBufferLength) {
-        // Remove first element and add current to end of buffer 
-        gradeBuffer = gradeBuffer.slice(1, null);
-        // Smooth buffer and calculate average from last avgSize elements
-        return Math.mean(exponentialSmoothing(gradeBuffer).slice(-avgSize, null));
+      // Remove first element and add current to end of buffer
+      gradeBuffer = gradeBuffer.slice(1, null);
+      // Smooth buffer and calculate average from last avgSize elements
+      return Math.mean(exponentialSmoothing(gradeBuffer).slice(-avgSize, null));
     }
     return 0.0f;
   }
 
   // Taken from https://forums.garmin.com/developer/connect-iq/f/discussion/209421/grade-calc---filtered-and-fit
   function exponentialSmoothing(data as Lang.Array<Lang.Float>) {
-      var smoothedData = [data[0]] as Lang.Array<Lang.Float>;
+    var smoothedData = [data[0]] as Lang.Array<Lang.Float>;
 
-      for (var i = 1; i < data.size(); i++) {
-          var currentSmoothedValue = smoothingFactor * data[i] + (1 - smoothingFactor) * smoothedData[i - 1];
-          smoothedData.add(currentSmoothedValue);
-      }
+    for (var i = 1; i < data.size(); i++) {
+      var currentSmoothedValue =
+        smoothingFactor * data[i] + (1 - smoothingFactor) * smoothedData[i - 1];
+      smoothedData.add(currentSmoothedValue);
+    }
 
-      return smoothedData;
+    return smoothedData;
   }
 
-    function initialize() {
-        DataField.initialize();
-        
-        display = new Display();
-        
-        altitude = 0.0f;
-        averageCadence = 0.0f;
-        averageSpeed = 0.0f;
-        currentCadence = 0;
-        currentPower = 0;
-        currentHeading = null;
-        currentHeartRate = null;
-        currentSpeed = 0.0f;
-        elapsedDistance = 0.0f;        
-        elapsedTime = 0.0f;
-        maxCadence = 0.0f;
-        maxSpeed = 0.0f;
-        timerTime = 0.0f;
-        totalAscent = 0.0f;
-        
-        GPSaccuracy = 0;
-        sunset = null;
-        
-        compass = 0;
-        slope = 0;
-        sumAlt = 0;
-        countAlt = 0;
-        lastTM = -1;
-        lastDoneTM = null;
-        memoryAlt = new [10];
-        for (var i = 0; i < 10; i++) {
-          memoryAlt[i] = null;
-        }
+  function initialize() {
+    DataField.initialize();
 
-        previousAltitude = -10000;
-        bufferPos = 0;
-        bufferSize = 5;
-        buffer = new [bufferSize];
-        for (var i = 0; i < bufferSize; i++) {
-          buffer[i] = null;
-        }
-        
-        font = Ui.loadResource(Rez.Fonts.text);
-        fontsport = Ui.loadResource(Rez.Fonts.sport);
-        
-        sporttype = UserProfile.getCurrentSport();
-        zoneInfo = UserProfile.getHeartRateZones(sporttype);
-        var profile = UserProfile.getProfile();
-        restingHR = profile.restingHeartRate;
-        if(Activity has :getProfileInfo){
-          var profileInfo = Activity.getProfileInfo();
-          if(profileInfo != null){
-            sporttype = profileInfo.sport;
-          }
-        }
-        
+    display = new Display();
+
+    altitude = 0.0f;
+    averageCadence = 0.0f;
+    averageSpeed = 0.0f;
+    currentCadence = 0;
+    currentPower = 0;
+    currentHeading = null;
+    currentHeartRate = null;
+    currentSpeed = 0.0f;
+    elapsedDistance = 0.0f;
+    elapsedTime = 0.0f;
+    maxCadence = 0.0f;
+    maxSpeed = 0.0f;
+    timerTime = 0.0f;
+    totalAscent = 0.0f;
+
+    GPSaccuracy = 0;
+    sunset = null;
+
+    compass = 0;
+    slope = 0;
+
+    font = Ui.loadResource(Rez.Fonts.text);
+    fontsport = Ui.loadResource(Rez.Fonts.sport);
+
+    sporttype = UserProfile.getCurrentSport();
+    zoneInfo = UserProfile.getHeartRateZones(sporttype);
+    var profile = UserProfile.getProfile();
+    restingHR = profile.restingHeartRate;
+    if (Activity has :getProfileInfo) {
+      var profileInfo = Activity.getProfileInfo();
+      sporttype = profileInfo.sport;
     }
-    
-    // Set your layout here. Anytime the size of obscurity of
-    // the draw context is changed this will be called.
-    function onLayout(dc) {
-        return;
-    }
+  }
 
-    // The given info object contains all the current workout information.
-    // Calculate a value and save it locally in this method.
-    // Note that compute() and onUpdate() are asynchronous, and there is no
-    // guarantee that compute() will be called before onUpdate().
-    function compute(info) {
+  // Set your layout here. Anytime the size of obscurity of
+  // the draw context is changed this will be called.
+  function onLayout(dc) {
+    return;
+  }
 
-      if(info has :altitude){
-        if(info.altitude != null){
+  // The given info object contains all the current workout information.
+  // Calculate a value and save it locally in this method.
+  // Note that compute() and onUpdate() are asynchronous, and there is no
+  // guarantee that compute() will be called before onUpdate().
+  function compute(info) {
+    try {
+      if (info has :altitude) {
+        if (info.altitude != null) {
           altitude = info.altitude.toFloat();
         } else {
           altitude = 0.0f;
         }
       }
-      if(info has :ambientPressure){
-        if(info.ambientPressure != null){
+      if (info has :ambientPressure) {
+        if (info.ambientPressure != null) {
           pressure = info.ambientPressure.toFloat();
-          gradeUsePressure = Application.Properties.getValue("gradeUsePressure");
+          gradeUsePressure =
+            Application.Properties.getValue("gradeUsePressure");
         } else {
           pressure = 0.0f;
         }
       }
-      if(info has :currentPower){
-        if(info.currentPower != null){
+      if (info has :currentPower) {
+        if (info.currentPower != null) {
           currentPower = info.currentPower;
         } else {
           currentPower = 0.0f;
         }
       }
-      if(info has :averageCadence){
-        if(info.averageCadence != null){
+      if (info has :averageCadence) {
+        if (info.averageCadence != null) {
           averageCadence = info.averageCadence;
         } else {
           averageCadence = 0.0f;
         }
       }
-      if(info has :averageSpeed){
-        if(info.averageSpeed != null){
+      if (info has :averageSpeed) {
+        if (info.averageSpeed != null) {
           averageSpeed = info.averageSpeed * 3.6;
         } else {
           averageSpeed = 0.0f;
         }
       }
-      if(info has :currentHeading){
-        if(info.currentHeading != null){
+      if (info has :currentHeading) {
+        if (info.currentHeading != null) {
           currentHeading = info.currentHeading * (180 / 3.1415926);
           if (currentHeading < 0) {
             currentHeading += 360;
@@ -219,81 +215,81 @@ class AnyaBikeView extends Ui.DataField {
           currentHeading = null;
         }
       }
-      if(info has :currentHeartRate){
-        if(info.currentHeartRate != null){
+      if (info has :currentHeartRate) {
+        if (info.currentHeartRate != null) {
           currentHeartRate = info.currentHeartRate;
         } else {
           currentHeartRate = null;
         }
       }
-      if(info has :currentLocationAccuracy){
-        if(info.currentLocationAccuracy != null){
+      if (info has :currentLocationAccuracy) {
+        if (info.currentLocationAccuracy != null) {
           GPSaccuracy = info.currentLocationAccuracy;
         } else {
           GPSaccuracy = 0;
         }
       }
-      if(info has :currentCadence){
-        if(info.currentCadence != null){
+      if (info has :currentCadence) {
+        if (info.currentCadence != null) {
           currentCadence = info.currentCadence;
         } else {
           currentCadence = null;
         }
       }
-      if(info has :currentSpeed){
-        if(info.currentSpeed != null){
+      if (info has :currentSpeed) {
+        if (info.currentSpeed != null) {
           currentSpeed = info.currentSpeed * 3.6;
         } else {
           currentSpeed = 0.0f;
         }
       }
-      if(info has :elapsedDistance){
-        if(info.elapsedDistance != null){
-          elapsedDistance = info.elapsedDistance / 1000;          
+      if (info has :elapsedDistance) {
+        if (info.elapsedDistance != null) {
+          elapsedDistance = info.elapsedDistance / 1000;
         } else {
           elapsedDistance = 0.0f;
         }
       }
-      if(info has :elapsedTime){
-        if(info.elapsedTime != null){
+      if (info has :elapsedTime) {
+        if (info.elapsedTime != null) {
           elapsedTime = info.elapsedTime / 1000;
         } else {
           elapsedTime = 0.0f;
         }
       }
-      if(info has :maxCadence){
-        if(info.maxCadence != null){
+      if (info has :maxCadence) {
+        if (info.maxCadence != null) {
           maxCadence = info.maxCadence;
         } else {
           maxCadence = 0.0f;
         }
       }
-      if(info has :maxSpeed){
-        if(info.maxSpeed != null){
+      if (info has :maxSpeed) {
+        if (info.maxSpeed != null) {
           maxSpeed = info.maxSpeed * 3.6;
         } else {
           maxSpeed = 0.0f;
         }
       }
-      if(info has :timerTime){
-        if(info.timerTime != null){
+      if (info has :timerTime) {
+        if (info.timerTime != null) {
           timerTime = info.timerTime / 1000;
         } else {
           timerTime = 0.0f;
         }
       }
-      if(info has :totalAscent){
-        if(info.totalAscent != null){
+      if (info has :totalAscent) {
+        if (info.totalAscent != null) {
           totalAscent = info.totalAscent.toFloat();
         } else {
           totalAscent = 0.0f;
         }
       }
-      
+
       temperature = getTemperature();
-    
-      slope = computeGrade();
+
       
+
       var now = Time.now();
       var loc = info.currentLocation;
       if (loc != null) {
@@ -302,56 +298,49 @@ class AnyaBikeView extends Ui.DataField {
       } else {
         sunset = null;
       }
+    } catch (ex) {
+      System.println("Neco se posralo v compute " +ex.getErrorMessage());
     }
+  }
+
+  function textWithIconOnCenter(dc, text, icon, unit, x, y, fnt, hShift) {
+    var w = dc.getTextWidthInPixels(text, fnt).toDouble() / 2;
+    w = w.toNumber();
+    dc.drawText(x - w - 2, y + hShift, fontsport, icon, Gfx.TEXT_JUSTIFY_RIGHT);
+    dc.drawText(x, y, fnt, text, Gfx.TEXT_JUSTIFY_CENTER);
+    dc.drawText(x + w + 1, y + hShift, font, unit, Gfx.TEXT_JUSTIFY_LEFT);
+  }
+
+  function formatTime(sec) {
+    sec = sec.toLong();
+    var h = (sec / 3600) % 24;
+    var m = (sec / 60) % 60;
+    var s = sec % 60;
+    var text = "-:--";
+    if (h > 0) {
+      text = h.format("%d") + "." + m.format("%02d");
+    } else {
+      text = m.format("%d") + ":" + s.format("%02d");
+    }
+    return text;
+  }
+
+  // Display the value you computed here. This will be called
+  // once a second when the data field is visible.
+  function onUpdate(dc as Gfx.Dc) {
     
-    function textWithIconOnCenter(dc, text, icon, unit, x, y, fnt, hShift) {
-      var w = dc.getTextWidthInPixels(text, fnt).toDouble() / 2;
-      w = w.toNumber();
-      dc.drawText(x - w - 2, y + hShift, fontsport, icon, Gfx.TEXT_JUSTIFY_RIGHT);
-      dc.drawText(x, y, fnt, text, Gfx.TEXT_JUSTIFY_CENTER);
-      dc.drawText(x + w + 1, y + hShift, font, unit, Gfx.TEXT_JUSTIFY_LEFT);
-    }
-    
-    function formatTime(sec) {
-      sec = sec.toLong();
-      var h = (sec / 3600) % 24;
-      var m = (sec / 60) % 60;
-      var s = sec % 60;
-      var text = "-:--";
-      if (h > 0) {
-        text = h.format("%d") + "." + m.format("%02d");
-      } else {
-        text = m.format("%d") + ":" + s.format("%02d");
-      }
-      return text;
-    }
-
-    // Display the value you computed here. This will be called
-    // once a second when the data field is visible.
-    function onUpdate(dc as Gfx.Dc) {
-      /* currentSpeed += 2.13;
-      if (currentSpeed > 65) {
-        currentSpeed = 0;
-        } 
-
-      slope += 1.23;
-      if (slope > 13) {
-        slope = -13;
-      }
-      altitude = 384;
-      totalAscent = 234; */
-
+    try {
       var centerX = dc.getWidth() / 2;
       var centerY = dc.getHeight() / 2;
       var halfr = centerY - 4;
       var line1Y = centerY;
-      var line2Y = dc.getHeight()* 2 / 3;
-      var line3Y = dc.getHeight()* 5 / 6;
+      var line2Y = (dc.getHeight() * 2) / 3;
+      var line3Y = (dc.getHeight() * 5) / 6;
       var width = dc.getWidth();
       var height = dc.getHeight();
 
-      var systemSettings = Sys.getDeviceSettings();
-      if (systemSettings.paceUnits == Sys.UNIT_STATUTE) {
+      var systemSettings = System.getDeviceSettings();
+      if (systemSettings.paceUnits == System.UNIT_STATUTE) {
         spdUnitText = "mph";
         averageSpeed /= 1.609344;
         currentSpeed /= 1.609344;
@@ -359,43 +348,45 @@ class AnyaBikeView extends Ui.DataField {
       } else {
         spdUnitText = "km/h";
       }
-      if (systemSettings.elevationUnits == Sys.UNIT_STATUTE) {
+      if (systemSettings.elevationUnits == System.UNIT_STATUTE) {
         altUnitText = "ft";
         altitude *= 3.2808399;
         totalAscent *= 3.2808399;
       } else {
         altUnitText = "m";
       }
-      if (systemSettings.distanceUnits == Sys.UNIT_STATUTE) {
+      if (systemSettings.distanceUnits == System.UNIT_STATUTE) {
         distUnitText = "mi";
         elapsedDistance /= 1.609344;
       } else {
         distUnitText = "km";
       }
-      if(temperature != null){
-        if (systemSettings.temperatureUnits == Sys.UNIT_STATUTE) {
+      if (temperature != null) {
+        if (systemSettings.temperatureUnits == System.UNIT_STATUTE) {
           tempUnitText = " °F";
-          temperature = temperature * 9 / 5 + 32;
+          temperature = (temperature * 9) / 5 + 32;
         } else {
           tempUnitText = " °C";
         }
       }
 
+      slope = computeGrade();
+
       slopeText = "0";
       slopeIcon = " ";
       slopeColor = -1;
       bgColor = getBackgroundColor();
-      if(bgColor == Gfx.COLOR_WHITE){
+      if (bgColor == Gfx.COLOR_WHITE) {
         slopeColorText = Gfx.COLOR_BLACK;
-      } else { 
+      } else {
         slopeColorText = Gfx.COLOR_WHITE;
       }
 
       if (slope.abs() >= 10) {
-            slopeText = slope.abs().format("%d");
+        slopeText = slope.abs().format("%d");
       } else if (slope != 0) {
-            slopeText = slope.abs().format("%.1f");
-      } 
+        slopeText = slope.abs().format("%.1f");
+      }
       if (slope <= -5) {
         slopeIcon = "V";
         slopeColor = Gfx.COLOR_BLUE;
@@ -414,15 +405,15 @@ class AnyaBikeView extends Ui.DataField {
           slopeColor = Gfx.COLOR_ORANGE;
         }
       }
-      
+
       if (elapsedDistance >= 100) {
         elapsedDistanceText = elapsedDistance.format("%.1f");
       } else {
         elapsedDistanceText = elapsedDistance.format("%.2f");
       }
-      
+
       clockTime = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-		
+
       txtColor = Gfx.COLOR_BLACK;
       lineColor = Gfx.COLOR_LT_GRAY;
       if (bgColor == Gfx.COLOR_BLACK) {
@@ -431,117 +422,248 @@ class AnyaBikeView extends Ui.DataField {
       }
       dc.setColor(txtColor, -1);
       dc.clear();
-  
+
       var arcSegment = Application.Properties.getValue("arcSegment");
       var topSegment = Application.Properties.getValue("topSegment");
 
       var unitsTop = spdUnitText;
-      if(topSegment == 1 || (topSegment == 3 && sporttype != 2)){
+      if (topSegment == 1 || (topSegment == 3 && sporttype != 2)) {
         curSpeed = currentSpeed.format("%d");
-        if(currentSpeed < 10 && currentSpeed >= 1){
+        if (currentSpeed < 10 && currentSpeed >= 1) {
           curSpeed = currentSpeed.format("%.1f");
         }
-      }else if (topSegment == 2){
+      } else if (topSegment == 2) {
         unitsTop = "bpm";
         curSpeed = currentHeartRate.format("%d");
-      }else if (topSegment == 3 && sporttype == 2){
+      } else if (topSegment == 3 && sporttype == 2) {
         curSpeed = currentPower.format("%d");
         unitsTop = "W";
       }
-      
-		  dc.drawText(centerX, centerY+display.halfShift, Gfx.FONT_NUMBER_THAI_HOT, curSpeed, Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
-      dc.drawText(centerX+display.spdUnitTextOffset, centerY+display.halfShift-34, font, unitsTop, Gfx.TEXT_JUSTIFY_LEFT);
 
-      textWithIconOnCenter(dc, altitude.format("%d"), "G", altUnitText, (line2Y - centerY), centerY, Gfx.FONT_MEDIUM, 10);
-      textWithIconOnCenter(dc, totalAscent.format("%d"), "H", altUnitText, width- (line2Y - centerY), centerY, Gfx.FONT_MEDIUM, 10);
+      dc.drawText(
+        centerX,
+        centerY + display.halfShift,
+        Gfx.FONT_NUMBER_THAI_HOT,
+        curSpeed,
+        Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+      );
+      dc.drawText(
+        centerX + display.spdUnitTextOffset,
+        centerY + display.halfShift - 34,
+        font,
+        unitsTop,
+        Gfx.TEXT_JUSTIFY_LEFT
+      );
+
+      textWithIconOnCenter(
+        dc,
+        altitude.format("%d"),
+        "G",
+        altUnitText,
+        line2Y - centerY,
+        centerY,
+        Gfx.FONT_MEDIUM,
+        10
+      );
+      textWithIconOnCenter(
+        dc,
+        totalAscent.format("%d"),
+        "H",
+        altUnitText,
+        width - (line2Y - centerY),
+        centerY,
+        Gfx.FONT_MEDIUM,
+        10
+      );
       var middleSegment = Application.Properties.getValue("middleSegment");
-      
-      if(middleSegment == 5){
-        dc.setColor(slopeColor,-1);
-        dc.fillRectangle(centerX-(line2Y - centerY+30)/2, centerY+2, (line2Y - centerY+30), line2Y - centerY - 3);
-        dc.setColor(slopeColorText, -1);
-        textWithIconOnCenter(dc, slopeText, slopeIcon, "%", centerX, centerY, Gfx.FONT_MEDIUM, 10);
-      }
-      
-      dc.setColor(txtColor, -1);					
-      textWithIconOnCenter(dc, elapsedDistanceText, "", distUnitText, centerX, line2Y+(line3Y-line2Y-dc.getFontHeight(Gfx.FONT_SYSTEM_NUMBER_MILD))/2, Gfx.FONT_SYSTEM_NUMBER_MILD, display.distShift);  
 
+      if (middleSegment == 5) {
+        dc.setColor(slopeColor, -1);
+        dc.fillRectangle(
+          centerX - (line2Y - centerY + 30) / 2,
+          centerY + 2,
+          line2Y - centerY + 30,
+          line2Y - centerY - 3
+        );
+        dc.setColor(slopeColorText, -1);
+        textWithIconOnCenter(
+          dc,
+          slopeText,
+          slopeIcon,
+          "%",
+          centerX,
+          centerY,
+          Gfx.FONT_MEDIUM,
+          10
+        );
+      }
+
+      dc.setColor(txtColor, -1);
+      textWithIconOnCenter(
+        dc,
+        elapsedDistanceText,
+        "",
+        distUnitText,
+        centerX,
+        line2Y +
+          (line3Y - line2Y - dc.getFontHeight(Gfx.FONT_SYSTEM_NUMBER_MILD)) / 2,
+        Gfx.FONT_SYSTEM_NUMBER_MILD,
+        display.distShift
+      );
 
       var leftSegment = Application.Properties.getValue("leftSegment");
       var colorA = txtColor;
       var colorB = lineColor;
-      if (currentHeartRate != null && (leftSegment == 1 || middleSegment == 1)) {
+      if (
+        currentHeartRate != null &&
+        (leftSegment == 1 || middleSegment == 1)
+      ) {
         if (currentHeartRate >= zoneInfo[4]) {
-          colorA = 0xFFFFFF;
-          colorB = 0xFF0000;
+          colorA = 0xffffff;
+          colorB = 0xff0000;
         } else if (currentHeartRate >= zoneInfo[3]) {
           colorA = 0x000000;
-          colorB = 0xFFAA00;
+          colorB = 0xffaa00;
         } else if (currentHeartRate >= zoneInfo[2]) {
           colorA = 0x000000;
-          colorB = 0x00FF00;
+          colorB = 0x00ff00;
         } else if (currentHeartRate >= zoneInfo[1]) {
           colorA = 0x000000;
-          colorB = 0x00AAFF;
-        } 
+          colorB = 0x00aaff;
+        }
         if (leftSegment == 1) {
           dc.setColor(colorA, colorB);
-          dc.drawText(display.hrOffset, line2Y, fontsport, "  I ", Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.drawText(
+            display.hrOffset,
+            line2Y,
+            fontsport,
+            "  I ",
+            Gfx.TEXT_JUSTIFY_RIGHT
+          );
           dc.setColor(txtColor, -1);
-          dc.drawText(display.hrOffset + 2, line2Y -2, Gfx.FONT_MEDIUM, currentHeartRate.format("%d"), Gfx.TEXT_JUSTIFY_LEFT);
-		    }
+          dc.drawText(
+            display.hrOffset + 2,
+            line2Y - 2,
+            Gfx.FONT_MEDIUM,
+            currentHeartRate.format("%d"),
+            Gfx.TEXT_JUSTIFY_LEFT
+          );
+        }
         if (middleSegment == 1) {
           dc.setColor(colorB, -1);
-          dc.fillRectangle(centerX-(line2Y - centerY+30)/2, centerY+2, (line2Y - centerY+30), line2Y - centerY - 3);
+          dc.fillRectangle(
+            centerX - (line2Y - centerY + 30) / 2,
+            centerY + 2,
+            line2Y - centerY + 30,
+            line2Y - centerY - 3
+          );
           dc.setColor(txtColor, -1);
-          textWithIconOnCenter(dc, currentHeartRate.format("%d"), "I", "", centerX, centerY, Gfx.FONT_MEDIUM, 10);
+          textWithIconOnCenter(
+            dc,
+            currentHeartRate.format("%d"),
+            "I",
+            "",
+            centerX,
+            centerY,
+            Gfx.FONT_MEDIUM,
+            10
+          );
         }
-		  }
-		
+      }
+
       var rightSegment = Application.Properties.getValue("rightSegment");
       var toggleMinMax = Application.Properties.getValue("toggleMinMax");
       var minMaxSegment = Application.Properties.getValue("minMaxSegment");
       if (currentCadence != null && rightSegment == 1) {
-        var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
-        var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
-        var cadenceOrange = Application.Properties.getValue("cadenceOrange").toNumber();
-        var cadenceRed = Application.Properties.getValue("cadenceRed").toNumber();
+        var cadenceBlue =
+          Application.Properties.getValue("cadenceBlue").toNumber();
+        var cadenceGreen =
+          Application.Properties.getValue("cadenceGreen").toNumber();
+        var cadenceOrange =
+          Application.Properties.getValue("cadenceOrange").toNumber();
+        var cadenceRed =
+          Application.Properties.getValue("cadenceRed").toNumber();
         if (currentCadence > cadenceRed) {
-		      dc.setColor(0xFFFFFF, 0xFF0000);
+          dc.setColor(0xffffff, 0xff0000);
         } else if (currentCadence > cadenceOrange) {
-		      dc.setColor(0x000000, 0xFFAA00);
+          dc.setColor(0x000000, 0xffaa00);
         } else if (currentCadence > cadenceGreen) {
-          dc.setColor(0x000000, 0x00FF00);
+          dc.setColor(0x000000, 0x00ff00);
         } else if (currentCadence > cadenceBlue) {
-          dc.setColor(0x000000, 0x00AAFF);
+          dc.setColor(0x000000, 0x00aaff);
         } else {
           dc.setColor(txtColor, lineColor);
         }
-        dc.drawText(width-display.hrOffset, line2Y, fontsport, " W  ", Gfx.TEXT_JUSTIFY_LEFT);
+        dc.drawText(
+          width - display.hrOffset,
+          line2Y,
+          fontsport,
+          " W  ",
+          Gfx.TEXT_JUSTIFY_LEFT
+        );
         dc.setColor(txtColor, -1);
-        dc.drawText(width-display.hrOffset-2, line2Y -2, Gfx.FONT_MEDIUM, currentCadence.format("%d"), Gfx.TEXT_JUSTIFY_RIGHT);
-		  }
+        dc.drawText(
+          width - display.hrOffset - 2,
+          line2Y - 2,
+          Gfx.FONT_MEDIUM,
+          currentCadence.format("%d"),
+          Gfx.TEXT_JUSTIFY_RIGHT
+        );
+      }
 
       if (leftSegment == 2 || rightSegment == 2) {
         var timerTimeText = formatTime(timerTime);
         if (leftSegment == 2) {
-          dc.drawText(display.x2Offset, line2Y -2, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_LEFT);
+          dc.drawText(
+            display.x2Offset,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            timerTimeText,
+            Gfx.TEXT_JUSTIFY_LEFT
+          );
         }
         if (rightSegment == 2) {
-          dc.drawText(width-display.x2Offset, line2Y -2, Gfx.FONT_SMALL, timerTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.drawText(
+            width - display.x2Offset,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            timerTimeText,
+            Gfx.TEXT_JUSTIFY_RIGHT
+          );
         }
       }
-		
+
       if (leftSegment == 3 || rightSegment == 3 || middleSegment == 3) {
         var elapsedTimeText = formatTime(elapsedTime);
         if (leftSegment == 3) {
-          dc.drawText(display.x2Offset, line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_LEFT);
+          dc.drawText(
+            display.x2Offset,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            elapsedTimeText,
+            Gfx.TEXT_JUSTIFY_LEFT
+          );
         }
         if (rightSegment == 3) {
-          dc.drawText(width-display.x2Offset, line2Y -2, Gfx.FONT_SMALL, elapsedTimeText, Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.drawText(
+            width - display.x2Offset,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            elapsedTimeText,
+            Gfx.TEXT_JUSTIFY_RIGHT
+          );
         }
         if (middleSegment == 3) {
-          textWithIconOnCenter(dc, elapsedTimeText, "", "", centerX, centerY, Gfx.FONT_MEDIUM, 10);
+          textWithIconOnCenter(
+            dc,
+            elapsedTimeText,
+            "",
+            "",
+            centerX,
+            centerY,
+            Gfx.FONT_MEDIUM,
+            10
+          );
         }
       }
 
@@ -549,64 +671,168 @@ class AnyaBikeView extends Ui.DataField {
         var powerText = currentPower.format("%d");
         if (leftSegment == 4) {
           dc.setColor(txtColor, -1);
-          dc.drawText(display.hrOffset, line2Y+1, fontsport, "C", Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.drawText(
+            display.hrOffset,
+            line2Y + 1,
+            fontsport,
+            "C",
+            Gfx.TEXT_JUSTIFY_RIGHT
+          );
           dc.setColor(txtColor, -1);
-          dc.drawText(display.hrOffset+2, line2Y -2, Gfx.FONT_SMALL, powerText, Gfx.TEXT_JUSTIFY_LEFT);
+          dc.drawText(
+            display.hrOffset + 2,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            powerText,
+            Gfx.TEXT_JUSTIFY_LEFT
+          );
         }
         if (rightSegment == 4) {
           dc.setColor(txtColor, -1);
-          dc.drawText(width-display.hrOffset+1, line2Y+1, fontsport, "C", Gfx.TEXT_JUSTIFY_LEFT);
+          dc.drawText(
+            width - display.hrOffset + 1,
+            line2Y + 1,
+            fontsport,
+            "C",
+            Gfx.TEXT_JUSTIFY_LEFT
+          );
           dc.setColor(txtColor, -1);
-          dc.drawText(width-display.hrOffset-1, line2Y-2, Gfx.FONT_SMALL, powerText, Gfx.TEXT_JUSTIFY_RIGHT);
+          dc.drawText(
+            width - display.hrOffset - 1,
+            line2Y - 2,
+            Gfx.FONT_SMALL,
+            powerText,
+            Gfx.TEXT_JUSTIFY_RIGHT
+          );
         }
         if (middleSegment == 4) {
           dc.setColor(txtColor, -1);
-          textWithIconOnCenter(dc, powerText, "C", "", centerX, centerY, Gfx.FONT_MEDIUM, 10);
+          textWithIconOnCenter(
+            dc,
+            powerText,
+            "C",
+            "",
+            centerX,
+            centerY,
+            Gfx.FONT_MEDIUM,
+            10
+          );
         }
       }
 
-		  dc.drawText(centerX, display.topShift, Gfx.FONT_SMALL, clockTime.hour + ":" + clockTime.min.format("%02d"), Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+      dc.drawText(
+        centerX,
+        display.topShift,
+        Gfx.FONT_SMALL,
+        clockTime.hour + ":" + clockTime.min.format("%02d"),
+        Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
+      );
 
       var showCadence = minMaxSegment == 1;
-      if(toggleMinMax){
+      if (toggleMinMax) {
         showCadence = clockTime.sec % 6 < 3;
       }
       if (showCadence) {
-        dc.drawText((line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, averageCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText((line2Y - centerY), centerY+display.halfShift-12, fontsport, "X", Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(width-(line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, maxCadence.format("%d"), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(width-(line2Y - centerY), centerY+display.halfShift-12, fontsport, "Y", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(
+          line2Y - centerY,
+          centerY + display.halfShift + 4,
+          Gfx.FONT_MEDIUM,
+          averageCadence.format("%d"),
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          line2Y - centerY,
+          centerY + display.halfShift - 12,
+          fontsport,
+          "X",
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          width - (line2Y - centerY),
+          centerY + display.halfShift + 4,
+          Gfx.FONT_MEDIUM,
+          maxCadence.format("%d"),
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          width - (line2Y - centerY),
+          centerY + display.halfShift - 12,
+          fontsport,
+          "Y",
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
       } else {
-        dc.drawText((line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, averageSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText((line2Y - centerY), centerY+display.halfShift-12, fontsport, "D", Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(width-(line2Y - centerY), centerY+display.halfShift+4, Gfx.FONT_MEDIUM, maxSpeed.format("%.1f"), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(width-(line2Y - centerY), centerY+display.halfShift-12, fontsport, "E", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(
+          line2Y - centerY,
+          centerY + display.halfShift + 4,
+          Gfx.FONT_MEDIUM,
+          averageSpeed.format("%.1f"),
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          line2Y - centerY,
+          centerY + display.halfShift - 12,
+          fontsport,
+          "D",
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          width - (line2Y - centerY),
+          centerY + display.halfShift + 4,
+          Gfx.FONT_MEDIUM,
+          maxSpeed.format("%.1f"),
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
+        dc.drawText(
+          width - (line2Y - centerY),
+          centerY + display.halfShift - 12,
+          fontsport,
+          "E",
+          Gfx.TEXT_JUSTIFY_CENTER
+        );
       }
-		
-      var lineSunset = line3Y+display.tempSunsetShift;
+
+      var lineSunset = line3Y + display.tempSunsetShift;
 
       if (temperature != null) {
-        if(temperatureSrc == 0){
-          //without tempe blue
-          dc.setColor(0x00AAFF, -1);
-        }else{
-          //with tempe red
-          dc.setColor(0xFF0000, -1);
-        }
-        
-        dc.drawText(centerX - display.sunsetX, lineSunset, fontsport, "B", Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.setColor(0x00aaff, -1);
+        dc.drawText(
+          centerX - display.sunsetX,
+          lineSunset,
+          fontsport,
+          "B",
+          Gfx.TEXT_JUSTIFY_RIGHT
+        );
         dc.setColor(txtColor, -1);
-        dc.drawText(centerX - display.sunsetX + 2, lineSunset, font, temperature.format("%d") + tempUnitText, Gfx.TEXT_JUSTIFY_LEFT);
+        dc.drawText(
+          centerX - display.sunsetX + 2,
+          lineSunset,
+          font,
+          temperature.format("%d") + tempUnitText,
+          Gfx.TEXT_JUSTIFY_LEFT
+        );
       }
       var sunsetText = "-:--";
       if (sunset != null) {
         sunsetText = sunset.hour + ":" + sunset.min.format("%02d");
-      }	
+      }
       // sunsetText = "19:38";line3Y+2
-      dc.setColor(0xFFAA00, -1);
-      dc.drawText(centerX + display.sunsetX, lineSunset, fontsport, "A", Gfx.TEXT_JUSTIFY_RIGHT);
+      dc.setColor(0xffaa00, -1);
+      dc.drawText(
+        centerX + display.sunsetX,
+        lineSunset,
+        fontsport,
+        "A",
+        Gfx.TEXT_JUSTIFY_RIGHT
+      );
       dc.setColor(txtColor, -1);
-      dc.drawText(centerX + display.sunsetX + 2, lineSunset, font, sunsetText, Gfx.TEXT_JUSTIFY_LEFT);
+      dc.drawText(
+        centerX + display.sunsetX + 2,
+        lineSunset,
+        font,
+        sunsetText,
+        Gfx.TEXT_JUSTIFY_LEFT
+      );
 
       if (currentHeading != null) {
         var headDiff = currentHeading - compass;
@@ -622,144 +848,211 @@ class AnyaBikeView extends Ui.DataField {
         if (compass < 0) {
           compass += 360;
         }
-        dc.drawText(display.compasOffset - compass, height-18, fontsport, "RQRJRKRLRMRNRORPRQRJRKR", Gfx.TEXT_JUSTIFY_LEFT);
+        dc.drawText(
+          display.compasOffset - compass,
+          height - 18,
+          fontsport,
+          "RQRJRKRLRMRNRORPRQRJRKR",
+          Gfx.TEXT_JUSTIFY_LEFT
+        );
       }
 
       var gpsColor = txtColor;
       switch (GPSaccuracy) {
         case 0:
-        case 1: gpsColor = 0xFF0000; break;
-        case 2: gpsColor = 0xFF5500; break;
-        case 3: gpsColor = 0xFFAA00; break;
-        case 4: gpsColor = 0x00FF00; break;
+        case 1:
+          gpsColor = 0xff0000;
+          break;
+        case 2:
+          gpsColor = 0xff5500;
+          break;
+        case 3:
+          gpsColor = 0xffaa00;
+          break;
+        case 4:
+          gpsColor = 0x00ff00;
+          break;
       }
       for (var i = 0; i < 4; i++) {
         dc.setColor(GPSaccuracy > i ? gpsColor : lineColor, bgColor);
-        dc.fillRectangle(display.offsetBattery + i * 3, display.topShift + 8 - i * 2, 2, i * 2 + 2);
+        dc.fillRectangle(
+          display.offsetBattery + i * 3,
+          display.topShift + 8 - i * 2,
+          2,
+          i * 2 + 2
+        );
       }
-      
+
       dc.setColor(txtColor, -1);
-      var batteryX = width-display.offsetBattery;
-      dc.drawRoundedRectangle(batteryX, display.topShift +2, 19, 9, 1);		
-      dc.drawRectangle(batteryX+19, display.topShift + 5, 1, 3);		
-      var systemStats = Sys.getSystemStats();
+      var batteryX = width - display.offsetBattery;
+      dc.drawRoundedRectangle(batteryX, display.topShift + 2, 19, 9, 1);
+      dc.drawRectangle(batteryX + 19, display.topShift + 5, 1, 3);
+      var systemStats = System.getSystemStats();
       var battery = systemStats.battery / 25 + 1;
       battery = battery.toNumber();
       if (battery > 4) {
         battery = 4;
       }
       for (var i = 0; i < battery; i++) {
-        dc.setColor(systemStats.battery > 10 ? 0x00FF00 : 0xFF0000, bgColor);
+        dc.setColor(systemStats.battery > 10 ? 0x00ff00 : 0xff0000, bgColor);
         dc.fillRectangle(batteryX + 2 + i * 4, display.topShift + 4, 3, 5);
       }
-      
 
-      if(arcSegment == 1){
-        var speedGreen = Application.Properties.getValue("speedGreen").toNumber();
-        var speedOrange = Application.Properties.getValue("speedOrange").toNumber();
+      if (arcSegment == 1) {
+        var speedGreen =
+          Application.Properties.getValue("speedGreen").toNumber();
+        var speedOrange =
+          Application.Properties.getValue("speedOrange").toNumber();
         var speedRed = Application.Properties.getValue("speedRed").toNumber();
         var step = 15;
-        var speed = currentSpeed / 60 * 180;
+        var speed = (currentSpeed / 60) * 180;
         speed = speed.toNumber();
         if (speed > 179) {
           speed = 179;
         }
         speed++;
-        var speedColor = 0x00AAFF;
+        var speedColor = 0x00aaff;
         if (currentSpeed > speedRed) {
-          speedColor = 0xFF0000;
+          speedColor = 0xff0000;
         } else if (currentSpeed > speedOrange) {
-          speedColor = 0xFFAA00;
+          speedColor = 0xffaa00;
         } else if (currentSpeed > speedGreen) {
-          speedColor = 0x00FF00;
+          speedColor = 0x00ff00;
         }
-      
+
         dc.setPenWidth(display.arcPenWidth);
         dc.setColor(lineColor, -1);
         dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
         dc.setColor(speedColor, -1);
-        dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - speed);
-        dc.setPenWidth(display.arcPenWidth*2);
+        dc.drawArc(
+          centerX,
+          centerY,
+          halfr,
+          Gfx.ARC_CLOCKWISE,
+          180,
+          180 - speed
+        );
+        dc.setPenWidth(display.arcPenWidth * 2);
         for (var i = 1; i < 12; i++) {
           dc.setColor(speed > i * step ? speedColor : lineColor, bgColor);
-          dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+          dc.drawArc(
+            centerX,
+            centerY,
+            halfr,
+            Gfx.ARC_CLOCKWISE,
+            180 - i * step,
+            180 - i * step - 1
+          );
         }
       }
       if (arcSegment == 2 || (arcSegment == 3 && sporttype != 2)) {
-        if( restingHR == null){
+        if (restingHR == null) {
           restingHR = 40;
         }
-        
-        if( currentHeartRate == null){
+
+        if (currentHeartRate == null) {
           currentHeartRate = 0;
         }
         colorB = lineColor;
         if (currentHeartRate >= zoneInfo[4]) {
-          colorB = 0xFF0000;
+          colorB = 0xff0000;
         } else if (currentHeartRate >= zoneInfo[3]) {
-          colorB = 0xFFAA00;
+          colorB = 0xffaa00;
         } else if (currentHeartRate >= zoneInfo[2]) {
-          colorB = 0x00FF00;
+          colorB = 0x00ff00;
         } else if (currentHeartRate >= zoneInfo[1]) {
-          colorB = 0x00AAFF;
-        } 
-          var step = 15;
-          var hrate = (currentHeartRate - restingHR).toFloat() / (zoneInfo[5]- restingHR) * 180;
-          hrate = hrate.toNumber();
-          if (hrate > 180) {
-            hrate = 180;
-          }
-          if (hrate < 0) {
-            hrate = 0;
-          }
-          
-          dc.setPenWidth(display.arcPenWidth*2);
-          for (var i = 1; i < 12; i++) {
-            dc.setColor(hrate >= i * step ? colorB : lineColor, bgColor);
-            dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
-          }
-          dc.setPenWidth(display.arcPenWidth+1);
-          dc.setColor(lineColor, -1);
+          colorB = 0x00aaff;
+        }
+        var step = 15;
+        var hrate =
+          ((currentHeartRate - restingHR).toFloat() /
+            (zoneInfo[5] - restingHR)) *
+          180;
+        hrate = hrate.toNumber();
+        if (hrate > 180) {
+          hrate = 180;
+        }
+        if (hrate < 0) {
+          hrate = 0;
+        }
+
+        dc.setPenWidth(display.arcPenWidth * 2);
+        for (var i = 1; i < 12; i++) {
+          dc.setColor(hrate >= i * step ? colorB : lineColor, bgColor);
+          dc.drawArc(
+            centerX,
+            centerY,
+            halfr,
+            Gfx.ARC_CLOCKWISE,
+            180 - i * step,
+            180 - i * step - 1
+          );
+        }
+        dc.setPenWidth(display.arcPenWidth + 1);
+        dc.setColor(lineColor, -1);
+        dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
+
+        if (hrate > 0) {
+          dc.setPenWidth(display.arcPenWidth);
+          dc.setColor(bgColor, -1);
           dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
-          
-          if (hrate > 0) {
-            dc.setPenWidth(display.arcPenWidth);
-            dc.setColor(bgColor, -1);
-            dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
-            dc.setColor(colorB, -1);
-            dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - hrate);
-          }
+          dc.setColor(colorB, -1);
+          dc.drawArc(
+            centerX,
+            centerY,
+            halfr,
+            Gfx.ARC_CLOCKWISE,
+            180,
+            180 - hrate
+          );
+        }
       }
 
-      if(arcSegment == 3 && sporttype == 2){
-        var powerGreen = Application.Properties.getValue("powerGreen").toNumber();
-        var powerOrange = Application.Properties.getValue("powerOrange").toNumber();
+      if (arcSegment == 3 && sporttype == 2) {
+        var powerGreen =
+          Application.Properties.getValue("powerGreen").toNumber();
+        var powerOrange =
+          Application.Properties.getValue("powerOrange").toNumber();
         var powerRed = Application.Properties.getValue("powerRed").toNumber();
         var step = 15;
-        var power = currentPower / (powerRed+100) * 180;
+        var power = (currentPower / (powerRed + 100)) * 180;
         power = power.toNumber();
         if (power > 179) {
           power = 179;
         }
         power++;
-        var powerColor = 0x00AAFF;
+        var powerColor = 0x00aaff;
         if (currentPower > powerRed) {
-          powerColor = 0xFF0000;
+          powerColor = 0xff0000;
         } else if (currentPower > powerOrange) {
-          powerColor = 0xFFAA00;
+          powerColor = 0xffaa00;
         } else if (currentPower > powerGreen) {
-          powerColor = 0x00FF00;
+          powerColor = 0x00ff00;
         }
-      
+
         dc.setPenWidth(display.arcPenWidth);
         dc.setColor(lineColor, -1);
         dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 0);
         dc.setColor(powerColor, -1);
-        dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180, 180 - power);
-        dc.setPenWidth(display.arcPenWidth*2);
+        dc.drawArc(
+          centerX,
+          centerY,
+          halfr,
+          Gfx.ARC_CLOCKWISE,
+          180,
+          180 - power
+        );
+        dc.setPenWidth(display.arcPenWidth * 2);
         for (var i = 1; i < 12; i++) {
           dc.setColor(power > i * step ? powerColor : lineColor, bgColor);
-          dc.drawArc(centerX, centerY, halfr, Gfx.ARC_CLOCKWISE, 180 - i * step, 180 - i * step - 1);
+          dc.drawArc(
+            centerX,
+            centerY,
+            halfr,
+            Gfx.ARC_CLOCKWISE,
+            180 - i * step,
+            180 - i * step - 1
+          );
         }
       }
 
@@ -768,58 +1061,48 @@ class AnyaBikeView extends Ui.DataField {
       dc.drawLine(0, line1Y, width, line1Y);
 
       dc.drawLine(0, line2Y, width, line2Y);
-      
+
       dc.drawLine(0, line3Y, width, line3Y);
+    } catch (ex) {
+      System.println("Neco se posralo v onUpdate" +ex.getErrorMessage());
+    }
+  }
+  function getTemperature() {
+    var temp = Storage.getValue("mytemp");
+    if (temp != null && temp > -90) {
+      return temp;
     }
 
-    (:bigMemory)
-    function getTemperature(){
-      try
-      {
-        if(tempe == null){
-          tempe = new TempeWidgetSensor(-1);
-          connectTimeout = System.getTimer();  
-        }else if(tempe.tmTemp != null && (System.getTimer() - tempe.tmTemp) < 121000){
-          temperatureSrc = 1;
-          connectTimeout = System.getTimer(); 
-          return tempe.iTemp;
-        }
-      } catch (ex)
-      {
-        System.println("Exception in TempeWidgetSensor: " + ex.getErrorMessage());
-        tempe = null;
-      }
-
-      if(tempe != null && (System.getTimer() - connectTimeout) > 121000){
-          //connection lost, reset
-          tempe.resetSensor(-1);
-          connectTimeout = System.getTimer(); 
-      }
-
-      if ((tempe == null || tempe.tmTemp == null || (System.getTimer() - tempe.tmTemp) > 121000) && (Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {       
-        // Set up the method with parameters
-        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
-        :period => 1
-        });
-        if (tempIter != null) {
-          temperatureSrc = 0;
-          return tempIter.next().data.toFloat();
-        }
+    if (
+      Toybox has :SensorHistory &&
+      Toybox.SensorHistory has :getTemperatureHistory
+    ) {
+      // Set up the method with parameters
+      var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+        :period => 1,
+      }).next();
+      if (tempIter != null) {
+        return tempIter.data.toFloat();
       }
     }
+  }
+}
 
-    (:smallMemory)
-    function getTemperature(){
-      
-      if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getTemperatureHistory)) {
-        // Set up the method with parameters
-        var tempIter = Toybox.SensorHistory.getTemperatureHistory({
-        :period => 1
-        });
-        if (tempIter != null) {
-          temperatureSrc = 0;
-          return tempIter.next().data.toFloat();
-        }
-      }
+(:background)
+class TemperatureServiceDelegate extends System.ServiceDelegate {
+  function initialize() {
+    ServiceDelegate.initialize();
+  }
+
+  function onTemporalEvent() {
+    Sensor.enableSensorEvents(method(:onSensor));
+  }
+
+  function onSensor(info as Sensor.Info) as Void {
+    var temperature = -90.0f;
+    if (info has :temperature && info.temperature != null) {
+      temperature = info.temperature;
     }
+    Background.exit(temperature);
+  }
 }
