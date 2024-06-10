@@ -73,6 +73,9 @@
     <setting propertyKey="@Properties.gradeUsePressure" title="@Strings.GradeUsePressure">
         <settingConfig type="boolean" />
     </setting>
+    <setting propertyKey="@Properties.gradeUseOld" title="@Strings.GradeUseOld">
+        <settingConfig type="boolean" />
+    </setting>
     <setting propertyKey="@Properties.powerGreen" title="@Strings.PowerGreen">
         <settingConfig type="numeric" min="0" max="1000" />
     </setting>

@@ -22,6 +22,7 @@
     <string id="Power">Power</string>
     <string id="Grade">Gradient</string>
     <string id="GradeUsePressure">Use Pressure if available for Gradient</string>
+    <string id="GradeUseOld">Use old Gradient alogrithm</string>
     <string id="MiddleSegment">Middle field</string>
     <string id="MiddleSegmentPrompt">Choose data shown in the middle</string>
     <string id="TopSegment">Upper field</string>

@@ -6,6 +6,7 @@
   <property id="minMaxSegment" type="number">2</property>
   <property id="toggleMinMax" type="boolean">false</property>
   <property id="gradeUsePressure" type="boolean">true</property>
+  <property id="gradeUseOld" type="boolean">true</property>
   <property id="middleSegment" type="number">5</property>
   <property id="speedGreen" type="number">15</property>
   <property id="speedOrange" type="number">25</property>

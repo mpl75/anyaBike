@@ -22,6 +22,7 @@
     <string id="Power">Výkon</string>
     <string id="Grade">Sklon</string>
     <string id="GradeUsePressure">Použít tlak pro sklon, když je dostupný</string>
+    <string id="GradeUseOld">Použít starší algoritmus pro sklon</string>
     <string id="MiddleSegment">Prostření pole</string>
     <string id="MiddleSegmentPrompt">Vyberte údaj, který se zobrazí uprostřed</string>
     <string id="TopSegment">Horní pole</string>

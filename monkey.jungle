@@ -6,3 +6,15 @@ round-280x280.sourcePath = source\*.mc;source-280x280\*.mc
 round-390x390.sourcePath = source\*.mc;source-390x390\*.mc
 round-416x416.sourcePath = source\*.mc;source-416x416\*.mc
 round-454x454.sourcePath = source\*.mc;source-454x454\*.mc
+
+# By default, include newApi
+base.excludeAnnotations = oldApi
+# Include oldapi
+fr935.excludeAnnotations = newApi
+fr645.excludeAnnotations = newApi
+fr645m.excludeAnnotations = newApi
+fenix5.excludeAnnotations = newApi
+fenix5s.excludeAnnotations = newApi
+fenix5x.excludeAnnotations = newApi
+d2delta.excludeAnnotations = newApi
+d2deltas.excludeAnnotations = newApi
