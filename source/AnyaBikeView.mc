@@ -58,42 +58,46 @@ class AnyaBikeView extends Ui.DataField {
 
 	hidden var sumAlt, countAlt, lastTM, lastDoneTM, memoryAlt;
 	function computeGrade() {
-		var gradeUseOld = Application.Properties.getValue("gradeUseOld");
-		if (gradeUseOld) {
-			sumAlt += altitude;
-			countAlt++;
-			var fullTM = elapsedDistance * 100;
-			var curTM = fullTM.toNumber() % 10;
-			var curDoneTM = fullTM / 10;
-			curDoneTM = curDoneTM.toNumber();
-			if (lastDoneTM == null) {
-				lastDoneTM = curDoneTM;
-			}
-			if (curTM > lastTM || curDoneTM > lastDoneTM) {
-				var curAlt = sumAlt / countAlt;
-				var prevAlt = memoryAlt[curTM];
-				if (prevAlt != null) {
-					slope = curAlt - prevAlt;
-				}
-				while (lastTM < curTM || lastDoneTM < curDoneTM) {
-					lastTM++;
-					if (lastTM >= 10) {
-						lastTM = 0;
-						lastDoneTM++;
-					}
-					memoryAlt[lastTM] = curAlt;
-				}
+    try{
+      var gradeUseOld = Application.Properties.getValue("gradeUseOld");
+      if (gradeUseOld) {
+        sumAlt += altitude;
+        countAlt++;
+        var fullTM = elapsedDistance * 100;
+        var curTM = fullTM.toNumber() % 10;
+        var curDoneTM = fullTM / 10;
+        curDoneTM = curDoneTM.toNumber();
+        if (lastDoneTM == null) {
+          lastDoneTM = curDoneTM;
+        }
+        if (curTM > lastTM || curDoneTM > lastDoneTM) {
+          var curAlt = sumAlt / countAlt;
+          var prevAlt = memoryAlt[curTM];
+          if (prevAlt != null) {
+            slope = curAlt - prevAlt;
+          }
+          while (lastTM < curTM || lastDoneTM < curDoneTM) {
+            lastTM++;
+            if (lastTM >= 10) {
+              lastTM = 0;
+              lastDoneTM++;
+            }
+            memoryAlt[lastTM] = curAlt;
+          }
 
-				lastTM = curTM;
-				lastDoneTM = curDoneTM;
-				sumAlt = 0;
-				countAlt = 0;
-			}
-			return slope;
-		}else{
-			return computeGradeNew();
-		}
-		
+          lastTM = curTM;
+          lastDoneTM = curDoneTM;
+          sumAlt = 0;
+          countAlt = 0;
+        }
+        return slope;
+      }else{
+        return computeGradeNew();
+      }
+    }catch(ex){
+      System.println(ex);
+      return 0;
+    }
 	}
 
 	(:oldApi) 
@@ -344,7 +348,9 @@ class AnyaBikeView extends Ui.DataField {
 				:period => 1,
 			}).next();
 			if (tempIter != null) {
-				temperature = tempIter.data.toFloat();
+				if(tempIter.data has :toFloat) {
+					temperature = tempIter.data.toFloat();
+				}
 			}
 		}
 
