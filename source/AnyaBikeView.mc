@@ -343,14 +343,20 @@ class AnyaBikeView extends Ui.DataField {
 			Toybox has :SensorHistory &&
 			Toybox.SensorHistory has :getTemperatureHistory
 		) {
-			// Set up the method with parameters
-			var tempIter = Toybox.SensorHistory.getTemperatureHistory({
-				:period => 1,
-			}).next();
-			if (tempIter != null) {
-				if(tempIter.data has :toFloat) {
-					temperature = tempIter.data.toFloat();
+			try {
+				// Set up the method with parameters
+				var tempIter = Toybox.SensorHistory.getTemperatureHistory({
+					:period => 1,
+				}).next();
+				if (tempIter != null) {
+					if(tempIter.data != null) {
+						temperature = tempIter.data.toFloat();
+					}
 				}
+			} 
+			catch( ex ) {
+				//garmin sdk devs are piece of shit!
+				System.println(ex);
 			}
 		}
 
