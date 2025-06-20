@@ -42,6 +42,14 @@
             <listEntry value="3">@Strings.Power</listEntry>
         </settingConfig>
     </setting> 
+    <setting propertyKey="@Properties.altSegment" title="@Strings.AltSegment" prompt="@Strings.AltSegmentPrompt">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.Altitude</listEntry>
+            <listEntry value="1">@Strings.Cadence</listEntry>
+            <listEntry value="2">@Strings.AvgCadence</listEntry>
+            <listEntry value="3">@Strings.Power</listEntry>
+        </settingConfig>
+    </setting> 
     <setting propertyKey="@Properties.topSegment" title="@Strings.TopSegment" prompt="@Strings.TopSegmentPrompt">
         <settingConfig type="list">
             <listEntry value="1">@Strings.Speed</listEntry>

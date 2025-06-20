@@ -17,6 +17,7 @@
     <string id="Off">Vypnuto</string>
     <string id="HeartRate">Tepová frekvence</string>
     <string id="Cadence">Kadence</string>
+    <string id="AvgCadence">Průměrná Kadence</string>
     <string id="ElapsedTime">Uplynulý čas</string>
     <string id="TimerTime">Stopky</string>
     <string id="Power">Výkon</string>
@@ -29,6 +30,9 @@
     <string id="TopSegmentPrompt">Veberte údaj, který se zobrazí v horním poli</string>
     <string id="ArcSegment">Horní oblouk</string>
     <string id="ArcSegmentPrompt">Vyberte údaj, který se zobrazí v horním barevném oblouku</string>
+    <string id="Altitude">Výška</string>
+    <string id="AltSegment">Pole výšky</string>
+    <string id="AltSegmentPrompt">Vyberte údaj, který se zobrazí v poli výšky</string>
     <string id="Speed">Rychlost</string>
     <string id="ToggleMinMax">Co 3s přepínat Max/Min rychlost a kadenci</string>
     <string id="MinMaxSegment">Min/Max pole</string>

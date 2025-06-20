@@ -17,6 +17,7 @@
     <string id="Off">Off</string>
     <string id="HeartRate">Heart rate</string>
     <string id="Cadence">Cadence</string>
+    <string id="AvgCadence">Average Cadence</string>
     <string id="ElapsedTime">Elapsed time</string>
     <string id="TimerTime">Timer time</string>
     <string id="Power">Power</string>
@@ -29,6 +30,9 @@
     <string id="TopSegmentPrompt">Choose data shown in the upper field</string>
     <string id="ArcSegment">Top arc</string>
     <string id="ArcSegmentPrompt">Choose data visualised in the colored arc</string>
+    <string id="Altitude">Altitude</string>
+    <string id="AltSegment">Altitude segment</string>
+    <string id="AltSegmentPrompt">Choose data visualised in the altutude segment</string>
     <string id="Speed">Speed</string>
     <string id="ToggleMinMax">Toggle Max/Min speed and cadence in 3s intevals</string>
     <string id="MinMaxSegment">Min/Max fields</string>

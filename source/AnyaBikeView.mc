@@ -509,7 +509,10 @@ class AnyaBikeView extends Ui.DataField {
 			}
 		} else if (topSegment == 2) {
 			unitsTop = "bpm";
-			curSpeed = currentHeartRate.format("%d");
+			curSpeed = "0";
+			if (currentHeartRate != null) {
+				curSpeed = currentHeartRate.format("%d");
+			}
 		} else if (topSegment == 3 && sporttype == 2) {
 			curSpeed = currentPower.format("%d");
 			unitsTop = "W";
@@ -530,16 +533,53 @@ class AnyaBikeView extends Ui.DataField {
 			Gfx.TEXT_JUSTIFY_LEFT
 		);
 
-		textWithIconOnCenter(
-			dc,
-			altitude.format("%d"),
-			"G",
-			altUnitText,
-			line2Y - centerY,
-			centerY,
-			Gfx.FONT_MEDIUM,
-			10
-		);
+		var altSegment = Application.Properties.getValue("altSegment");
+		if(altSegment == 2 && averageCadence != null){
+			textWithIconOnCenter(
+				dc,
+				averageCadence.format("%d"),
+				"X ",
+				"",
+				line2Y - centerY,
+				centerY,
+				Gfx.FONT_MEDIUM,
+				10
+			);
+		}else if(altSegment == 1 && currentCadence != null){
+			textWithIconOnCenter(
+				dc,
+				currentCadence.format("%d"),
+				"W ",
+				"",
+				line2Y - centerY,
+				centerY,
+				Gfx.FONT_MEDIUM,
+				10
+			);
+		}else if(altSegment == 3 && currentPower != null){
+			textWithIconOnCenter(
+				dc,
+				currentPower.format("%d"),
+				"C ",
+				"",
+				line2Y - centerY,
+				centerY,
+				Gfx.FONT_MEDIUM,
+				10
+			);
+		}else{
+			textWithIconOnCenter(
+				dc,
+				altitude.format("%d"),
+				"G",
+				altUnitText,
+				line2Y - centerY,
+				centerY,
+				Gfx.FONT_MEDIUM,
+				10
+			);
+		}
+		
 		textWithIconOnCenter(
 			dc,
 			totalAscent.format("%d"),
@@ -791,11 +831,20 @@ class AnyaBikeView extends Ui.DataField {
 			}
 		}
 
+		var hour = clockTime.hour;
+		if (!systemSettings.is24Hour) {
+			// Convert to 12-hour format
+			if (hour > 12) {
+				hour -= 12;
+			} else if (hour == 0) {
+				hour = 12;
+			}
+		}
 		dc.drawText(
 			centerX,
 			display.topShift,
 			Gfx.FONT_SMALL,
-			clockTime.hour + ":" + clockTime.min.format("%02d"),
+			hour + ":" + clockTime.min.format("%02d"),
 			Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER
 		);
 

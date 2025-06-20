@@ -1,4 +1,5 @@
 <properties>
+  <property id="altSegment" type="number">0</property>
   <property id="arcSegment" type="number">1</property>
   <property id="topSegment" type="number">1</property>
   <property id="leftSegment" type="number">1</property>
