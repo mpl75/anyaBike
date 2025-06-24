@@ -33,6 +33,7 @@ class AnyaBikeView extends Ui.DataField {
 	var slope, slopeText, slopeIcon, slopeColor, slopeColorText;
 	var spdUnitText, altUnitText, distUnitText, tempUnitText;
 	var connectTimeout;
+	var fourDigitShift = false;
 
 	(:oldApi) var sc = new SunCalc();
 	var zoneInfo;
@@ -483,6 +484,7 @@ class AnyaBikeView extends Ui.DataField {
 
 		if (elapsedDistance >= 100) {
 			elapsedDistanceText = elapsedDistance.format("%.1f");
+			fourDigitShift = true;
 		} else {
 			elapsedDistanceText = elapsedDistance.format("%.2f");
 		}
@@ -500,6 +502,11 @@ class AnyaBikeView extends Ui.DataField {
 
 		var arcSegment = Application.Properties.getValue("arcSegment");
 		var topSegment = Application.Properties.getValue("topSegment");
+
+		var cadenceBlue = Application.Properties.getValue("cadenceBlue").toNumber();
+		var cadenceGreen = Application.Properties.getValue("cadenceGreen").toNumber();
+		var cadenceOrange = Application.Properties.getValue("cadenceOrange").toNumber();
+		var cadenceRed = Application.Properties.getValue("cadenceRed").toNumber();
 
 		var unitsTop = spdUnitText;
 		if (topSegment == 1 || (topSegment == 3 && sporttype != 2)) {
@@ -534,7 +541,7 @@ class AnyaBikeView extends Ui.DataField {
 		);
 
 		var altSegment = Application.Properties.getValue("altSegment");
-		if(altSegment == 2 && averageCadence != null){
+		if(altSegment == 2 && averageCadence != null && averageCadence != 0){
 			textWithIconOnCenter(
 				dc,
 				averageCadence.format("%d"),
@@ -545,7 +552,7 @@ class AnyaBikeView extends Ui.DataField {
 				Gfx.FONT_MEDIUM,
 				10
 			);
-		}else if(altSegment == 1 && currentCadence != null){
+		}else if(altSegment == 1 && currentCadence != null && currentCadence != 0){
 			textWithIconOnCenter(
 				dc,
 				currentCadence.format("%d"),
@@ -556,7 +563,7 @@ class AnyaBikeView extends Ui.DataField {
 				Gfx.FONT_MEDIUM,
 				10
 			);
-		}else if(altSegment == 3 && currentPower != null){
+		}else if(altSegment == 3 && currentPower != null && currentPower != 0){
 			textWithIconOnCenter(
 				dc,
 				currentPower.format("%d"),
@@ -614,12 +621,16 @@ class AnyaBikeView extends Ui.DataField {
 		}
 
 		dc.setColor(txtColor, -1);
+		var x = centerX;
+		if(fourDigitShift){
+			x = centerX - dc.getTextWidthInPixels("1", Gfx.FONT_SYSTEM_NUMBER_MILD).toDouble() / 4;
+		}
 		textWithIconOnCenter(
 			dc,
 			elapsedDistanceText,
 			"",
 			distUnitText,
-			centerX,
+			x,
 			line2Y +
 				(line3Y - line2Y - dc.getFontHeight(Gfx.FONT_SYSTEM_NUMBER_MILD)) / 2,
 			Gfx.FONT_SYSTEM_NUMBER_MILD,
@@ -687,13 +698,7 @@ class AnyaBikeView extends Ui.DataField {
 		var toggleMinMax = Application.Properties.getValue("toggleMinMax");
 		var minMaxSegment = Application.Properties.getValue("minMaxSegment");
 		if (currentCadence != null && rightSegment == 1) {
-			var cadenceBlue =
-				Application.Properties.getValue("cadenceBlue").toNumber();
-			var cadenceGreen =
-				Application.Properties.getValue("cadenceGreen").toNumber();
-			var cadenceOrange =
-				Application.Properties.getValue("cadenceOrange").toNumber();
-			var cadenceRed = Application.Properties.getValue("cadenceRed").toNumber();
+			
 			if (currentCadence > cadenceRed) {
 				dc.setColor(0xffffff, 0xff0000);
 			} else if (currentCadence > cadenceOrange) {
