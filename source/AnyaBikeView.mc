@@ -485,6 +485,9 @@ class AnyaBikeView extends Ui.DataField {
 		if (elapsedDistance >= 100) {
 			elapsedDistanceText = elapsedDistance.format("%.1f");
 			fourDigitShift = true;
+		} else if (elapsedDistance >= 10) {
+			elapsedDistanceText = elapsedDistance.format("%.2f");
+			fourDigitShift = true;
 		} else {
 			elapsedDistanceText = elapsedDistance.format("%.2f");
 		}
@@ -761,8 +764,12 @@ class AnyaBikeView extends Ui.DataField {
 				);
 			}
 			if (rightSegment == 3) {
+				var tx = dc.getTextWidthInPixels("0", Gfx.FONT_SMALL).toDouble() / 3;
+				if(width < 400) {
+					tx = 0;
+				}
 				dc.drawText(
-					width - display.x2Offset,
+					width - display.x2Offset + tx,
 					line2Y - 2,
 					Gfx.FONT_SMALL,
 					elapsedTimeText,
